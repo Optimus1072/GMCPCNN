@@ -6,9 +6,7 @@
 
 namespace util
 {
-    namespace parser
-    {
-        void ParseObjectDataMap(
+    void Parser::ParseObjectDataMap(
                 const std::vector<std::string> &keys,
                 const core::Vector3d &values,
                 core::DetectionSequence &sequence)
@@ -24,7 +22,7 @@ namespace util
                 }
             }
         }
-    }
+
 }
 
 

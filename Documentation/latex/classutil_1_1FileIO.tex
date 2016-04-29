@@ -1,0 +1,61 @@
+\hypertarget{classutil_1_1FileIO}{}\section{util\+:\+:File\+IO Class Reference}
+\label{classutil_1_1FileIO}\index{util\+::\+File\+IO@{util\+::\+File\+IO}}
+
+
+{\ttfamily \#include $<$File\+I\+O.\+h$>$}
+
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \hyperlink{classutil_1_1FileIO_aa92b94ba7a5e0fea0e8c2f801c8d14b8}{Read\+C\+SV} (const std\+::string \&filename, const char \&delimiter, core\+::\+Vector3d \&values)
+\item 
+static void \hyperlink{classutil_1_1FileIO_ab33278a4ae57c8c5a56b6d80cbc27184}{Read\+C\+SV} (const std\+::string \&filename, const char \&delimiter, core\+::\+Vector2d \&values)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Utility class for file in-\/ and output. 
+
+\subsection{Member Function Documentation}
+\index{util\+::\+File\+IO@{util\+::\+File\+IO}!Read\+C\+SV@{Read\+C\+SV}}
+\index{Read\+C\+SV@{Read\+C\+SV}!util\+::\+File\+IO@{util\+::\+File\+IO}}
+\subsubsection[{\texorpdfstring{Read\+C\+S\+V(const std\+::string \&filename, const char \&delimiter, core\+::\+Vector3d \&values)}{ReadCSV(const std::string \&filename, const char \&delimiter, core::Vector3d \&values)}}]{\setlength{\rightskip}{0pt plus 5cm}void util\+::\+File\+I\+O\+::\+Read\+C\+SV (
+\begin{DoxyParamCaption}
+\item[{const std\+::string \&}]{filename, }
+\item[{const char \&}]{delimiter, }
+\item[{core\+::\+Vector3d \&}]{values}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{classutil_1_1FileIO_aa92b94ba7a5e0fea0e8c2f801c8d14b8}{}\label{classutil_1_1FileIO_aa92b94ba7a5e0fea0e8c2f801c8d14b8}
+Reads a C\+SV file and stores the values in a 3D array. The first dimension is the first value of each row, used as a index to bundle multiple rows with the same first value into a single vector. The second dimension is the row in the row bundle. The third dimension is the value in that row. 
+\begin{DoxyParams}{Parameters}
+{\em filename} & The filename to read from \\
+\hline
+{\em delimiter} & The delimiter used to separate the values in the file \\
+\hline
+{\em values} & The 3D array of values to store the read values in \\
+\hline
+\end{DoxyParams}
+\index{util\+::\+File\+IO@{util\+::\+File\+IO}!Read\+C\+SV@{Read\+C\+SV}}
+\index{Read\+C\+SV@{Read\+C\+SV}!util\+::\+File\+IO@{util\+::\+File\+IO}}
+\subsubsection[{\texorpdfstring{Read\+C\+S\+V(const std\+::string \&filename, const char \&delimiter, core\+::\+Vector2d \&values)}{ReadCSV(const std::string \&filename, const char \&delimiter, core::Vector2d \&values)}}]{\setlength{\rightskip}{0pt plus 5cm}void util\+::\+File\+I\+O\+::\+Read\+C\+SV (
+\begin{DoxyParamCaption}
+\item[{const std\+::string \&}]{filename, }
+\item[{const char \&}]{delimiter, }
+\item[{core\+::\+Vector2d \&}]{values}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{classutil_1_1FileIO_ab33278a4ae57c8c5a56b6d80cbc27184}{}\label{classutil_1_1FileIO_ab33278a4ae57c8c5a56b6d80cbc27184}
+Reads a C\+SV file and stores the values in a 2D array. The first dimension is the row and the second the value in that row. 
+\begin{DoxyParams}{Parameters}
+{\em filename} & The filename to read from \\
+\hline
+{\em delimiter} & The delimiter used to separate the values in the file \\
+\hline
+{\em values} & The 2D array of values to store the read values in \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+util/File\+I\+O.\+h\item 
+util/File\+I\+O.\+cpp\end{DoxyCompactItemize}

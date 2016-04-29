@@ -1,0 +1,139 @@
+\hypertarget{classcore_1_1Tracklet}{}\section{core\+:\+:Tracklet Class Reference}
+\label{classcore_1_1Tracklet}\index{core\+::\+Tracklet@{core\+::\+Tracklet}}
+
+
+{\ttfamily \#include $<$Tracklet.\+h$>$}
+
+Inheritance diagram for core\+:\+:Tracklet\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classcore_1_1Tracklet}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classcore_1_1Tracklet_aedf59b5a9a068a28bb7570f2a031d4e7}{Tracklet} ()
+\item 
+\hyperlink{classcore_1_1Tracklet_a5a91e01f9cd8404915dce73a0d659064}{Tracklet} (\hyperlink{classcore_1_1ObjectData}{Object\+Data} first\+\_\+object)
+\item 
+void \hyperlink{classcore_1_1Tracklet_ac7f660efeed15a8925482d8d63073bcf}{Add\+Path\+Object\+First} (\hyperlink{classcore_1_1ObjectData}{Object\+Data} obj)
+\item 
+void \hyperlink{classcore_1_1Tracklet_ad9f018cb26a5fcb1ab00c8f336f24de5}{Add\+Path\+Object\+Last} (\hyperlink{classcore_1_1ObjectData}{Object\+Data} obj)
+\item 
+size\+\_\+t \hyperlink{classcore_1_1Tracklet_ae544127ff912eefeb3698e94da27f91e}{Get\+First\+Frame\+Index} ()
+\item 
+size\+\_\+t \hyperlink{classcore_1_1Tracklet_abbfc0ac1abd459962142ee96def46731}{Get\+Last\+Frame\+Index} ()
+\item 
+\hyperlink{classcore_1_1ObjectData}{Object\+Data} \hyperlink{classcore_1_1Tracklet_a95387d8a86e5b81b5cc1ff479c96494c}{Get\+Path\+Object} (size\+\_\+t i)
+\item 
+virtual double \hyperlink{classcore_1_1Tracklet_ab45f28ba6abde0944820ac614560ea89}{Compare\+To} (\hyperlink{classcore_1_1ObjectData}{Object\+Data} $\ast$obj)
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+A class for storing multiple object data objects. The object data objects are handled as a path. 
+
+\subsection{Constructor \& Destructor Documentation}
+\index{core\+::\+Tracklet@{core\+::\+Tracklet}!Tracklet@{Tracklet}}
+\index{Tracklet@{Tracklet}!core\+::\+Tracklet@{core\+::\+Tracklet}}
+\subsubsection[{\texorpdfstring{Tracklet()}{Tracklet()}}]{\setlength{\rightskip}{0pt plus 5cm}core\+::\+Tracklet\+::\+Tracklet (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classcore_1_1Tracklet_aedf59b5a9a068a28bb7570f2a031d4e7}{}\label{classcore_1_1Tracklet_aedf59b5a9a068a28bb7570f2a031d4e7}
+Creates a empty tracklet to store path object in. This is N\+OT a virtual object. \index{core\+::\+Tracklet@{core\+::\+Tracklet}!Tracklet@{Tracklet}}
+\index{Tracklet@{Tracklet}!core\+::\+Tracklet@{core\+::\+Tracklet}}
+\subsubsection[{\texorpdfstring{Tracklet(\+Object\+Data first\+\_\+object)}{Tracklet(ObjectData first\_object)}}]{\setlength{\rightskip}{0pt plus 5cm}core\+::\+Tracklet\+::\+Tracklet (
+\begin{DoxyParamCaption}
+\item[{{\bf Object\+Data}}]{first\+\_\+object}
+\end{DoxyParamCaption}
+)}\hypertarget{classcore_1_1Tracklet_a5a91e01f9cd8404915dce73a0d659064}{}\label{classcore_1_1Tracklet_a5a91e01f9cd8404915dce73a0d659064}
+Creates a tracklet with the given initial object. \begin{DoxySeeAlso}{See also}
+\hyperlink{classcore_1_1ObjectData}{Object\+Data} 
+\end{DoxySeeAlso}
+
+\begin{DoxyParams}{Parameters}
+{\em first\+\_\+object} & The first object to store in the path \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\index{core\+::\+Tracklet@{core\+::\+Tracklet}!Add\+Path\+Object\+First@{Add\+Path\+Object\+First}}
+\index{Add\+Path\+Object\+First@{Add\+Path\+Object\+First}!core\+::\+Tracklet@{core\+::\+Tracklet}}
+\subsubsection[{\texorpdfstring{Add\+Path\+Object\+First(\+Object\+Data obj)}{AddPathObjectFirst(ObjectData obj)}}]{\setlength{\rightskip}{0pt plus 5cm}void core\+::\+Tracklet\+::\+Add\+Path\+Object\+First (
+\begin{DoxyParamCaption}
+\item[{{\bf Object\+Data}}]{obj}
+\end{DoxyParamCaption}
+)}\hypertarget{classcore_1_1Tracklet_ac7f660efeed15a8925482d8d63073bcf}{}\label{classcore_1_1Tracklet_ac7f660efeed15a8925482d8d63073bcf}
+Adds the object in the first place of the path. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & The object to add \\
+\hline
+\end{DoxyParams}
+\index{core\+::\+Tracklet@{core\+::\+Tracklet}!Add\+Path\+Object\+Last@{Add\+Path\+Object\+Last}}
+\index{Add\+Path\+Object\+Last@{Add\+Path\+Object\+Last}!core\+::\+Tracklet@{core\+::\+Tracklet}}
+\subsubsection[{\texorpdfstring{Add\+Path\+Object\+Last(\+Object\+Data obj)}{AddPathObjectLast(ObjectData obj)}}]{\setlength{\rightskip}{0pt plus 5cm}void core\+::\+Tracklet\+::\+Add\+Path\+Object\+Last (
+\begin{DoxyParamCaption}
+\item[{{\bf Object\+Data}}]{obj}
+\end{DoxyParamCaption}
+)}\hypertarget{classcore_1_1Tracklet_ad9f018cb26a5fcb1ab00c8f336f24de5}{}\label{classcore_1_1Tracklet_ad9f018cb26a5fcb1ab00c8f336f24de5}
+Adds the object in the last place of the path. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & The object to add \\
+\hline
+\end{DoxyParams}
+\index{core\+::\+Tracklet@{core\+::\+Tracklet}!Compare\+To@{Compare\+To}}
+\index{Compare\+To@{Compare\+To}!core\+::\+Tracklet@{core\+::\+Tracklet}}
+\subsubsection[{\texorpdfstring{Compare\+To(\+Object\+Data $\ast$obj)}{CompareTo(ObjectData *obj)}}]{\setlength{\rightskip}{0pt plus 5cm}double core\+::\+Tracklet\+::\+Compare\+To (
+\begin{DoxyParamCaption}
+\item[{{\bf Object\+Data} $\ast$}]{obj}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\hypertarget{classcore_1_1Tracklet_ab45f28ba6abde0944820ac614560ea89}{}\label{classcore_1_1Tracklet_ab45f28ba6abde0944820ac614560ea89}
+Compares this object with the given object. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & A pointer to the object to compare this object to \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A double value indicating the comparison result 
+\end{DoxyReturn}
+
+
+Reimplemented from \hyperlink{classcore_1_1ObjectData_a01f04d64b1e62f567d819a8fcbe38319}{core\+::\+Object\+Data}.
+
+\index{core\+::\+Tracklet@{core\+::\+Tracklet}!Get\+First\+Frame\+Index@{Get\+First\+Frame\+Index}}
+\index{Get\+First\+Frame\+Index@{Get\+First\+Frame\+Index}!core\+::\+Tracklet@{core\+::\+Tracklet}}
+\subsubsection[{\texorpdfstring{Get\+First\+Frame\+Index()}{GetFirstFrameIndex()}}]{\setlength{\rightskip}{0pt plus 5cm}size\+\_\+t core\+::\+Tracklet\+::\+Get\+First\+Frame\+Index (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classcore_1_1Tracklet_ae544127ff912eefeb3698e94da27f91e}{}\label{classcore_1_1Tracklet_ae544127ff912eefeb3698e94da27f91e}
+Gets the lowest frame index of all path objects. \begin{DoxyReturn}{Returns}
+The lowest frame index 
+\end{DoxyReturn}
+\index{core\+::\+Tracklet@{core\+::\+Tracklet}!Get\+Last\+Frame\+Index@{Get\+Last\+Frame\+Index}}
+\index{Get\+Last\+Frame\+Index@{Get\+Last\+Frame\+Index}!core\+::\+Tracklet@{core\+::\+Tracklet}}
+\subsubsection[{\texorpdfstring{Get\+Last\+Frame\+Index()}{GetLastFrameIndex()}}]{\setlength{\rightskip}{0pt plus 5cm}size\+\_\+t core\+::\+Tracklet\+::\+Get\+Last\+Frame\+Index (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classcore_1_1Tracklet_abbfc0ac1abd459962142ee96def46731}{}\label{classcore_1_1Tracklet_abbfc0ac1abd459962142ee96def46731}
+Gets the highest frame index of all path objects. \begin{DoxyReturn}{Returns}
+The highest frame index 
+\end{DoxyReturn}
+\index{core\+::\+Tracklet@{core\+::\+Tracklet}!Get\+Path\+Object@{Get\+Path\+Object}}
+\index{Get\+Path\+Object@{Get\+Path\+Object}!core\+::\+Tracklet@{core\+::\+Tracklet}}
+\subsubsection[{\texorpdfstring{Get\+Path\+Object(size\+\_\+t i)}{GetPathObject(size\_t i)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Object\+Data} core\+::\+Tracklet\+::\+Get\+Path\+Object (
+\begin{DoxyParamCaption}
+\item[{size\+\_\+t}]{i}
+\end{DoxyParamCaption}
+)}\hypertarget{classcore_1_1Tracklet_a95387d8a86e5b81b5cc1ff479c96494c}{}\label{classcore_1_1Tracklet_a95387d8a86e5b81b5cc1ff479c96494c}
+Gets the path object at the given index. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+core/Tracklet.\+h\item 
+core/Tracklet.\+cpp\end{DoxyCompactItemize}

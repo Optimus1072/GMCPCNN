@@ -11,28 +11,74 @@
 
 namespace core
 {
+    //TODO sorted insert
+    /**
+     * A class for storing multiple object data objects.
+     * The object data objects are handled as a path.
+     */
     class Tracklet : public ObjectData
     {
     private:
+        /**
+         * The path objects.
+         */
         std::vector<ObjectData> path_objects_;
+        /**
+         * The highest frame index of all objects in the path.
+         */
         size_t last_frame_index_;
     public:
+        /**
+         * Creates a empty tracklet to store path object in.
+         * This is NOT a virtual object.
+         */
         Tracklet();
 
-        Tracklet(ObjectData firstObject);
+        /**
+         * Creates a tracklet with the given initial object.
+         * @see ObjectData
+         * @param first_object The first object to store in the path
+         */
+        Tracklet(ObjectData first_object);
 
-        Tracklet(std::vector<ObjectData> path_objects,
-                 size_t first_frame_index, size_t last_frame_index);
-
+        /**
+         * Adds the object in the first place of the path.
+         * @param obj The object to add
+         */
         void AddPathObjectFirst(ObjectData obj);
+
+        /**
+         * Adds the object in the last place of the path.
+         * @param obj The object to add
+         */
         void AddPathObjectLast(ObjectData obj);
+
+        /**
+         * Gets the lowest frame index of all path objects.
+         * @return The lowest frame index
+         */
         size_t GetFirstFrameIndex();
+
+        /**
+         * Gets the highest frame index of all path objects.
+         * @return The highest frame index
+         */
         size_t GetLastFrameIndex();
+
+        /**
+         * Gets the path object at the given index.
+         */
         ObjectData GetPathObject(size_t i);
 
-        //TODO point interpolation -> derived class
+        /**
+         * Compares this object with the given object.
+         * @param obj A pointer to the object to compare this object to
+         * @return A double value indicating the comparison result
+         */
         virtual double CompareTo(ObjectData *obj);
-        //TODO implement CompareTo -> derived class
+
+        //TODO point interpolation -> object data (last object of this with first of other)
+        //TODO implement CompareTo (last object of this with first of other)
     };
 }
 

@@ -10,10 +10,23 @@
 
 namespace util
 {
-    namespace parser
+    /**
+     * Utility class for parsing diverse objects.
+     */
+    class Parser
     {
-        // Parses the given values with the given keys into the given sequence
-        void ParseObjectDataMap(
+    public:
+        /**
+         * Parses the keys and values into a DetectionSequence of ObjectDataMap
+         * objects.
+         * The keys are used for the third dimension in the values list.
+         * @see DetectionSequence
+         * @see ObjectDataMap
+         * @param keys A 1D vector of keys
+         * @param values A 3D vector of values
+         * @param sequence The sequence to store the created objects in
+         */
+        static void ParseObjectDataMap(
                 const std::vector<std::string> &keys,
                 const core::Vector3d &values,
                 core::DetectionSequence &sequence);

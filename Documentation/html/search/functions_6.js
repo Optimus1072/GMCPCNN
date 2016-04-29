@@ -1,0 +1,5 @@
+var searchData=
+[
+  ['objectdata',['ObjectData',['../classcore_1_1ObjectData.html#a7f47a396a3b9e8c12a1557c8156b8ff9',1,'core::ObjectData::ObjectData()'],['../classcore_1_1ObjectData.html#af4333a52b012841a6ba73b25aeaae71b',1,'core::ObjectData::ObjectData(std::size_t frame_index)']]],
+  ['objectdatamap',['ObjectDataMap',['../classcore_1_1ObjectDataMap.html#ac6df34682a715db6845667f7dda1c795',1,'core::ObjectDataMap::ObjectDataMap(size_t frame_index)'],['../classcore_1_1ObjectDataMap.html#a573add8d73646e6c5f183a9a0c159596',1,'core::ObjectDataMap::ObjectDataMap(size_t frame_index, std::vector&lt; std::string &gt; keys, std::vector&lt; double &gt; value_list)'],['../classcore_1_1ObjectDataMap.html#a5727c237d73f3f16c94a748c1b9b0c74',1,'core::ObjectDataMap::ObjectDataMap(size_t frame_index, std::vector&lt; std::string &gt; keys, std::vector&lt; double &gt; value_list, std::vector&lt; double &gt; weight_list)'],['../classcore_1_1ObjectDataMap.html#ad2af0de7438ed72be68348ac992568b6',1,'core::ObjectDataMap::ObjectDataMap(size_t frame_index, std::vector&lt; std::string &gt; keys, std::vector&lt; std::pair&lt; double, double &gt;&gt; value_weight_list)']]]
+];

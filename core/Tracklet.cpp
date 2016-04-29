@@ -12,21 +12,13 @@ namespace core
         last_frame_index_ = 0;
     }
 
-    Tracklet::Tracklet(ObjectData firstObject)
-            : ObjectData(firstObject.GetFrameIndex())
+    Tracklet::Tracklet(ObjectData first_object)
+            : ObjectData(first_object.GetFrameIndex())
     {
         path_objects_ = std::vector<ObjectData>();
-        path_objects_.push_back(firstObject);
+        path_objects_.push_back(first_object);
 
-        last_frame_index_ = firstObject.GetFrameIndex();
-    }
-
-    Tracklet::Tracklet(std::vector<ObjectData> path_objects,
-                       size_t first_frame_index, size_t last_frame_index)
-            : ObjectData(first_frame_index)
-    {
-        path_objects_ = path_objects;
-        last_frame_index_ = last_frame_index;
+        last_frame_index_ = first_object.GetFrameIndex();
     }
 
     size_t Tracklet::GetFirstFrameIndex()

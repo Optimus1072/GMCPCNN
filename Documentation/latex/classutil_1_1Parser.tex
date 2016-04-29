@@ -1,0 +1,46 @@
+\hypertarget{classutil_1_1Parser}{}\section{util\+:\+:Parser Class Reference}
+\label{classutil_1_1Parser}\index{util\+::\+Parser@{util\+::\+Parser}}
+
+
+{\ttfamily \#include $<$Parser.\+h$>$}
+
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \hyperlink{classutil_1_1Parser_ac2095e8699706079dde135098f30de0a}{Parse\+Object\+Data\+Map} (const std\+::vector$<$ std\+::string $>$ \&keys, const core\+::\+Vector3d \&values, \hyperlink{classcore_1_1DetectionSequence}{core\+::\+Detection\+Sequence} \&sequence)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Utility class for parsing diverse objects. 
+
+\subsection{Member Function Documentation}
+\index{util\+::\+Parser@{util\+::\+Parser}!Parse\+Object\+Data\+Map@{Parse\+Object\+Data\+Map}}
+\index{Parse\+Object\+Data\+Map@{Parse\+Object\+Data\+Map}!util\+::\+Parser@{util\+::\+Parser}}
+\subsubsection[{\texorpdfstring{Parse\+Object\+Data\+Map(const std\+::vector$<$ std\+::string $>$ \&keys, const core\+::\+Vector3d \&values, core\+::\+Detection\+Sequence \&sequence)}{ParseObjectDataMap(const std::vector< std::string > \&keys, const core::Vector3d \&values, core::DetectionSequence \&sequence)}}]{\setlength{\rightskip}{0pt plus 5cm}void util\+::\+Parser\+::\+Parse\+Object\+Data\+Map (
+\begin{DoxyParamCaption}
+\item[{const std\+::vector$<$ std\+::string $>$ \&}]{keys, }
+\item[{const core\+::\+Vector3d \&}]{values, }
+\item[{{\bf core\+::\+Detection\+Sequence} \&}]{sequence}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{classutil_1_1Parser_ac2095e8699706079dde135098f30de0a}{}\label{classutil_1_1Parser_ac2095e8699706079dde135098f30de0a}
+Parses the keys and values into a Detection\+Sequence of Object\+Data\+Map objects. The keys are used for the third dimension in the values list. \begin{DoxySeeAlso}{See also}
+Detection\+Sequence 
+
+Object\+Data\+Map 
+\end{DoxySeeAlso}
+
+\begin{DoxyParams}{Parameters}
+{\em keys} & A 1D vector of keys \\
+\hline
+{\em values} & A 3D vector of values \\
+\hline
+{\em sequence} & The sequence to store the created objects in \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+util/Parser.\+h\item 
+util/Parser.\+cpp\end{DoxyCompactItemize}

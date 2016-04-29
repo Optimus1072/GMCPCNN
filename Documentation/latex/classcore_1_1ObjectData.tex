@@ -1,0 +1,156 @@
+\hypertarget{classcore_1_1ObjectData}{}\section{core\+:\+:Object\+Data Class Reference}
+\label{classcore_1_1ObjectData}\index{core\+::\+Object\+Data@{core\+::\+Object\+Data}}
+
+
+{\ttfamily \#include $<$Object\+Data.\+h$>$}
+
+Inheritance diagram for core\+:\+:Object\+Data\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classcore_1_1ObjectData}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classcore_1_1ObjectData_a7f47a396a3b9e8c12a1557c8156b8ff9}{Object\+Data} ()
+\item 
+\hyperlink{classcore_1_1ObjectData_af4333a52b012841a6ba73b25aeaae71b}{Object\+Data} (std\+::size\+\_\+t frame\+\_\+index)
+\item 
+std\+::size\+\_\+t \hyperlink{classcore_1_1ObjectData_a1151e9215baf315f4b98f696f4271162}{Get\+Frame\+Index} () const
+\item 
+bool \hyperlink{classcore_1_1ObjectData_a2880d710cfa520e9c0453e2a6729c0e2}{Is\+Virtual} () const
+\item 
+virtual double \hyperlink{classcore_1_1ObjectData_a01f04d64b1e62f567d819a8fcbe38319}{Compare\+To} (\hyperlink{classcore_1_1ObjectData}{Object\+Data} $\ast$obj)
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual void \hyperlink{classcore_1_1ObjectData_aa26949b0456068d67802d9f6067aa657}{Print} (std\+::ostream \&os) const
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::size\+\_\+t \hyperlink{classcore_1_1ObjectData_ade1423dbad9323431d22750121fa59e5}{frame\+\_\+index\+\_\+}
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+std\+::ostream \& \hyperlink{classcore_1_1ObjectData_a56fc9b6184428bf4d80826bbb9fe4c6f}{operator$<$$<$} (std\+::ostream \&os, const \hyperlink{classcore_1_1ObjectData}{Object\+Data} \&obj)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Base class for all detected objects. Stores the corresponding frame index. 
+
+\subsection{Constructor \& Destructor Documentation}
+\index{core\+::\+Object\+Data@{core\+::\+Object\+Data}!Object\+Data@{Object\+Data}}
+\index{Object\+Data@{Object\+Data}!core\+::\+Object\+Data@{core\+::\+Object\+Data}}
+\subsubsection[{\texorpdfstring{Object\+Data()}{ObjectData()}}]{\setlength{\rightskip}{0pt plus 5cm}core\+::\+Object\+Data\+::\+Object\+Data (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classcore_1_1ObjectData_a7f47a396a3b9e8c12a1557c8156b8ff9}{}\label{classcore_1_1ObjectData_a7f47a396a3b9e8c12a1557c8156b8ff9}
+Creates a new empty \hyperlink{classcore_1_1ObjectData}{Object\+Data} (e.\+g. for virtual objects) \index{core\+::\+Object\+Data@{core\+::\+Object\+Data}!Object\+Data@{Object\+Data}}
+\index{Object\+Data@{Object\+Data}!core\+::\+Object\+Data@{core\+::\+Object\+Data}}
+\subsubsection[{\texorpdfstring{Object\+Data(std\+::size\+\_\+t frame\+\_\+index)}{ObjectData(std::size\_t frame\_index)}}]{\setlength{\rightskip}{0pt plus 5cm}core\+::\+Object\+Data\+::\+Object\+Data (
+\begin{DoxyParamCaption}
+\item[{std\+::size\+\_\+t}]{frame\+\_\+index}
+\end{DoxyParamCaption}
+)}\hypertarget{classcore_1_1ObjectData_af4333a52b012841a6ba73b25aeaae71b}{}\label{classcore_1_1ObjectData_af4333a52b012841a6ba73b25aeaae71b}
+Creates a new \hyperlink{classcore_1_1ObjectData}{Object\+Data} with the given frame index 
+\begin{DoxyParams}{Parameters}
+{\em frame\+\_\+index} & the index in which the object was detected \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\index{core\+::\+Object\+Data@{core\+::\+Object\+Data}!Compare\+To@{Compare\+To}}
+\index{Compare\+To@{Compare\+To}!core\+::\+Object\+Data@{core\+::\+Object\+Data}}
+\subsubsection[{\texorpdfstring{Compare\+To(\+Object\+Data $\ast$obj)}{CompareTo(ObjectData *obj)}}]{\setlength{\rightskip}{0pt plus 5cm}double core\+::\+Object\+Data\+::\+Compare\+To (
+\begin{DoxyParamCaption}
+\item[{{\bf Object\+Data} $\ast$}]{obj}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\hypertarget{classcore_1_1ObjectData_a01f04d64b1e62f567d819a8fcbe38319}{}\label{classcore_1_1ObjectData_a01f04d64b1e62f567d819a8fcbe38319}
+Compares this object with the given object. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & A pointer to the object to compare this object to \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A double value indicating the comparison result 
+\end{DoxyReturn}
+
+
+Reimplemented in \hyperlink{classcore_1_1ObjectDataMap_ad00d1998652e4d2ffa2629128c9c2947}{core\+::\+Object\+Data\+Map}, and \hyperlink{classcore_1_1Tracklet_ab45f28ba6abde0944820ac614560ea89}{core\+::\+Tracklet}.
+
+\index{core\+::\+Object\+Data@{core\+::\+Object\+Data}!Get\+Frame\+Index@{Get\+Frame\+Index}}
+\index{Get\+Frame\+Index@{Get\+Frame\+Index}!core\+::\+Object\+Data@{core\+::\+Object\+Data}}
+\subsubsection[{\texorpdfstring{Get\+Frame\+Index() const}{GetFrameIndex() const}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::size\+\_\+t core\+::\+Object\+Data\+::\+Get\+Frame\+Index (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{classcore_1_1ObjectData_a1151e9215baf315f4b98f696f4271162}{}\label{classcore_1_1ObjectData_a1151e9215baf315f4b98f696f4271162}
+Getter for the frame index \begin{DoxyReturn}{Returns}
+The frame index 
+\end{DoxyReturn}
+\index{core\+::\+Object\+Data@{core\+::\+Object\+Data}!Is\+Virtual@{Is\+Virtual}}
+\index{Is\+Virtual@{Is\+Virtual}!core\+::\+Object\+Data@{core\+::\+Object\+Data}}
+\subsubsection[{\texorpdfstring{Is\+Virtual() const}{IsVirtual() const}}]{\setlength{\rightskip}{0pt plus 5cm}bool core\+::\+Object\+Data\+::\+Is\+Virtual (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{classcore_1_1ObjectData_a2880d710cfa520e9c0453e2a6729c0e2}{}\label{classcore_1_1ObjectData_a2880d710cfa520e9c0453e2a6729c0e2}
+Is this node considered a virtual node \begin{DoxyReturn}{Returns}
+Whether this node is virtual 
+\end{DoxyReturn}
+\index{core\+::\+Object\+Data@{core\+::\+Object\+Data}!Print@{Print}}
+\index{Print@{Print}!core\+::\+Object\+Data@{core\+::\+Object\+Data}}
+\subsubsection[{\texorpdfstring{Print(std\+::ostream \&os) const}{Print(std::ostream \&os) const}}]{\setlength{\rightskip}{0pt plus 5cm}void core\+::\+Object\+Data\+::\+Print (
+\begin{DoxyParamCaption}
+\item[{std\+::ostream \&}]{os}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}\hypertarget{classcore_1_1ObjectData_aa26949b0456068d67802d9f6067aa657}{}\label{classcore_1_1ObjectData_aa26949b0456068d67802d9f6067aa657}
+Used in the $<$$<$ operator 
+\begin{DoxyParams}{Parameters}
+{\em os} & The stream to write to \\
+\hline
+\end{DoxyParams}
+
+
+Reimplemented in \hyperlink{classcore_1_1ObjectDataMap_a16fbcc2b99feb1545e1a66f828680b1a}{core\+::\+Object\+Data\+Map}.
+
+
+
+\subsection{Friends And Related Function Documentation}
+\index{core\+::\+Object\+Data@{core\+::\+Object\+Data}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!core\+::\+Object\+Data@{core\+::\+Object\+Data}}
+\subsubsection[{\texorpdfstring{operator$<$$<$}{operator<<}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::ostream\& operator$<$$<$ (
+\begin{DoxyParamCaption}
+\item[{std\+::ostream \&}]{os, }
+\item[{const {\bf Object\+Data} \&}]{obj}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [friend]}}\hypertarget{classcore_1_1ObjectData_a56fc9b6184428bf4d80826bbb9fe4c6f}{}\label{classcore_1_1ObjectData_a56fc9b6184428bf4d80826bbb9fe4c6f}
+Overrides the $<$$<$ operator for easy output. Calls the print method. 
+\begin{DoxyParams}{Parameters}
+{\em os} & The stream to write to \\
+\hline
+{\em obj} & The object to write into the stream \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The stream written to 
+\end{DoxyReturn}
+
+
+\subsection{Member Data Documentation}
+\index{core\+::\+Object\+Data@{core\+::\+Object\+Data}!frame\+\_\+index\+\_\+@{frame\+\_\+index\+\_\+}}
+\index{frame\+\_\+index\+\_\+@{frame\+\_\+index\+\_\+}!core\+::\+Object\+Data@{core\+::\+Object\+Data}}
+\subsubsection[{\texorpdfstring{frame\+\_\+index\+\_\+}{frame\_index\_}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::size\+\_\+t core\+::\+Object\+Data\+::frame\+\_\+index\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{classcore_1_1ObjectData_ade1423dbad9323431d22750121fa59e5}{}\label{classcore_1_1ObjectData_ade1423dbad9323431d22750121fa59e5}
+The frame the object was detected in 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+core/Object\+Data.\+h\item 
+core/Object\+Data.\+cpp\end{DoxyCompactItemize}

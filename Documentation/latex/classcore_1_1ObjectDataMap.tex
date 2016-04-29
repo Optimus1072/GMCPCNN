@@ -1,0 +1,238 @@
+\hypertarget{classcore_1_1ObjectDataMap}{}\section{core\+:\+:Object\+Data\+Map Class Reference}
+\label{classcore_1_1ObjectDataMap}\index{core\+::\+Object\+Data\+Map@{core\+::\+Object\+Data\+Map}}
+
+
+{\ttfamily \#include $<$Object\+Data\+Map.\+h$>$}
+
+Inheritance diagram for core\+:\+:Object\+Data\+Map\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classcore_1_1ObjectDataMap}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classcore_1_1ObjectDataMap_ac6df34682a715db6845667f7dda1c795}{Object\+Data\+Map} (size\+\_\+t frame\+\_\+index)
+\item 
+\hyperlink{classcore_1_1ObjectDataMap_a573add8d73646e6c5f183a9a0c159596}{Object\+Data\+Map} (size\+\_\+t frame\+\_\+index, std\+::vector$<$ std\+::string $>$ keys, std\+::vector$<$ double $>$ value\+\_\+list)
+\item 
+\hyperlink{classcore_1_1ObjectDataMap_a5727c237d73f3f16c94a748c1b9b0c74}{Object\+Data\+Map} (size\+\_\+t frame\+\_\+index, std\+::vector$<$ std\+::string $>$ keys, std\+::vector$<$ double $>$ value\+\_\+list, std\+::vector$<$ double $>$ weight\+\_\+list)
+\item 
+\hyperlink{classcore_1_1ObjectDataMap_ad2af0de7438ed72be68348ac992568b6}{Object\+Data\+Map} (size\+\_\+t frame\+\_\+index, std\+::vector$<$ std\+::string $>$ keys, std\+::vector$<$ std\+::pair$<$ double, double $>$$>$ value\+\_\+weight\+\_\+list)
+\item 
+double \hyperlink{classcore_1_1ObjectDataMap_a276c89da6f3318d2baa2e9678e9508f7}{Get\+Value} (std\+::string key)
+\item 
+double \hyperlink{classcore_1_1ObjectDataMap_a4cd92ab91559063b4e6ab12fec53cc05}{Get\+Weight} (std\+::string key)
+\item 
+void \hyperlink{classcore_1_1ObjectDataMap_a61eb1326be41c3411dc0c1757f360591}{Put\+Value\+Weight} (std\+::string key, double value, double weight)
+\item 
+void \hyperlink{classcore_1_1ObjectDataMap_a8c2ef0cebadf12e4aa67056823020cc3}{Put\+Value\+Weight} (std\+::string key, std\+::pair$<$ double, double $>$ value\+\_\+weight)
+\item 
+virtual double \hyperlink{classcore_1_1ObjectDataMap_ad00d1998652e4d2ffa2629128c9c2947}{Compare\+To} (\hyperlink{classcore_1_1ObjectData}{Object\+Data} $\ast$obj)
+\item 
+virtual double \hyperlink{classcore_1_1ObjectDataMap_a38ec46bab19a5770cecb00533e8d37c3}{Compare\+To} (\hyperlink{classcore_1_1ObjectDataMap}{Object\+Data\+Map} $\ast$obj)
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual void \hyperlink{classcore_1_1ObjectDataMap_a16fbcc2b99feb1545e1a66f828680b1a}{Print} (std\+::ostream \&os) const
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+Stores a map of key-\/value-\/weight pairs. The weight is used to compare this object with other objects. 
+
+\subsection{Constructor \& Destructor Documentation}
+\index{core\+::\+Object\+Data\+Map@{core\+::\+Object\+Data\+Map}!Object\+Data\+Map@{Object\+Data\+Map}}
+\index{Object\+Data\+Map@{Object\+Data\+Map}!core\+::\+Object\+Data\+Map@{core\+::\+Object\+Data\+Map}}
+\subsubsection[{\texorpdfstring{Object\+Data\+Map(size\+\_\+t frame\+\_\+index)}{ObjectDataMap(size\_t frame\_index)}}]{\setlength{\rightskip}{0pt plus 5cm}core\+::\+Object\+Data\+Map\+::\+Object\+Data\+Map (
+\begin{DoxyParamCaption}
+\item[{size\+\_\+t}]{frame\+\_\+index}
+\end{DoxyParamCaption}
+)}\hypertarget{classcore_1_1ObjectDataMap_ac6df34682a715db6845667f7dda1c795}{}\label{classcore_1_1ObjectDataMap_ac6df34682a715db6845667f7dda1c795}
+Creates a new empty object data map. 
+\begin{DoxyParams}{Parameters}
+{\em frame\+\_\+index} & The index of the frame this object was detected in \\
+\hline
+\end{DoxyParams}
+\index{core\+::\+Object\+Data\+Map@{core\+::\+Object\+Data\+Map}!Object\+Data\+Map@{Object\+Data\+Map}}
+\index{Object\+Data\+Map@{Object\+Data\+Map}!core\+::\+Object\+Data\+Map@{core\+::\+Object\+Data\+Map}}
+\subsubsection[{\texorpdfstring{Object\+Data\+Map(size\+\_\+t frame\+\_\+index, std\+::vector$<$ std\+::string $>$ keys, std\+::vector$<$ double $>$ value\+\_\+list)}{ObjectDataMap(size\_t frame\_index, std::vector< std::string > keys, std::vector< double > value\_list)}}]{\setlength{\rightskip}{0pt plus 5cm}core\+::\+Object\+Data\+Map\+::\+Object\+Data\+Map (
+\begin{DoxyParamCaption}
+\item[{size\+\_\+t}]{frame\+\_\+index, }
+\item[{std\+::vector$<$ std\+::string $>$}]{keys, }
+\item[{std\+::vector$<$ double $>$}]{value\+\_\+list}
+\end{DoxyParamCaption}
+)}\hypertarget{classcore_1_1ObjectDataMap_a573add8d73646e6c5f183a9a0c159596}{}\label{classcore_1_1ObjectDataMap_a573add8d73646e6c5f183a9a0c159596}
+Creates a object data map with the given keys and values and an equal weight for every value. 
+\begin{DoxyParams}{Parameters}
+{\em frame\+\_\+index} & The index of the frame this object was detected in \\
+\hline
+{\em keys} & The keys for the values to store \\
+\hline
+{\em value\+\_\+list} & The values to store with the given keys \\
+\hline
+\end{DoxyParams}
+\index{core\+::\+Object\+Data\+Map@{core\+::\+Object\+Data\+Map}!Object\+Data\+Map@{Object\+Data\+Map}}
+\index{Object\+Data\+Map@{Object\+Data\+Map}!core\+::\+Object\+Data\+Map@{core\+::\+Object\+Data\+Map}}
+\subsubsection[{\texorpdfstring{Object\+Data\+Map(size\+\_\+t frame\+\_\+index, std\+::vector$<$ std\+::string $>$ keys, std\+::vector$<$ double $>$ value\+\_\+list, std\+::vector$<$ double $>$ weight\+\_\+list)}{ObjectDataMap(size\_t frame\_index, std::vector< std::string > keys, std::vector< double > value\_list, std::vector< double > weight\_list)}}]{\setlength{\rightskip}{0pt plus 5cm}core\+::\+Object\+Data\+Map\+::\+Object\+Data\+Map (
+\begin{DoxyParamCaption}
+\item[{size\+\_\+t}]{frame\+\_\+index, }
+\item[{std\+::vector$<$ std\+::string $>$}]{keys, }
+\item[{std\+::vector$<$ double $>$}]{value\+\_\+list, }
+\item[{std\+::vector$<$ double $>$}]{weight\+\_\+list}
+\end{DoxyParamCaption}
+)}\hypertarget{classcore_1_1ObjectDataMap_a5727c237d73f3f16c94a748c1b9b0c74}{}\label{classcore_1_1ObjectDataMap_a5727c237d73f3f16c94a748c1b9b0c74}
+Creates a object data map with the given keys and values and an given weight for the corresponding key-\/value pair. 
+\begin{DoxyParams}{Parameters}
+{\em frame\+\_\+index} & The index of the frame this object was detected in \\
+\hline
+{\em keys} & The keys for the values to store \\
+\hline
+{\em value\+\_\+list} & The values to store with the given keys \\
+\hline
+{\em weight\+\_\+list} & The weights to store with the given key-\/value pairs \\
+\hline
+\end{DoxyParams}
+\index{core\+::\+Object\+Data\+Map@{core\+::\+Object\+Data\+Map}!Object\+Data\+Map@{Object\+Data\+Map}}
+\index{Object\+Data\+Map@{Object\+Data\+Map}!core\+::\+Object\+Data\+Map@{core\+::\+Object\+Data\+Map}}
+\subsubsection[{\texorpdfstring{Object\+Data\+Map(size\+\_\+t frame\+\_\+index, std\+::vector$<$ std\+::string $>$ keys, std\+::vector$<$ std\+::pair$<$ double, double $>$$>$ value\+\_\+weight\+\_\+list)}{ObjectDataMap(size\_t frame\_index, std::vector< std::string > keys, std::vector< std::pair< double, double >> value\_weight\_list)}}]{\setlength{\rightskip}{0pt plus 5cm}core\+::\+Object\+Data\+Map\+::\+Object\+Data\+Map (
+\begin{DoxyParamCaption}
+\item[{size\+\_\+t}]{frame\+\_\+index, }
+\item[{std\+::vector$<$ std\+::string $>$}]{keys, }
+\item[{std\+::vector$<$ std\+::pair$<$ double, double $>$$>$}]{value\+\_\+weight\+\_\+list}
+\end{DoxyParamCaption}
+)}\hypertarget{classcore_1_1ObjectDataMap_ad2af0de7438ed72be68348ac992568b6}{}\label{classcore_1_1ObjectDataMap_ad2af0de7438ed72be68348ac992568b6}
+Creates a object data map with the given keys and value-\/weight pairs. 
+\begin{DoxyParams}{Parameters}
+{\em frame\+\_\+index} & The index of the frame this object was detected in \\
+\hline
+{\em keys} & The keys for the values to store \\
+\hline
+{\em value\+\_\+weight\+\_\+list} & The value-\/weight-\/pairs to store with the keys \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\index{core\+::\+Object\+Data\+Map@{core\+::\+Object\+Data\+Map}!Compare\+To@{Compare\+To}}
+\index{Compare\+To@{Compare\+To}!core\+::\+Object\+Data\+Map@{core\+::\+Object\+Data\+Map}}
+\subsubsection[{\texorpdfstring{Compare\+To(\+Object\+Data $\ast$obj)}{CompareTo(ObjectData *obj)}}]{\setlength{\rightskip}{0pt plus 5cm}double core\+::\+Object\+Data\+Map\+::\+Compare\+To (
+\begin{DoxyParamCaption}
+\item[{{\bf Object\+Data} $\ast$}]{obj}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\hypertarget{classcore_1_1ObjectDataMap_ad00d1998652e4d2ffa2629128c9c2947}{}\label{classcore_1_1ObjectDataMap_ad00d1998652e4d2ffa2629128c9c2947}
+Compares this object with the given object by calculating the difference in every value and applies the corresponding weight to that difference. Than all weighted differences are summed up. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & A pointer to the object to compare this object to \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The summed up weighted differences 
+\end{DoxyReturn}
+
+
+Reimplemented from \hyperlink{classcore_1_1ObjectData_a01f04d64b1e62f567d819a8fcbe38319}{core\+::\+Object\+Data}.
+
+\index{core\+::\+Object\+Data\+Map@{core\+::\+Object\+Data\+Map}!Compare\+To@{Compare\+To}}
+\index{Compare\+To@{Compare\+To}!core\+::\+Object\+Data\+Map@{core\+::\+Object\+Data\+Map}}
+\subsubsection[{\texorpdfstring{Compare\+To(\+Object\+Data\+Map $\ast$obj)}{CompareTo(ObjectDataMap *obj)}}]{\setlength{\rightskip}{0pt plus 5cm}double core\+::\+Object\+Data\+Map\+::\+Compare\+To (
+\begin{DoxyParamCaption}
+\item[{{\bf Object\+Data\+Map} $\ast$}]{obj}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\hypertarget{classcore_1_1ObjectDataMap_a38ec46bab19a5770cecb00533e8d37c3}{}\label{classcore_1_1ObjectDataMap_a38ec46bab19a5770cecb00533e8d37c3}
+Compares this object with the given object by calculating the difference in every value and applies the corresponding weight to that difference. Than all weighted differences are summed up. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & A pointer to the object to compare this object to \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The summed up weighted differences 
+\end{DoxyReturn}
+\index{core\+::\+Object\+Data\+Map@{core\+::\+Object\+Data\+Map}!Get\+Value@{Get\+Value}}
+\index{Get\+Value@{Get\+Value}!core\+::\+Object\+Data\+Map@{core\+::\+Object\+Data\+Map}}
+\subsubsection[{\texorpdfstring{Get\+Value(std\+::string key)}{GetValue(std::string key)}}]{\setlength{\rightskip}{0pt plus 5cm}double core\+::\+Object\+Data\+Map\+::\+Get\+Value (
+\begin{DoxyParamCaption}
+\item[{std\+::string}]{key}
+\end{DoxyParamCaption}
+)}\hypertarget{classcore_1_1ObjectDataMap_a276c89da6f3318d2baa2e9678e9508f7}{}\label{classcore_1_1ObjectDataMap_a276c89da6f3318d2baa2e9678e9508f7}
+Gets the value of the given key. 
+\begin{DoxyParams}{Parameters}
+{\em key} & The key for the value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The value 
+\end{DoxyReturn}
+\index{core\+::\+Object\+Data\+Map@{core\+::\+Object\+Data\+Map}!Get\+Weight@{Get\+Weight}}
+\index{Get\+Weight@{Get\+Weight}!core\+::\+Object\+Data\+Map@{core\+::\+Object\+Data\+Map}}
+\subsubsection[{\texorpdfstring{Get\+Weight(std\+::string key)}{GetWeight(std::string key)}}]{\setlength{\rightskip}{0pt plus 5cm}double core\+::\+Object\+Data\+Map\+::\+Get\+Weight (
+\begin{DoxyParamCaption}
+\item[{std\+::string}]{key}
+\end{DoxyParamCaption}
+)}\hypertarget{classcore_1_1ObjectDataMap_a4cd92ab91559063b4e6ab12fec53cc05}{}\label{classcore_1_1ObjectDataMap_a4cd92ab91559063b4e6ab12fec53cc05}
+Gets the weight of the given key. 
+\begin{DoxyParams}{Parameters}
+{\em key} & The key for the value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The weight 
+\end{DoxyReturn}
+\index{core\+::\+Object\+Data\+Map@{core\+::\+Object\+Data\+Map}!Print@{Print}}
+\index{Print@{Print}!core\+::\+Object\+Data\+Map@{core\+::\+Object\+Data\+Map}}
+\subsubsection[{\texorpdfstring{Print(std\+::ostream \&os) const}{Print(std::ostream \&os) const}}]{\setlength{\rightskip}{0pt plus 5cm}void core\+::\+Object\+Data\+Map\+::\+Print (
+\begin{DoxyParamCaption}
+\item[{std\+::ostream \&}]{os}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}\hypertarget{classcore_1_1ObjectDataMap_a16fbcc2b99feb1545e1a66f828680b1a}{}\label{classcore_1_1ObjectDataMap_a16fbcc2b99feb1545e1a66f828680b1a}
+Used in the $<$$<$ operator 
+\begin{DoxyParams}{Parameters}
+{\em os} & The stream to write to \\
+\hline
+\end{DoxyParams}
+
+
+Reimplemented from \hyperlink{classcore_1_1ObjectData_aa26949b0456068d67802d9f6067aa657}{core\+::\+Object\+Data}.
+
+\index{core\+::\+Object\+Data\+Map@{core\+::\+Object\+Data\+Map}!Put\+Value\+Weight@{Put\+Value\+Weight}}
+\index{Put\+Value\+Weight@{Put\+Value\+Weight}!core\+::\+Object\+Data\+Map@{core\+::\+Object\+Data\+Map}}
+\subsubsection[{\texorpdfstring{Put\+Value\+Weight(std\+::string key, double value, double weight)}{PutValueWeight(std::string key, double value, double weight)}}]{\setlength{\rightskip}{0pt plus 5cm}void core\+::\+Object\+Data\+Map\+::\+Put\+Value\+Weight (
+\begin{DoxyParamCaption}
+\item[{std\+::string}]{key, }
+\item[{double}]{value, }
+\item[{double}]{weight}
+\end{DoxyParamCaption}
+)}\hypertarget{classcore_1_1ObjectDataMap_a61eb1326be41c3411dc0c1757f360591}{}\label{classcore_1_1ObjectDataMap_a61eb1326be41c3411dc0c1757f360591}
+Stores the given value-\/weight pair with the given key. If the key is already stored it will be overridden with the new pair. 
+\begin{DoxyParams}{Parameters}
+{\em key} & The key to store the value-\/weight pair at \\
+\hline
+{\em value} & The value of the value-\/weight pair \\
+\hline
+{\em weight} & The weight of the value-\/weight pair \\
+\hline
+\end{DoxyParams}
+\index{core\+::\+Object\+Data\+Map@{core\+::\+Object\+Data\+Map}!Put\+Value\+Weight@{Put\+Value\+Weight}}
+\index{Put\+Value\+Weight@{Put\+Value\+Weight}!core\+::\+Object\+Data\+Map@{core\+::\+Object\+Data\+Map}}
+\subsubsection[{\texorpdfstring{Put\+Value\+Weight(std\+::string key, std\+::pair$<$ double, double $>$ value\+\_\+weight)}{PutValueWeight(std::string key, std::pair< double, double > value\_weight)}}]{\setlength{\rightskip}{0pt plus 5cm}void core\+::\+Object\+Data\+Map\+::\+Put\+Value\+Weight (
+\begin{DoxyParamCaption}
+\item[{std\+::string}]{key, }
+\item[{std\+::pair$<$ double, double $>$}]{value\+\_\+weight}
+\end{DoxyParamCaption}
+)}\hypertarget{classcore_1_1ObjectDataMap_a8c2ef0cebadf12e4aa67056823020cc3}{}\label{classcore_1_1ObjectDataMap_a8c2ef0cebadf12e4aa67056823020cc3}
+Stores the given value-\/weight pair with the given key. If the key is already stored it will be overridden with the new pair. 
+\begin{DoxyParams}{Parameters}
+{\em key} & The key to store the value-\/weight pair at \\
+\hline
+{\em value\+\_\+weight} & The value-\/weight pair \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+core/Object\+Data\+Map.\+h\item 
+core/Object\+Data\+Map.\+cpp\end{DoxyCompactItemize}
