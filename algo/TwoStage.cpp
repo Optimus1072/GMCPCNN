@@ -3,6 +3,7 @@
 //
 
 #include "TwoStage.h"
+#include "../util/Logger.h"
 
 namespace algo
 {
@@ -14,13 +15,15 @@ namespace algo
         max_tracklet_count_ = max_tracklet_count;
     }
 
-    DirectedGraph TwoStage::CreateObjectGraph(core::DetectionSequence detections)
+    void TwoStage::CreateObjectGraph(DirectedGraph& graph,
+                                     core::DetectionSequence& detections)
     {
-        DirectedGraph graph;
+        util::Logger::LogInfo("Creating object graph");
+
         std::vector<std::vector<Vertex>> layers;
 
         // Add source as the vertex with the lowest index
-        Vertex source = boost::add_vertex(core::ObjectData(), graph);
+        Vertex source = boost::add_vertex(core::ObjectDataPtr(new core::ObjectData()), graph);
 
         // Add vertices from detection sequence to directed graph
         // Save the vertices which are in one frame/layer for later use to
@@ -31,8 +34,8 @@ namespace algo
 
             for (size_t j = 0; j < detections.GetObjectCount(i); ++j)
             {
-                Vertex v =
-                        boost::add_vertex(detections.GetObject(i, j), graph);
+                Vertex v = boost::add_vertex(detections.GetObject(i, j),
+                                             graph);
 
                 layer.push_back(v);
             }
@@ -41,7 +44,7 @@ namespace algo
         }
 
         // Add sink as the vertex with the highest index
-        Vertex sink = boost::add_vertex(core::ObjectData(), graph);
+        Vertex sink = boost::add_vertex(core::ObjectDataPtr(new core::ObjectData()), graph);
 
         // Vertex objects
         VertexValueMap values = boost::get(boost::vertex_name, graph);
@@ -56,7 +59,7 @@ namespace algo
 
                 // For each next frame/layer until maxFrameSkip or end
                 for (size_t k = 1;
-                     k < max_frame_skip_ && i + k < layers.size();
+                     k <= max_frame_skip_ && i + k < layers.size();
                      ++k)
                 {
                     // To every edge in the next frame/layer
@@ -65,7 +68,7 @@ namespace algo
                         Vertex v = layers[i + k][l];
 
                         boost::add_edge(u, v,
-                                        values[u].CompareTo(&values[v]),
+                                        values[u]->CompareTo(values[v]),
                                         graph);
                     }
                 }
@@ -81,24 +84,19 @@ namespace algo
             }
         }
 
-        obj_graph_ = graph;
-        frame_count_ = layers.size();
-
-        return graph;
+        util::Logger::LogDebug("vertex count " + std::to_string(boost::num_vertices(graph)));
+        util::Logger::LogDebug("edge count " + std::to_string(boost::num_edges(graph)));
     }
 
-    DirectedGraph TwoStage::CreateTrackletGraph()
+    void TwoStage::CreateTrackletGraph(DirectedGraph& obj_graph,
+                                       DirectedGraph& tlt_graph,
+                                       size_t frame_count)
     {
-        return CreateTrackletGraph(obj_graph_, frame_count_);
-    }
-
-    DirectedGraph TwoStage::CreateTrackletGraph(DirectedGraph obj_graph,
-                                                size_t frame_count)
-    {
-        DirectedGraph tlt_graph;
+        util::Logger::LogInfo("Creating tracklet graph");
 
         // Add source to tracklet graph
-        Vertex tlt_src = boost::add_vertex(core::ObjectData(), tlt_graph);
+        Vertex tlt_src = boost::add_vertex(
+                core::ObjectDataPtr(new core::ObjectData()), tlt_graph);
 
         // Prepare parameter for dijkstra
         size_t obj_graph_size = boost::num_vertices(obj_graph);
@@ -120,23 +118,30 @@ namespace algo
                                            boost::predecessor_map(obj_pred_map)
                                                    .distance_map(obj_dist_map));
 
+            if (obj_dist_map[obj_snk] == std::numeric_limits<double>::max())
+            {
+                break;
+            }
+
             // Create the tracklet
-            core::Tracklet tracklet;
-            Vertex v = obj_snk;
-            for (Vertex u = obj_pred_map[obj_snk];
+            core::TrackletPtr tracklet(new core::Tracklet);
+            for (Vertex u = obj_pred_map[obj_snk], v = obj_snk;
                  u != v;
                  v = u, u = obj_pred_map[v])
             {
-                tracklet.AddPathObjectFirst(obj_values[u]);
+                tracklet->AddPathObject(obj_values[u]);
+
+//                util::Logger::LogDebug(std::to_string(tracklet->GetFirstFrameIndex())
+//                                       + "," + std::to_string(tracklet->GetLastFrameIndex()));
 
                 // Leave source and sink untouched
-                if (!obj_values[u].IsVirtual())
+                if (!obj_values[u]->IsVirtual())
                 {
                     // Remove the path by setting all used edges to a weight of
                     // infinity
                     std::pair<DirectedGraph::out_edge_iterator,
                               DirectedGraph::out_edge_iterator>
-                            edge_iter = boost::out_edges(u, obj_graph);
+                              edge_iter = boost::out_edges(u, obj_graph);
 
                     for (DirectedGraph::out_edge_iterator iter = edge_iter.first;
                          iter != edge_iter.second;
@@ -147,13 +152,14 @@ namespace algo
                     }
                 }
             }
+            core::ObjectDataPtr tracklet_base = tracklet;
 
             // Add tracklet into tracklet graph
-            boost::add_vertex(tracklet, tlt_graph);
+            boost::add_vertex(tracklet_base, tlt_graph);
         }
 
         // Add sink to tracklet graph
-        Vertex tlt_snk = boost::add_vertex(core::ObjectData(), tlt_graph);
+        Vertex tlt_snk = boost::add_vertex(core::ObjectDataPtr(new core::ObjectData()), tlt_graph);
 
         // Create edges
         size_t tlt_graph_size = boost::num_vertices(tlt_graph);
@@ -164,10 +170,9 @@ namespace algo
         for (size_t i = 1; i < tlt_graph_size - 1; ++i)
         {
             Vertex u = tlt_indices[i];
-            size_t u_first_frame =
-                    ((core::Tracklet)tlt_values[u]).GetFirstFrameIndex();
-            size_t u_last_frame =
-                    ((core::Tracklet)tlt_values[u]).GetLastFrameIndex();
+            core::TrackletPtr u_ptr = std::static_pointer_cast<core::Tracklet>(tlt_values[u]);
+            size_t u_first_frame = u_ptr->GetFirstFrameIndex();
+            size_t u_last_frame = u_ptr->GetLastFrameIndex();
 
             // Create edges between tracklets
             for (size_t j = 1; j < tlt_graph_size - 1; ++j)
@@ -175,13 +180,13 @@ namespace algo
                 if (i != j)
                 {
                     Vertex v = tlt_indices[j];
-                    size_t v_first_frame =
-                            ((core::Tracklet)tlt_values[v]).GetFirstFrameIndex();
+                    core::TrackletPtr v_ptr = std::static_pointer_cast<core::Tracklet>(tlt_values[v]);
+                    size_t v_first_frame = v_ptr->GetFirstFrameIndex();
 
                     if (u_last_frame < v_first_frame)
                     {
                         boost::add_edge(u, v,
-                                        tlt_values[u].CompareTo(&tlt_values[v]),
+                                        tlt_values[u]->CompareTo(tlt_values[v]),
                                         tlt_graph);
                     }
                 }
@@ -198,23 +203,32 @@ namespace algo
                             tlt_graph);
         }
 
-        tlt_graph_ = tlt_graph;
-
-        return tlt_graph;
+        util::Logger::LogDebug("vertex count " + std::to_string(boost::num_vertices(tlt_graph)));
+        util::Logger::LogDebug("edge count " + std::to_string(boost::num_edges(tlt_graph)));
     }
 
-    std::vector<core::Tracklet> TwoStage::ExtractTracks()
+    void TwoStage::ExtractTracks(DirectedGraph& tlt_graph, size_t depth,
+                                 std::vector<core::TrackletPtr>& tracks)
     {
-        return ExtractTracks(tlt_graph_);
-    }
+        util::Logger::LogInfo("Extracting tracks");
 
-    std::vector<core::Tracklet> TwoStage::ExtractTracks(DirectedGraph tlt_graph)
-    {
-        std::vector<core::Tracklet> tracks;
+        VertexValueMap tlt_values = boost::get(boost::vertex_name, tlt_graph);
+        for (size_t i = 0; i < boost::num_vertices(tlt_graph); ++i)
+        {
+            core::ObjectDataPtr obj = tlt_values[i];
+            if (!obj->IsVirtual())
+            {
+                core::TrackletPtr tlt = std::static_pointer_cast<core::Tracklet>(obj);
 
-        //TODO implement
-        //TODO convert tracklets graph into list of tracklets/tracks
+                for (size_t j = 0; j < depth; j++)
+                {
+                    tlt->Flatten();
+                }
 
-        return tracks;
+                tracks.push_back(tlt);
+            }
+        }
+
+        util::Logger::LogDebug("track count " + std::to_string(tracks.size()));
     }
 }

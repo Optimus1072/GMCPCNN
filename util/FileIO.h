@@ -24,25 +24,22 @@ namespace util
          * single vector.
          * The second dimension is the row in the row bundle.
          * The third dimension is the value in that row.
+         * @param values The 3D array of values to store the read values in
          * @param filename The filename to read from
          * @param delimiter The delimiter used to separate the values in the file
-         * @param values The 3D array of values to store the read values in
          */
-        static void ReadCSV(
-                const std::string &filename,
-                const char &delimiter,
-                core::Vector3d &values);
+        static void ReadCSV(core::Vector3d& values, const std::string& filename,
+                            const char& delimiter = ';');
+
         /**
          * Reads a CSV file and stores the values in a 2D array.
          * The first dimension is the row and the second the value in that row.
+         * @param values The 2D array of values to store the read values in
          * @param filename The filename to read from
          * @param delimiter The delimiter used to separate the values in the file
-         * @param values The 2D array of values to store the read values in
          */
-        static void ReadCSV(
-                const std::string &filename,
-                const char &delimiter,
-                core::Vector2d &values);
+        static void ReadCSV(core::Vector2d& values, const std::string& filename,
+                            const char& delimiter = ';');
     };
 }
 

@@ -3,14 +3,15 @@
 //
 
 #include "FileIO.h"
+#include "Logger.h"
 
 namespace util
 {
-    void FileIO::ReadCSV(
-            const std::string &filename,
-            const char &delimiter,
-            core::Vector3d &values)
+    void FileIO::ReadCSV(core::Vector3d& values, const std::string& filename,
+                         const char& delimiter)
     {
+        Logger::LogInfo("Reading CSV file");
+
         std::ifstream in(filename, std::ifstream::in);
         std::string line;
 
@@ -24,7 +25,7 @@ namespace util
 
             // Get frame index
             size_t dIndex = line.find(delimiter);
-            size_t frameIndex = std::stoul(line.substr(0, dIndex).c_str()) - 1;
+            size_t frameIndex = std::stoul(line.substr(0, dIndex).c_str());
 
             // Extract point values
             std::vector<double> pointValues;
@@ -36,7 +37,7 @@ namespace util
             }
 
             // Add point data to detection data
-            if (frameIndex >= values.size())
+            while (frameIndex >= values.size())
             {
                 values.push_back(std::vector<std::vector<double>>());
             }
@@ -45,13 +46,15 @@ namespace util
         }
 
         in.close();
+
+        Logger::LogDebug("frame count " + std::to_string(values.size()));
     }
 
-    void FileIO::ReadCSV(
-            const std::string &filename,
-            const char &delimiter,
-            core::Vector2d &values)
+    void FileIO::ReadCSV(core::Vector2d& values, const std::string& filename,
+                         const char& delimiter)
     {
+        Logger::LogInfo("Reading CSV file");
+
         std::ifstream in(filename, std::ifstream::in);
         std::string line;
 
@@ -83,6 +86,8 @@ namespace util
         }
 
         in.close();
+
+        Logger::LogDebug("line count " + std::to_string(values.size()));
     }
 }
 

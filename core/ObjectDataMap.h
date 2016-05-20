@@ -25,11 +25,7 @@ namespace core
          * The stored value-weight-pairs.
          */
         std::unordered_map<std::string, std::pair<double, double>> value_weight_map_;
-    protected:
-        /**
-         * Used in the << operator
-         * @param os The stream to write to
-         */
+
         virtual void Print(std::ostream& os) const;
     public:
         /**
@@ -49,6 +45,7 @@ namespace core
                 size_t frame_index,
                 std::vector<std::string> keys,
                 std::vector<double> value_list);
+
         /**
          * Creates a object data map with the given keys and values and an
          * given weight for the corresponding key-value pair.
@@ -88,7 +85,7 @@ namespace core
          */
         double GetWeight(std::string key);
 
-        //TODO find a better name
+        //TODO RENAME
         /**
          * Stores the given value-weight pair with the given key.
          * If the key is already stored it will be overridden with the new pair.
@@ -96,7 +93,7 @@ namespace core
          * @param value The value of the value-weight pair
          * @param weight The weight of the value-weight pair
          */
-        void PutValueWeight(std::string key, double value, double weight);
+        void Put(std::string key, double value, double weight);
 
         /**
          * Stores the given value-weight pair with the given key.
@@ -104,25 +101,13 @@ namespace core
          * @param key The key to store the value-weight pair at
          * @param value_weight The value-weight pair
          */
-        void PutValueWeight(std::string key, std::pair<double, double> value_weight);
+        void Put(std::string key, std::pair<double, double> value_weight);
 
-        /**
-         * Compares this object with the given object by calculating the difference
-         * in every value and applies the corresponding weight to that difference.
-         * Than all weighted differences are summed up.
-         * @param obj A pointer to the object to compare this object to
-         * @return The summed up weighted differences
-         */
-        virtual double CompareTo(ObjectData *obj);
+        virtual double CompareTo(ObjectDataPtr obj) const override;
 
-        /**
-         * Compares this object with the given object by calculating the difference
-         * in every value and applies the corresponding weight to that difference.
-         * Than all weighted differences are summed up.
-         * @param obj A pointer to the object to compare this object to
-         * @return The summed up weighted differences
-         */
-        virtual double CompareTo(ObjectDataMap *obj);
+        virtual ObjectDataPtr Interpolate(ObjectDataPtr obj, double fraction) const override;
+
+        virtual void Visualize(cv::Mat& image, cv::Scalar& color) const override;
     };
 }
 

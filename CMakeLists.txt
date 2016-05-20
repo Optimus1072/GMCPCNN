@@ -3,6 +3,7 @@ project(GBMOT)
 
 set(HOME_LOCAL /home/wrede/local)
 
+link_directories(/usr/lib64)
 include_directories(${HOME_LOCAL}/include)
 
 set(SOURCE_FILES
@@ -22,12 +23,19 @@ set(SOURCE_FILES
         util/Parser.h
         algo/TwoStage.cpp
         algo/TwoStage.h
-        algo/Definitions.h)
+        algo/Definitions.h
+        util/MyMath.cpp
+        util/MyMath.h
+        core/ObjectData3D.cpp
+        core/ObjectData3D.h
+        visual/Visualizer.cpp
+        visual/Visualizer.h
+        util/Logger.cpp
+        util/Logger.h core/ObjectDataAngular.cpp core/ObjectDataAngular.h)
 
 find_package(Doxygen)
 
 if(DOXYGEN_FOUND)
-
     set(DOXYGEN_INPUT Doxyfile)
     set(DOXYGEN_OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile)
 
@@ -43,6 +51,11 @@ if(DOXYGEN_FOUND)
 
 endif(DOXYGEN_FOUND)
 
+find_package(OpenCV REQUIRED)
+find_package(Boost REQUIRED program_options)
+
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 add_executable(GBMOT ${SOURCE_FILES})
+
+target_link_libraries(GBMOT ${OpenCV_LIBS} ${Boost_LIBRARIES})

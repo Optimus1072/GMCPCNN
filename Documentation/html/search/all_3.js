@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['extracttracks',['ExtractTracks',['../classalgo_1_1TwoStage.html#af61470d4a2ed751844ba2adc3f41451b',1,'algo::TwoStage::ExtractTracks()'],['../classalgo_1_1TwoStage.html#a4e1d9fde2480e607ae532d0dae84d3ea',1,'algo::TwoStage::ExtractTracks(DirectedGraph tlt_graph)']]]
+  ['euclideandistance',['EuclideanDistance',['../classutil_1_1MyMath.html#abaf214b2fc7a31e43cf07245cf4b2e1f',1,'util::MyMath']]],
+  ['extracttracks',['ExtractTracks',['../classalgo_1_1TwoStage.html#a09168d0ace15d689c9d594ca16b93c38',1,'algo::TwoStage']]]
 ];

@@ -101,19 +101,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 Public Member Functions</h2></td></tr>
 <tr class="memitem:ae302f9ea93d56155a9dbd0be060500f7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classalgo_1_1TwoStage.html#ae302f9ea93d56155a9dbd0be060500f7">TwoStage</a> (size_t max_frame_skip, double penalty_value, size_t max_tracklet_count)</td></tr>
 <tr class="separator:ae302f9ea93d56155a9dbd0be060500f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:add2da8463ae067ace43ab1201725157e"><td class="memItemLeft" align="right" valign="top">DirectedGraph&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classalgo_1_1TwoStage.html#add2da8463ae067ace43ab1201725157e">CreateObjectGraph</a> (<a class="el" href="classcore_1_1DetectionSequence.html">core::DetectionSequence</a> detections)</td></tr>
-<tr class="separator:add2da8463ae067ace43ab1201725157e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae966c3f17aca5fb05d5c90fd89bdf98c"><td class="memItemLeft" align="right" valign="top">DirectedGraph&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classalgo_1_1TwoStage.html#ae966c3f17aca5fb05d5c90fd89bdf98c">CreateTrackletGraph</a> ()</td></tr>
-<tr class="separator:ae966c3f17aca5fb05d5c90fd89bdf98c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5f618dde61f100d4371578aa36a01a7c"><td class="memItemLeft" align="right" valign="top">DirectedGraph&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classalgo_1_1TwoStage.html#a5f618dde61f100d4371578aa36a01a7c">CreateTrackletGraph</a> (DirectedGraph obj_graph, size_t frame_count)</td></tr>
-<tr class="separator:a5f618dde61f100d4371578aa36a01a7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af61470d4a2ed751844ba2adc3f41451b"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="classcore_1_1Tracklet.html">core::Tracklet</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classalgo_1_1TwoStage.html#af61470d4a2ed751844ba2adc3f41451b">ExtractTracks</a> ()</td></tr>
-<tr class="separator:af61470d4a2ed751844ba2adc3f41451b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4e1d9fde2480e607ae532d0dae84d3ea"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="classcore_1_1Tracklet.html">core::Tracklet</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classalgo_1_1TwoStage.html#a4e1d9fde2480e607ae532d0dae84d3ea">ExtractTracks</a> (DirectedGraph tlt_graph)</td></tr>
-<tr class="separator:a4e1d9fde2480e607ae532d0dae84d3ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa2b03f5bc30427ec5d0a7ca703e25e11"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classalgo_1_1TwoStage.html#aa2b03f5bc30427ec5d0a7ca703e25e11">CreateObjectGraph</a> (DirectedGraph &amp;graph, <a class="el" href="classcore_1_1DetectionSequence.html">core::DetectionSequence</a> &amp;detections)</td></tr>
+<tr class="separator:aa2b03f5bc30427ec5d0a7ca703e25e11"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae14cf79859b4275c862d6750b6bc6837"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classalgo_1_1TwoStage.html#ae14cf79859b4275c862d6750b6bc6837">CreateTrackletGraph</a> (DirectedGraph &amp;obj_graph, DirectedGraph &amp;tlt_graph, size_t frame_count)</td></tr>
+<tr class="separator:ae14cf79859b4275c862d6750b6bc6837"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a09168d0ace15d689c9d594ca16b93c38"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classalgo_1_1TwoStage.html#a09168d0ace15d689c9d594ca16b93c38">ExtractTracks</a> (DirectedGraph &amp;tlt_graph, size_t depth, std::vector&lt; core::TrackletPtr &gt; &amp;tracks)</td></tr>
+<tr class="separator:a09168d0ace15d689c9d594ca16b93c38"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Implementation if the two-staged graph-based multi-object tracker. </p>
+<div class="textblock"><p>Implementation of the two-staged graph-based multi-object tracker. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="ae302f9ea93d56155a9dbd0be060500f7"></a>
 <div class="memitem">
@@ -156,54 +152,54 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="add2da8463ae067ace43ab1201725157e"></a>
+<a class="anchor" id="aa2b03f5bc30427ec5d0a7ca703e25e11"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">DirectedGraph algo::TwoStage::CreateObjectGraph </td>
+          <td class="memname">void algo::TwoStage::CreateObjectGraph </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classcore_1_1DetectionSequence.html">core::DetectionSequence</a>&#160;</td>
-          <td class="paramname"><em>detections</em></td><td>)</td>
+          <td class="paramtype">DirectedGraph &amp;&#160;</td>
+          <td class="paramname"><em>graph</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype"><a class="el" href="classcore_1_1DetectionSequence.html">core::DetectionSequence</a> &amp;&#160;</td>
+          <td class="paramname"><em>detections</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 <p>Creates a graph with vertices for every detected object </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramname">graph</td><td>The graph to write into </td></tr>
     <tr><td class="paramname">detections</td><td>The objects to use for the graph </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The created graph containing the object data </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="ae966c3f17aca5fb05d5c90fd89bdf98c"></a>
+<a class="anchor" id="ae14cf79859b4275c862d6750b6bc6837"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">DirectedGraph algo::TwoStage::CreateTrackletGraph </td>
+          <td class="memname">void algo::TwoStage::CreateTrackletGraph </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Reduces the object graph into linked tracklets. The last created graph is used, as well as his frame count. </p>
-
-</div>
-</div>
-<a class="anchor" id="a5f618dde61f100d4371578aa36a01a7c"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">DirectedGraph algo::TwoStage::CreateTrackletGraph </td>
-          <td>(</td>
-          <td class="paramtype">DirectedGraph&#160;</td>
+          <td class="paramtype">DirectedGraph &amp;&#160;</td>
           <td class="paramname"><em>obj_graph</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">DirectedGraph &amp;&#160;</td>
+          <td class="paramname"><em>tlt_graph</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -221,50 +217,51 @@ Public Member Functions</h2></td></tr>
 <p>Reduces the object graph into linked tracklets. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">obj_graph</td><td>The object graph to reduce </td></tr>
+    <tr><td class="paramname">tlt_graph</td><td>The graph to write the tracklets in </td></tr>
     <tr><td class="paramname">frame_count</td><td>The frame count of the object graph </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The created graph containing the tracklet data </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="af61470d4a2ed751844ba2adc3f41451b"></a>
+<a class="anchor" id="a09168d0ace15d689c9d594ca16b93c38"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt; <a class="el" href="classcore_1_1Tracklet.html">core::Tracklet</a> &gt; algo::TwoStage::ExtractTracks </td>
+          <td class="memname">void algo::TwoStage::ExtractTracks </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td class="paramtype">DirectedGraph &amp;&#160;</td>
+          <td class="paramname"><em>tlt_graph</em>, </td>
         </tr>
-      </table>
-</div><div class="memdoc">
-<p>Extracts the finished tracks from the last created tracklet graph. </p><dl class="section return"><dt>Returns</dt><dd>The vector of finished object tracks </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="a4e1d9fde2480e607ae532d0dae84d3ea"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt; <a class="el" href="classcore_1_1Tracklet.html">core::Tracklet</a> &gt; algo::TwoStage::ExtractTracks </td>
-          <td>(</td>
-          <td class="paramtype">DirectedGraph&#160;</td>
-          <td class="paramname"><em>tlt_graph</em></td><td>)</td>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>depth</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; core::TrackletPtr &gt; &amp;&#160;</td>
+          <td class="paramname"><em>tracks</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 <p>Extracts the finished tracks from the given tracklet graph. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">tlt_graph</td><td>The tracklet graph to extract from </td></tr>
+    <tr><td class="paramname">depth</td><td>The depth to flatten the tracklets to </td></tr>
+    <tr><td class="paramname">tracks</td><td>The vector to write the extracted tracks in </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The vector of finished object tracks </dd></dl>
 
 </div>
 </div>

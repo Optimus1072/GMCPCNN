@@ -1,56 +1,180 @@
 //
 // Created by wrede on 19.04.16.
 //
-//
 #include "../core/Definitions.h"
 #include "../core/DetectionSequence.h"
 #include "../util/FileIO.h"
 #include "../util/Parser.h"
 #include "../algo/TwoStage.h"
+#include "../visual/Visualizer.h"
+#include "../util/Logger.h"
+#include "../core/ObjectDataAngular.h"
+#include <boost/program_options.hpp>
 
-int main(void)
+void ReadInput(const std::string& input_file, core::DetectionSequence& sequence,
+               double temporal_weight, double spatial_weight, double angular_weight)
 {
-    //TODO boost command line input
-    //TODO boost config file input
-    std::cout << "Initializing values\n";
-    const char delimiter = ';';
-    const std::string full_file("/home/wrede/Dokumente/tmt_detections.csv");
-    const std::string test_file("/home/wrede/Dokumente/test.csv");
-    const std::string sequence_name("TMT_Detections_Raw");
-    size_t max_frame_skip = 1;
-    double penalty_value = 20.0;
-    size_t max_tracklet_count = 1;
-    std::vector<std::string> keys;
+    util::Logger::LogInfo("Reading input");
+
     core::Vector3d values;
+    util::FileIO::ReadCSV(values, input_file);
+    util::Parser::ParseObjectDataAngular(values, sequence,
+                                         temporal_weight,
+                                         spatial_weight,
+                                         angular_weight);
 
-    keys.push_back("angle");
-    keys.push_back("score");
-    keys.push_back("x");
-    keys.push_back("y");
+    if (util::Logger::IsDebugEnabled())
+    {
+        size_t sequence_object_count = 0;
+        for (size_t i = 0; i < sequence.GetFrameCount(); i++)
+        {
+            sequence_object_count += sequence.GetObjectCount(i);
+        }
+        util::Logger::LogDebug("sequence object count " + std::to_string(sequence_object_count));
+    }
+}
 
-    std::cout << "Initializing sequence\n";
-    core::DetectionSequence sequence(sequence_name);
+struct
+{
+    size_t max_frame_skip;
+    size_t max_tracklet_count;
+    double penalty_value;
+} two_stage_params;
 
-    std::cout << "Reading CSV file\n";
-    util::FileIO::ReadCSV(full_file, delimiter, values);
+void RunTwoStage(core::DetectionSequence& sequence, const std::string& output_file,
+                 const std::string& images_folder, bool display)
+{
+    util::Logger::LogInfo("Running two-stage");
 
-    std::cout << "Parsing data\n";
-    util::Parser::ParseObjectDataMap(keys, values, sequence);
+    algo::TwoStage two_stage(two_stage_params.max_frame_skip,
+                             two_stage_params.penalty_value,
+                             two_stage_params.max_tracklet_count);
 
-    std::cout << "Initializing algorithm\n";
-    algo::TwoStage two_stage(max_frame_skip, penalty_value, max_tracklet_count);
+    // Running the two stage graph algorithm
+    algo::DirectedGraph obj_graph;
+    two_stage.CreateObjectGraph(obj_graph, sequence);
+    algo::DirectedGraph tlt_graph_1;
+    two_stage.CreateTrackletGraph(obj_graph, tlt_graph_1, sequence.GetFrameCount());
+    algo::DirectedGraph tlt_graph_2;
+    two_stage.CreateTrackletGraph(tlt_graph_1, tlt_graph_2, sequence.GetFrameCount());
+    std::vector<core::TrackletPtr> tracks;
+    two_stage.ExtractTracks(tlt_graph_2, 1, tracks);
 
-    std::cout << "Creating object graph\n";
-    two_stage.CreateObjectGraph(sequence);
+    // Interpolate tracks
+    for (auto track : tracks)
+    {
+        track->InterpolateMissingFrames();
+    }
 
-    std::cout << "Creating tracklet graph twice\n";
-    two_stage.CreateTrackletGraph();
-    two_stage.CreateTrackletGraph();
+    // Display the tracking data
+    if (display)
+    {
+        util::Logger::LogInfo("Displaying data");
 
-    std::cout << "Extracting final paths\n";
-    two_stage.ExtractTracks();
+        visual::Visualizer vis;
+        vis.Display(tracks, images_folder);
+    }
 
-    std::cout << "Finished successfully\n" << std::flush;
+    util::Logger::LogInfo("Finished");
+}
+
+void Run(int argc, char** argv)
+{
+    // Algorithm independent values
+    std::string input_file, output_file, images_folder, algorithm;
+    bool display;
+
+    // Input dependent variables
+    double temporal_weight, spatial_weight, angular_weight;
+
+    boost::program_options::options_description opts("Allowed options");
+    opts.add_options()
+            ("help",
+             "produce help message")
+            ("info",
+             "if the program should show progress information")
+            ("debug",
+             "if the program should show debug messages")
+            ("input-file,i",
+             boost::program_options::value<std::string>(&input_file),
+             "set detections file path")
+            ("output-file,o",
+             boost::program_options::value<std::string>(&output_file),
+             "set the output file path")
+            ("algorithm,a",
+             boost::program_options::value<std::string>(&algorithm),
+             "set the algorithm to use, current viable options: two-stage")
+            ("display",
+             "if a window with the images and the detected tracks should be opened")
+            ("images-folder,f",
+             boost::program_options::value<std::string>(&images_folder),
+             "set images folder path")
+            ("max-frame-skip",
+             boost::program_options::value<size_t>(&two_stage_params.max_frame_skip)->default_value(1),
+             "(two stage) set the maximum number of frames a track can skip between two detections")
+            ("max-tracklet-count",
+             boost::program_options::value<size_t>(&two_stage_params.max_tracklet_count)->default_value(1),
+             "(two stage) set the maximum number of tracklets to be extracted")
+            ("penalty-value",
+             boost::program_options::value<double>(&two_stage_params.penalty_value)->default_value(0.0),
+             "(two stage) set the penalty value for edges from and to source and sink")
+            ("temporal-weight",
+             boost::program_options::value<double>(&temporal_weight)->default_value(0.3),
+             "temporal weight for difference calculations between two detections")
+            ("spatial-weight",
+             boost::program_options::value<double>(&spatial_weight)->default_value(0.3),
+             "spatial weight for difference calculations between two detections")
+            ("angular-weight",
+             boost::program_options::value<double>(&angular_weight)->default_value(0.3),
+             "angular weight for difference calculations between two detections");
+
+    boost::program_options::variables_map opt_var_map;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wincompatible-pointer-types-discards-qualifiers"
+    boost::program_options::store(boost::program_options::parse_command_line(argc, argv, opts), opt_var_map);
+#pragma clang diagnostic pop
+    boost::program_options::notify(opt_var_map);
+
+    if (opt_var_map.count("help") != 0)
+    {
+        std::cout << opts << std::endl;
+        exit(0);
+    }
+
+    if (opt_var_map.count("info") != 0)
+    {
+        util::Logger::SetInfo(true);
+        util::Logger::LogInfo("Enabled");
+    }
+
+    if (opt_var_map.count("debug") != 0)
+    {
+        util::Logger::SetDebug(true);
+        util::Logger::LogDebug("Enabled");
+    }
+
+    display = opt_var_map.count("display") != 0;
+
+    core::DetectionSequence sequence;
+
+    ReadInput(input_file, sequence, temporal_weight, spatial_weight, angular_weight);
+
+    if (algorithm == "two-stage")
+    {
+        RunTwoStage(sequence, output_file, images_folder, display);
+    }
+    else
+    {
+        std::cout << opts << std::endl;
+        exit(0);
+    }
+}
+
+int main(int argc, char** argv)
+{
+    Run(argc, argv);
+
+    //TestTracklet();
 
     return 0;
 }

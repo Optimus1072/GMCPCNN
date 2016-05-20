@@ -13,7 +13,7 @@
 namespace algo
 {
     /**
-     * Implementation if the two-staged graph-based multi-object tracker.
+     * Implementation of the two-staged graph-based multi-object tracker.
      */
     class TwoStage
     {
@@ -22,26 +22,16 @@ namespace algo
          * Maximum edge length to link object
          */
         size_t max_frame_skip_;
+
         /**
          * Edge value to link to source and sink
          */
         double penalty_value_;
-        /*
+
+        /**
          * Maximum dijkstra iterations / number of tracklets to create
          */
         size_t max_tracklet_count_;
-        /*
-         * The last created object graph
-         */
-        DirectedGraph obj_graph_;
-        /*
-         * The last created tracklet graph
-         */
-        DirectedGraph tlt_graph_;
-        /**
-         * The frame count of the last read sequence
-         */
-        size_t frame_count_;
     public:
         /**
          * Initializes the algorithm wih the given values.
@@ -54,38 +44,29 @@ namespace algo
 
         /**
          * Creates a graph with vertices for every detected object
+         * @param graph The graph to write into
          * @param detections The objects to use for the graph
-         * @return The created graph containing the object data
          */
-        DirectedGraph CreateObjectGraph(core::DetectionSequence detections);
-
-        /**
-         * Reduces the object graph into linked tracklets.
-         * The last created graph is used, as well as his frame count.
-         *
-         */
-        DirectedGraph CreateTrackletGraph();
+        void CreateObjectGraph(DirectedGraph& graph,
+                               core::DetectionSequence& detections);
 
         /**
          * Reduces the object graph into linked tracklets.
          * @param obj_graph The object graph to reduce
+         * @param tlt_graph The graph to write the tracklets in
          * @param frame_count The frame count of the object graph
-         * @return The created graph containing the tracklet data
          */
-        DirectedGraph CreateTrackletGraph(DirectedGraph obj_graph, size_t frame_count);
-
-        /**
-         * Extracts the finished tracks from the last created tracklet graph.
-         * @return The vector of finished object tracks
-         */
-        std::vector<core::Tracklet> ExtractTracks();
+        void CreateTrackletGraph(DirectedGraph& obj_graph,
+                                 DirectedGraph& tlt_graph, size_t frame_count);
 
         /**
          * Extracts the finished tracks from the given tracklet graph.
          * @param tlt_graph The tracklet graph to extract from
-         * @return The vector of finished object tracks
+         * @param depth The depth to flatten the tracklets to
+         * @param tracks The vector to write the extracted tracks in
          */
-        std::vector<core::Tracklet> ExtractTracks(DirectedGraph tlt_graph);
+        void ExtractTracks(DirectedGraph& tlt_graph, size_t depth,
+                           std::vector<core::TrackletPtr>& tracks);
     };
 }
 

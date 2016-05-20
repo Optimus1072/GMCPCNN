@@ -9,19 +9,18 @@
 #include <boost/graph/properties.hpp>
 #include <boost/graph/graph_traits.hpp>
 #include <boost/graph/adjacency_list.hpp>
+#include "../core/Definitions.h"
 #include "../core/ObjectData.h"
 #include "../core/Tracklet.h"
 
 namespace algo
 {
     //TODO read minimal example
-    //TODO check types (move to core)
     typedef boost::property<boost::edge_weight_t, double> EdgeProp;
-    typedef boost::property<boost::vertex_name_t, core::ObjectData>
+    typedef boost::property<boost::vertex_name_t, core::ObjectDataPtr>
             VertexProp;
     typedef boost::adjacency_list<
-            boost::listS, boost::vecS, boost::directedS,
-            VertexProp, EdgeProp>
+            boost::listS, boost::vecS, boost::directedS, VertexProp, EdgeProp>
             DirectedGraph;
     typedef boost::graph_traits<DirectedGraph>::vertex_descriptor Vertex;
     typedef boost::property_map<DirectedGraph, boost::vertex_index_t>::type

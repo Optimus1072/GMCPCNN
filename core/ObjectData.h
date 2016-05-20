@@ -6,14 +6,15 @@
 #define GBMOT_NODEDATA_H
 
 
+#include "Definitions.h"
 #include <string>
 #include <unordered_map>
 #include <iostream>
+#include <opencv2/core/core.hpp>
 
 namespace core
 {
-    //TODO RENAME
-    //TODO ObjectDataBase / ObjectBase / DataBase / AObject ...
+    //TODO RENAME ObjectDataBase / ObjectBase / DataBase / AObject / DetectionBase ...
     /**
      * Base class for all detected objects.
      * Stores the corresponding frame index.
@@ -25,11 +26,18 @@ namespace core
          * If this node is considered virtual
          */
         bool is_virtual_;
-    protected:
+
         /**
          * The frame the object was detected in
          */
         std::size_t frame_index_;
+
+        /**
+         * The detection score.
+         * Defines the quality of this detection.
+         */
+        double detection_score_;
+
         /**
          * Used in the << operator
          * @param os The stream to write to
@@ -37,7 +45,7 @@ namespace core
         virtual void Print(std::ostream& os) const;
     public:
         /**
-         * Creates a new empty ObjectData (e.g. for virtual objects)
+         * Creates a new empty virtual ObjectData
          */
         ObjectData();
 
@@ -48,28 +56,65 @@ namespace core
         ObjectData(std::size_t frame_index);
 
         /**
-         * Getter for the frame index
+         * Gets the frame index
          * @return The frame index
          */
         std::size_t GetFrameIndex() const;
 
         /**
+         * Sets the frame index
+         * @param index The new frame index
+         */
+        void SetFrameIndex(size_t index);
+
+        /**
+         * Sets the detection score
+         * @param score The detection score
+         */
+        void SetDetectionScore(double score);
+
+        /**
+         * Gets the detection score
+         * @return The detection score
+         */
+        double GetDetectionScore();
+
+        /**
          * Is this node considered a virtual node
-         * @return Whether this node is virtual
+         * @return True, if this node is virtual
          */
         bool IsVirtual() const;
 
-        //TODO RENAME
-        //TODO ObjectDataComparable / IComparable ...
+        //TODO RENAME ObjectDataComparable / IComparable ...
         /**
          * Compares this object with the given object.
          * @param obj A pointer to the object to compare this object to
          * @return A double value indicating the comparison result
          */
-        virtual double CompareTo(ObjectData *obj);
+        virtual double CompareTo(ObjectDataPtr obj) const;
 
         /**
-         * Overrides the << operator for easy output.
+         * Linearly interpolates between this and the given object.
+         * Creates a new object to fit between the two objects.
+         * @param obj A pointer to the target object
+         * @param fraction Describes where the interpolation should
+         *                 be done. A fraction of zero is a clone of this object,
+         *                 a fraction of one is a clone of the target object.
+         * @return The interpolated object
+         */
+        virtual ObjectDataPtr Interpolate(ObjectDataPtr obj, double fraction) const;
+
+        /**
+         * Visualizes the object in the given image with the given color.
+         * This method does nothing, it needs to be overwritten to visualize
+         * something.
+         * @param image The image to write into
+         * @param color The color to use
+         */
+        virtual void Visualize(cv::Mat& image, cv::Scalar& color) const;
+
+        /**
+         * Overrides the << operator for custom output.
          * Calls the print method.
          * @param os The stream to write to
          * @param obj The object to write into the stream

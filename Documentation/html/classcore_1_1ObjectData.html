@@ -89,8 +89,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pro-methods">Protected Member Functions</a> &#124;
-<a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="#friends">Friends</a> &#124;
 <a href="classcore_1_1ObjectData-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -105,8 +103,10 @@ Inheritance diagram for core::ObjectData:</div>
  <div class="center">
   <img src="classcore_1_1ObjectData.png" usemap="#core::ObjectData_map" alt=""/>
   <map id="core::ObjectData_map" name="core::ObjectData_map">
-<area href="classcore_1_1ObjectDataMap.html" alt="core::ObjectDataMap" shape="rect" coords="0,56,132,80"/>
-<area href="classcore_1_1Tracklet.html" alt="core::Tracklet" shape="rect" coords="142,56,274,80"/>
+<area href="classcore_1_1ObjectData3D.html" alt="core::ObjectData3D" shape="rect" coords="0,56,152,80"/>
+<area href="classcore_1_1ObjectDataMap.html" alt="core::ObjectDataMap" shape="rect" coords="162,56,314,80"/>
+<area href="classcore_1_1Tracklet.html" alt="core::Tracklet" shape="rect" coords="324,56,476,80"/>
+<area href="classcore_1_1ObjectDataAngular.html" alt="core::ObjectDataAngular" shape="rect" coords="0,112,152,136"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -118,20 +118,20 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:af4333a52b012841a6ba73b25aeaae71b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1151e9215baf315f4b98f696f4271162"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore_1_1ObjectData.html#a1151e9215baf315f4b98f696f4271162">GetFrameIndex</a> () const</td></tr>
 <tr class="separator:a1151e9215baf315f4b98f696f4271162"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aedfe00fa37d5ac7ef554bda746931148"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore_1_1ObjectData.html#aedfe00fa37d5ac7ef554bda746931148">SetFrameIndex</a> (size_t index)</td></tr>
+<tr class="separator:aedfe00fa37d5ac7ef554bda746931148"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a737216c2689aefa216c1c842922d7dd8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore_1_1ObjectData.html#a737216c2689aefa216c1c842922d7dd8">SetDetectionScore</a> (double score)</td></tr>
+<tr class="separator:a737216c2689aefa216c1c842922d7dd8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae9208bfeee72238e2d635dfab368c09a"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore_1_1ObjectData.html#ae9208bfeee72238e2d635dfab368c09a">GetDetectionScore</a> ()</td></tr>
+<tr class="separator:ae9208bfeee72238e2d635dfab368c09a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2880d710cfa520e9c0453e2a6729c0e2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore_1_1ObjectData.html#a2880d710cfa520e9c0453e2a6729c0e2">IsVirtual</a> () const</td></tr>
 <tr class="separator:a2880d710cfa520e9c0453e2a6729c0e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a01f04d64b1e62f567d819a8fcbe38319"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore_1_1ObjectData.html#a01f04d64b1e62f567d819a8fcbe38319">CompareTo</a> (<a class="el" href="classcore_1_1ObjectData.html">ObjectData</a> *obj)</td></tr>
-<tr class="separator:a01f04d64b1e62f567d819a8fcbe38319"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
-Protected Member Functions</h2></td></tr>
-<tr class="memitem:aa26949b0456068d67802d9f6067aa657"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore_1_1ObjectData.html#aa26949b0456068d67802d9f6067aa657">Print</a> (std::ostream &amp;os) const</td></tr>
-<tr class="separator:aa26949b0456068d67802d9f6067aa657"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
-Protected Attributes</h2></td></tr>
-<tr class="memitem:ade1423dbad9323431d22750121fa59e5"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore_1_1ObjectData.html#ade1423dbad9323431d22750121fa59e5">frame_index_</a></td></tr>
-<tr class="separator:ade1423dbad9323431d22750121fa59e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afbf7a1e87235f1b204d4d2eb8a37a9a6"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore_1_1ObjectData.html#afbf7a1e87235f1b204d4d2eb8a37a9a6">CompareTo</a> (ObjectDataPtr obj) const</td></tr>
+<tr class="separator:afbf7a1e87235f1b204d4d2eb8a37a9a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad681915317decab76c384a635fc8444e"><td class="memItemLeft" align="right" valign="top">virtual ObjectDataPtr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore_1_1ObjectData.html#ad681915317decab76c384a635fc8444e">Interpolate</a> (ObjectDataPtr obj, double fraction) const</td></tr>
+<tr class="separator:ad681915317decab76c384a635fc8444e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aae2c4fceddc529570dbe8909309f9961"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore_1_1ObjectData.html#aae2c4fceddc529570dbe8909309f9961">Visualize</a> (cv::Mat &amp;image, cv::Scalar &amp;color) const</td></tr>
+<tr class="separator:aae2c4fceddc529570dbe8909309f9961"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
 Friends</h2></td></tr>
@@ -153,7 +153,7 @@ Friends</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Creates a new empty <a class="el" href="classcore_1_1ObjectData.html">ObjectData</a> (e.g. for virtual objects) </p>
+<p>Creates a new empty virtual <a class="el" href="classcore_1_1ObjectData.html">ObjectData</a> </p>
 
 </div>
 </div>
@@ -180,7 +180,7 @@ Friends</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a01f04d64b1e62f567d819a8fcbe38319"></a>
+<a class="anchor" id="afbf7a1e87235f1b204d4d2eb8a37a9a6"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -190,9 +190,9 @@ Friends</h2></td></tr>
         <tr>
           <td class="memname">double core::ObjectData::CompareTo </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classcore_1_1ObjectData.html">ObjectData</a> *&#160;</td>
+          <td class="paramtype">ObjectDataPtr&#160;</td>
           <td class="paramname"><em>obj</em></td><td>)</td>
-          <td></td>
+          <td> const</td>
         </tr>
       </table>
   </td>
@@ -209,7 +209,23 @@ Friends</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A double value indicating the comparison result </dd></dl>
 
-<p>Reimplemented in <a class="el" href="classcore_1_1ObjectDataMap.html#ad00d1998652e4d2ffa2629128c9c2947">core::ObjectDataMap</a>, and <a class="el" href="classcore_1_1Tracklet.html#ab45f28ba6abde0944820ac614560ea89">core::Tracklet</a>.</p>
+<p>Reimplemented in <a class="el" href="classcore_1_1ObjectDataMap.html#a7fcc9ef5b684f14d33711348610d9b74">core::ObjectDataMap</a>, <a class="el" href="classcore_1_1Tracklet.html#a0357f2fa173941800571432dcbc96dc2">core::Tracklet</a>, <a class="el" href="classcore_1_1ObjectData3D.html#abef3e4e7a0dc121d8a403d91964be576">core::ObjectData3D</a>, and <a class="el" href="classcore_1_1ObjectDataAngular.html#a2932240c6c082b76f2c04723cdf3e4f9">core::ObjectDataAngular</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae9208bfeee72238e2d635dfab368c09a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double core::ObjectData::GetDetectionScore </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Gets the detection score </p><dl class="section return"><dt>Returns</dt><dd>The detection score </dd></dl>
 
 </div>
 </div>
@@ -225,7 +241,51 @@ Friends</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Getter for the frame index </p><dl class="section return"><dt>Returns</dt><dd>The frame index </dd></dl>
+<p>Gets the frame index </p><dl class="section return"><dt>Returns</dt><dd>The frame index </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ad681915317decab76c384a635fc8444e"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">ObjectDataPtr core::ObjectData::Interpolate </td>
+          <td>(</td>
+          <td class="paramtype">ObjectDataPtr&#160;</td>
+          <td class="paramname"><em>obj</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>fraction</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Linearly interpolates between this and the given object. Creates a new object to fit between the two objects. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">obj</td><td>A pointer to the target object </td></tr>
+    <tr><td class="paramname">fraction</td><td>Describes where the interpolation should be done. A fraction of zero is a clone of this object, a fraction of one is a clone of the target object. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The interpolated object </dd></dl>
+
+<p>Reimplemented in <a class="el" href="classcore_1_1ObjectDataMap.html#ac6a739ea0509371929dbe7cbac601a3e">core::ObjectDataMap</a>, <a class="el" href="classcore_1_1Tracklet.html#a5fb5e6ab9df668c3477e8b52f115b188">core::Tracklet</a>, <a class="el" href="classcore_1_1ObjectData3D.html#ae57a5d8f7a02a403653c82c3b73a73d2">core::ObjectData3D</a>, and <a class="el" href="classcore_1_1ObjectDataAngular.html#a42962dd1f994b2577133450e755d586e">core::ObjectDataAngular</a>.</p>
 
 </div>
 </div>
@@ -241,11 +301,55 @@ Friends</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Is this node considered a virtual node </p><dl class="section return"><dt>Returns</dt><dd>Whether this node is virtual </dd></dl>
+<p>Is this node considered a virtual node </p><dl class="section return"><dt>Returns</dt><dd>True, if this node is virtual </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="aa26949b0456068d67802d9f6067aa657"></a>
+<a class="anchor" id="a737216c2689aefa216c1c842922d7dd8"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void core::ObjectData::SetDetectionScore </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>score</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Sets the detection score </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">score</td><td>The detection score </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="aedfe00fa37d5ac7ef554bda746931148"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void core::ObjectData::SetFrameIndex </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>index</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Sets the frame index </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">index</td><td>The new frame index </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="aae2c4fceddc529570dbe8909309f9961"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -253,27 +357,38 @@ Friends</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void core::ObjectData::Print </td>
+          <td class="memname">void core::ObjectData::Visualize </td>
           <td>(</td>
-          <td class="paramtype">std::ostream &amp;&#160;</td>
-          <td class="paramname"><em>os</em></td><td>)</td>
-          <td> const</td>
+          <td class="paramtype">cv::Mat &amp;&#160;</td>
+          <td class="paramname"><em>image</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">cv::Scalar &amp;&#160;</td>
+          <td class="paramname"><em>color</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Used in the &lt;&lt; operator </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Visualizes the object in the given image with the given color. This method does nothing, it needs to be overwritten to visualize something. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">os</td><td>The stream to write to </td></tr>
+    <tr><td class="paramname">image</td><td>The image to write into </td></tr>
+    <tr><td class="paramname">color</td><td>The color to use </td></tr>
   </table>
   </dd>
 </dl>
 
-<p>Reimplemented in <a class="el" href="classcore_1_1ObjectDataMap.html#a16fbcc2b99feb1545e1a66f828680b1a">core::ObjectDataMap</a>.</p>
+<p>Reimplemented in <a class="el" href="classcore_1_1ObjectDataMap.html#a8a0f71318dd58e0d527a63b904c6afac">core::ObjectDataMap</a>, <a class="el" href="classcore_1_1Tracklet.html#a85f92a4059bf89f24a83f28935675181">core::Tracklet</a>, <a class="el" href="classcore_1_1ObjectData3D.html#a86216fae3dc86f1107eb1b4530b574d2">core::ObjectData3D</a>, and <a class="el" href="classcore_1_1ObjectDataAngular.html#acb4265f6de511238460df118148bc85c">core::ObjectDataAngular</a>.</p>
 
 </div>
 </div>
@@ -309,7 +424,7 @@ Friends</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Overrides the &lt;&lt; operator for easy output. Calls the print method. </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Overrides the &lt;&lt; operator for custom output. Calls the print method. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">os</td><td>The stream to write to </td></tr>
     <tr><td class="paramname">obj</td><td>The object to write into the stream </td></tr>
@@ -317,28 +432,6 @@ Friends</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The stream written to </dd></dl>
-
-</div>
-</div>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a class="anchor" id="ade1423dbad9323431d22750121fa59e5"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::size_t core::ObjectData::frame_index_</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>The frame the object was detected in </p>
 
 </div>
 </div>

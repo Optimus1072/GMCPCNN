@@ -3,12 +3,13 @@
 //
 
 #include "ObjectDataMap.h"
+#include "../util/MyMath.h"
 
 namespace core
 {
     void ObjectDataMap::Print(std::ostream& os) const
     {
-        os << "ObjectDataMap{" << GetFrameIndex();
+        os << "ObjectDataMap{frame:" << GetFrameIndex();
 
         for (auto it = value_weight_map_.begin(); it != value_weight_map_.end(); ++it)
         {
@@ -74,44 +75,67 @@ namespace core
         return value_weight_map_[key].second;
     }
 
-    void ObjectDataMap::PutValueWeight(std::string key, double value,
-                                       double weight)
+    void ObjectDataMap::Put(std::string key, double value,
+                            double weight)
     {
         value_weight_map_[key] = std::make_pair(value, weight);
     }
 
-    void ObjectDataMap::PutValueWeight(std::string key,
-                                       std::pair<double, double> value_weight)
+    void ObjectDataMap::Put(std::string key,
+                            std::pair<double, double> value_weight)
     {
         value_weight_map_[key] = value_weight;
     }
 
-    double ObjectDataMap::CompareTo(ObjectData *obj)
+    double ObjectDataMap::CompareTo(ObjectDataPtr obj) const
     {
-        ObjectDataMap* obj_dm = dynamic_cast<ObjectDataMap*>(obj);
+        ObjectDataMapPtr obj_map = std::static_pointer_cast<ObjectDataMap>(obj);
 
-        if (obj_dm)
-        {
-            return CompareTo(obj_dm);
-        }
-        else
-        {
-            return 0.0;
-        }
-    }
-
-    double ObjectDataMap::CompareTo(ObjectDataMap *obj)
-    {
         double diff = 0.0;
 
         for (auto it = value_weight_map_.begin(); it != value_weight_map_.end(); ++it)
         {
             // |other_value - this_value| * this_weight;
-            diff += fabs(obj->value_weight_map_[it->first].first - it->second.first)
+            diff += fabs(obj_map->value_weight_map_[it->first].first - it->second.first)
                     * it->second.second;
         }
 
         return diff;
+    }
+
+    ObjectDataPtr ObjectDataMap::Interpolate(ObjectDataPtr obj,
+                                          double fraction) const
+    {
+        ObjectDataMapPtr obj_map = std::static_pointer_cast<ObjectDataMap>(obj);
+
+        fraction = util::MyMath::Clamp(0.0, 1.0, fraction);
+
+        double frame_index = util::MyMath::Lerp(GetFrameIndex(),
+                                              obj_map->GetFrameIndex(),
+                                              fraction);
+
+        ObjectDataMapPtr obj_out(new ObjectDataMap(static_cast<size_t>(fabs(frame_index))));
+
+        // Interpolate all values but leave the weights untouched
+        for (auto iter = value_weight_map_.begin();
+             iter != value_weight_map_.end();
+             ++iter)
+        {
+            obj_out->Put(
+                    iter->first,
+                    util::MyMath::Lerp(iter->second.first,
+                                     obj_map->value_weight_map_[iter->first].first,
+                                     fraction),
+                    iter->second.second
+            );
+        }
+
+        return obj_out;
+    }
+
+    void ObjectDataMap::Visualize(cv::Mat& image, cv::Scalar& color) const
+    {
+        ObjectData::Visualize(image, color);
     }
 }
 

@@ -99,15 +99,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:aa92b94ba7a5e0fea0e8c2f801c8d14b8"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1FileIO.html#aa92b94ba7a5e0fea0e8c2f801c8d14b8">ReadCSV</a> (const std::string &amp;filename, const char &amp;delimiter, core::Vector3d &amp;values)</td></tr>
-<tr class="separator:aa92b94ba7a5e0fea0e8c2f801c8d14b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab33278a4ae57c8c5a56b6d80cbc27184"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1FileIO.html#ab33278a4ae57c8c5a56b6d80cbc27184">ReadCSV</a> (const std::string &amp;filename, const char &amp;delimiter, core::Vector2d &amp;values)</td></tr>
-<tr class="separator:ab33278a4ae57c8c5a56b6d80cbc27184"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acfce3977f435f2b024984da05408dfb4"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1FileIO.html#acfce3977f435f2b024984da05408dfb4">ReadCSV</a> (core::Vector3d &amp;values, const std::string &amp;filename, const char &amp;delimiter=';')</td></tr>
+<tr class="separator:acfce3977f435f2b024984da05408dfb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5d145cb872989165f76d00c343170bc5"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1FileIO.html#a5d145cb872989165f76d00c343170bc5">ReadCSV</a> (core::Vector2d &amp;values, const std::string &amp;filename, const char &amp;delimiter=';')</td></tr>
+<tr class="separator:a5d145cb872989165f76d00c343170bc5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Utility class for file in- and output. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="aa92b94ba7a5e0fea0e8c2f801c8d14b8"></a>
+<a class="anchor" id="acfce3977f435f2b024984da05408dfb4"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -117,6 +117,12 @@ Static Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">void util::FileIO::ReadCSV </td>
           <td>(</td>
+          <td class="paramtype">core::Vector3d &amp;&#160;</td>
+          <td class="paramname"><em>values</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>filename</em>, </td>
         </tr>
@@ -124,13 +130,7 @@ Static Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const char &amp;&#160;</td>
-          <td class="paramname"><em>delimiter</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">core::Vector3d &amp;&#160;</td>
-          <td class="paramname"><em>values</em>&#160;</td>
+          <td class="paramname"><em>delimiter</em> = <code>';'</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -146,16 +146,16 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>Reads a CSV file and stores the values in a 3D array. The first dimension is the first value of each row, used as a index to bundle multiple rows with the same first value into a single vector. The second dimension is the row in the row bundle. The third dimension is the value in that row. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramname">values</td><td>The 3D array of values to store the read values in </td></tr>
     <tr><td class="paramname">filename</td><td>The filename to read from </td></tr>
     <tr><td class="paramname">delimiter</td><td>The delimiter used to separate the values in the file </td></tr>
-    <tr><td class="paramname">values</td><td>The 3D array of values to store the read values in </td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a class="anchor" id="ab33278a4ae57c8c5a56b6d80cbc27184"></a>
+<a class="anchor" id="a5d145cb872989165f76d00c343170bc5"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -165,6 +165,12 @@ Static Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">void util::FileIO::ReadCSV </td>
           <td>(</td>
+          <td class="paramtype">core::Vector2d &amp;&#160;</td>
+          <td class="paramname"><em>values</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>filename</em>, </td>
         </tr>
@@ -172,13 +178,7 @@ Static Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const char &amp;&#160;</td>
-          <td class="paramname"><em>delimiter</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">core::Vector2d &amp;&#160;</td>
-          <td class="paramname"><em>values</em>&#160;</td>
+          <td class="paramname"><em>delimiter</em> = <code>';'</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -194,9 +194,9 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>Reads a CSV file and stores the values in a 2D array. The first dimension is the row and the second the value in that row. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramname">values</td><td>The 2D array of values to store the read values in </td></tr>
     <tr><td class="paramname">filename</td><td>The filename to read from </td></tr>
     <tr><td class="paramname">delimiter</td><td>The delimiter used to separate the values in the file </td></tr>
-    <tr><td class="paramname">values</td><td>The 2D array of values to store the read values in </td></tr>
   </table>
   </dd>
 </dl>

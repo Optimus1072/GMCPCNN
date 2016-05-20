@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['objectdata',['ObjectData',['../classcore_1_1ObjectData.html',1,'core']]],
-  ['objectdatamap',['ObjectDataMap',['../classcore_1_1ObjectDataMap.html',1,'core']]]
+  ['logger',['Logger',['../classutil_1_1Logger.html',1,'util']]]
 ];

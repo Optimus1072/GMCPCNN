@@ -1,5 +1,7 @@
 var searchData=
 [
-  ['tracklet',['Tracklet',['../classcore_1_1Tracklet.html',1,'core']]],
-  ['twostage',['TwoStage',['../classalgo_1_1TwoStage.html',1,'algo']]]
+  ['objectdata',['ObjectData',['../classcore_1_1ObjectData.html',1,'core']]],
+  ['objectdata3d',['ObjectData3D',['../classcore_1_1ObjectData3D.html',1,'core']]],
+  ['objectdataangular',['ObjectDataAngular',['../classcore_1_1ObjectDataAngular.html',1,'core']]],
+  ['objectdatamap',['ObjectDataMap',['../classcore_1_1ObjectDataMap.html',1,'core']]]
 ];

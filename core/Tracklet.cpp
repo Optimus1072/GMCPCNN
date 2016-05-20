@@ -6,73 +6,157 @@
 
 namespace core
 {
-    Tracklet::Tracklet() : ObjectData(0)
+    void Tracklet::Print(std::ostream& os) const
     {
-        path_objects_ = std::vector<ObjectData>();
+        os << "Tracklet{\n";
+        for (auto obj : path_objects_)
+        {
+            os << *obj << std::endl;
+        }
+        os << "}";
+    }
+
+    Tracklet::Tracklet()
+            : ObjectData(0)
+    {
+        path_objects_ = std::vector<ObjectDataPtr>();
         last_frame_index_ = 0;
     }
 
-    Tracklet::Tracklet(ObjectData first_object)
-            : ObjectData(first_object.GetFrameIndex())
+    size_t Tracklet::GetFirstFrameIndex() const
     {
-        path_objects_ = std::vector<ObjectData>();
-        path_objects_.push_back(first_object);
-
-        last_frame_index_ = first_object.GetFrameIndex();
+        return GetFrameIndex();
     }
 
-    size_t Tracklet::GetFirstFrameIndex()
-    {
-        return frame_index_;
-    }
-
-    size_t Tracklet::GetLastFrameIndex()
+    size_t Tracklet::GetLastFrameIndex() const
     {
         return last_frame_index_;
     }
 
-    ObjectData Tracklet::GetPathObject(size_t i)
+    void Tracklet::AddPathObject(ObjectDataPtr obj, bool overwrite)
+    {
+        if (!obj->IsVirtual())
+        {
+            bool inserted = false;
+
+            if (!path_objects_.empty())
+            {
+                for (auto iter = path_objects_.begin();
+                     iter != path_objects_.end() && !inserted;
+                     ++iter)
+                {
+                    if ((*iter)->GetFrameIndex() == obj->GetFrameIndex())
+                    {
+                        if (overwrite)
+                        {
+                            iter = path_objects_.erase(iter);
+                            iter = path_objects_.insert(iter, obj);
+                        }
+                        inserted = true;
+                    }
+                    else if ((*iter)->GetFrameIndex() > obj->GetFrameIndex())
+                    {
+                        iter = path_objects_.insert(iter, obj);
+                        inserted = true;
+                    }
+                }
+            }
+
+            if (!inserted)
+            {
+                path_objects_.push_back(obj);
+            }
+
+            SetFrameIndex(path_objects_.front()->GetFrameIndex());
+            last_frame_index_ = path_objects_.back()->GetFrameIndex();
+        }
+    }
+
+    ObjectDataPtr Tracklet::GetPathObject(size_t i)
     {
         return path_objects_[i];
     }
 
-    void Tracklet::AddPathObjectFirst(ObjectData obj)
+    double Tracklet::CompareTo(ObjectDataPtr obj) const
     {
-        if (!obj.IsVirtual())
-        {
-            path_objects_.insert(path_objects_.begin(), obj);
+        TrackletPtr tlt = std::static_pointer_cast<Tracklet>(obj);
+        return path_objects_[path_objects_.size() - 1]->CompareTo(tlt->path_objects_[0]);
+    }
 
-            if (obj.GetFrameIndex() < frame_index_)
+    ObjectDataPtr Tracklet::Interpolate(ObjectDataPtr obj, double fraction) const
+    {
+        TrackletPtr tlt = std::static_pointer_cast<Tracklet>(obj);
+
+        return path_objects_[path_objects_.size() - 1]->Interpolate(tlt->path_objects_[0], fraction);
+    }
+
+    void Tracklet::Visualize(cv::Mat& image, cv::Scalar& color) const
+    {
+        for (auto obj : path_objects_)
+        {
+            obj->Visualize(image, color);
+        }
+    }
+
+    void Tracklet::Visualize(cv::Mat& image, cv::Scalar& color, size_t frame,
+                             size_t predecessor_count, size_t successor_count) const
+    {
+        size_t start = (frame - predecessor_count > GetFirstFrameIndex()) ?
+                       frame - predecessor_count : GetFirstFrameIndex();
+        size_t end = (frame + successor_count < GetLastFrameIndex()) ?
+                     frame + successor_count : GetLastFrameIndex();
+
+//        util::Logger::LogDebug("tracklet frame range: " + std::to_string(GetFirstFrameIndex()) + "-" + std::to_string(GetLastFrameIndex()));
+//        util::Logger::LogDebug("tracklet visualize frames: " + std::to_string(start) + "-" + std::to_string(end));
+
+        for (auto obj : path_objects_)
+        {
+            if (obj->GetFrameIndex() >= start && obj->GetFrameIndex() <= end)
             {
-                frame_index_ = obj.GetFrameIndex();
-            }
-            else if (obj.GetFrameIndex() > last_frame_index_)
-            {
-                last_frame_index_ = obj.GetFrameIndex();
+                obj->Visualize(image, color);
             }
         }
     }
 
-    void Tracklet::AddPathObjectLast(ObjectData obj)
+    void Tracklet::InterpolateMissingFrames()
     {
-        if (!obj.IsVirtual())
+        for (size_t i = 1; i < path_objects_.size(); ++i)
         {
-            path_objects_.push_back(obj);
-
-            if (obj.GetFrameIndex() > last_frame_index_)
+            size_t gap = path_objects_[i]->GetFrameIndex() - path_objects_[i - 1]->GetFrameIndex();
+            if (gap > 1)
             {
-                last_frame_index_ = obj.GetFrameIndex();
-            }
-            else if (obj.GetFrameIndex() < frame_index_)
-            {
-                frame_index_ = obj.GetFrameIndex();
+                path_objects_.insert(path_objects_.begin() + i,
+                                     path_objects_[i - 1]->Interpolate(path_objects_[i],
+                                                                       0.5));
+                --i;
             }
         }
     }
 
-    double Tracklet::CompareTo(ObjectData *obj)
+    size_t Tracklet::GetPathObjectCount() const
     {
-        return 0.0;
+        return path_objects_.size();
+    }
+
+    void Tracklet::Flatten()
+    {
+        std::vector<ObjectDataPtr> new_path_objects;
+
+        for (auto obj : path_objects_)
+        {
+            core::TrackletPtr tlt =
+                    std::static_pointer_cast<core::Tracklet>(obj);
+
+            for (auto intern_obj : tlt->path_objects_)
+            {
+                new_path_objects.push_back(intern_obj);
+            }
+        }
+
+        path_objects_ = new_path_objects;
+
+        SetFrameIndex(path_objects_.front()->GetFrameIndex());
+        last_frame_index_ = path_objects_.back()->GetFrameIndex();
     }
 }
 

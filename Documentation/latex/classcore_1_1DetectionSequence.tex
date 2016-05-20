@@ -7,24 +7,19 @@
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hyperlink{classcore_1_1DetectionSequence_ad2183e28df5cb27883d396dfa3b40b6a}{Detection\+Sequence} (std\+::string name)
+\hyperlink{classcore_1_1DetectionSequence_a2cbdc8db34fe87932653826fc8a3c1f7}{Detection\+Sequence} (const std\+::string \&name=\char`\"{}Detection\+Sequence\char`\"{})
 \item 
-void \hyperlink{classcore_1_1DetectionSequence_a933757fe1f1093ac4be0d9be9a79d394}{Add\+Object} (\hyperlink{classcore_1_1ObjectData}{Object\+Data} object\+\_\+data)
+void \hyperlink{classcore_1_1DetectionSequence_a3cc0fdf3281f34985f4762086293db72}{Add\+Object} (Object\+Data\+Ptr object\+\_\+data)
 \item 
 void \hyperlink{classcore_1_1DetectionSequence_ab62569a3e51d58457057deba12ef6892}{Clear} ()
 \item 
 std\+::string \hyperlink{classcore_1_1DetectionSequence_a8a1af3dee89766d06f4a4f74044082ad}{Get\+Name} () const
 \item 
-\hyperlink{classcore_1_1ObjectData}{Object\+Data} \hyperlink{classcore_1_1DetectionSequence_a8d562d3ea68249306825655efc703ee1}{Get\+Object} (size\+\_\+t frame\+\_\+index, size\+\_\+t object\+\_\+index)
+Object\+Data\+Ptr \hyperlink{classcore_1_1DetectionSequence_aab2b72c6e0a9ee14dba99d07116c1d86}{Get\+Object} (size\+\_\+t frame\+\_\+index, size\+\_\+t object\+\_\+index) const
 \item 
 size\+\_\+t \hyperlink{classcore_1_1DetectionSequence_a2417e4f2652a39245d6f2faa0ce19571}{Get\+Frame\+Count} () const
 \item 
 size\+\_\+t \hyperlink{classcore_1_1DetectionSequence_a99a1b693215c386c4716df12f6040100}{Get\+Object\+Count} (size\+\_\+t frame\+\_\+index) const
-\end{DoxyCompactItemize}
-\subsection*{Protected Member Functions}
-\begin{DoxyCompactItemize}
-\item 
-virtual void \hyperlink{classcore_1_1DetectionSequence_ad8e771ebdcfe84a91da5eb71cb98a410}{Print} (std\+::ostream \&os) const
 \end{DoxyCompactItemize}
 \subsection*{Friends}
 \begin{DoxyCompactItemize}
@@ -39,11 +34,11 @@ Class for storing a full sequence of frame, each with multiple detected objects.
 \subsection{Constructor \& Destructor Documentation}
 \index{core\+::\+Detection\+Sequence@{core\+::\+Detection\+Sequence}!Detection\+Sequence@{Detection\+Sequence}}
 \index{Detection\+Sequence@{Detection\+Sequence}!core\+::\+Detection\+Sequence@{core\+::\+Detection\+Sequence}}
-\subsubsection[{\texorpdfstring{Detection\+Sequence(std\+::string name)}{DetectionSequence(std::string name)}}]{\setlength{\rightskip}{0pt plus 5cm}core\+::\+Detection\+Sequence\+::\+Detection\+Sequence (
+\subsubsection[{\texorpdfstring{Detection\+Sequence(const std\+::string \&name=""Detection\+Sequence"")}{DetectionSequence(const std::string \&name="DetectionSequence")}}]{\setlength{\rightskip}{0pt plus 5cm}core\+::\+Detection\+Sequence\+::\+Detection\+Sequence (
 \begin{DoxyParamCaption}
-\item[{std\+::string}]{name}
+\item[{const std\+::string \&}]{name = {\ttfamily \char`\"{}DetectionSequence\char`\"{}}}
 \end{DoxyParamCaption}
-)}\hypertarget{classcore_1_1DetectionSequence_ad2183e28df5cb27883d396dfa3b40b6a}{}\label{classcore_1_1DetectionSequence_ad2183e28df5cb27883d396dfa3b40b6a}
+)}\hypertarget{classcore_1_1DetectionSequence_a2cbdc8db34fe87932653826fc8a3c1f7}{}\label{classcore_1_1DetectionSequence_a2cbdc8db34fe87932653826fc8a3c1f7}
 Creates a detection sequence with the given name. 
 \begin{DoxyParams}{Parameters}
 {\em name} & The name of this sequence \\
@@ -54,11 +49,11 @@ Creates a detection sequence with the given name.
 \subsection{Member Function Documentation}
 \index{core\+::\+Detection\+Sequence@{core\+::\+Detection\+Sequence}!Add\+Object@{Add\+Object}}
 \index{Add\+Object@{Add\+Object}!core\+::\+Detection\+Sequence@{core\+::\+Detection\+Sequence}}
-\subsubsection[{\texorpdfstring{Add\+Object(\+Object\+Data object\+\_\+data)}{AddObject(ObjectData object\_data)}}]{\setlength{\rightskip}{0pt plus 5cm}void core\+::\+Detection\+Sequence\+::\+Add\+Object (
+\subsubsection[{\texorpdfstring{Add\+Object(\+Object\+Data\+Ptr object\+\_\+data)}{AddObject(ObjectDataPtr object\_data)}}]{\setlength{\rightskip}{0pt plus 5cm}void core\+::\+Detection\+Sequence\+::\+Add\+Object (
 \begin{DoxyParamCaption}
-\item[{{\bf Object\+Data}}]{object\+\_\+data}
+\item[{Object\+Data\+Ptr}]{object\+\_\+data}
 \end{DoxyParamCaption}
-)}\hypertarget{classcore_1_1DetectionSequence_a933757fe1f1093ac4be0d9be9a79d394}{}\label{classcore_1_1DetectionSequence_a933757fe1f1093ac4be0d9be9a79d394}
+)}\hypertarget{classcore_1_1DetectionSequence_a3cc0fdf3281f34985f4762086293db72}{}\label{classcore_1_1DetectionSequence_a3cc0fdf3281f34985f4762086293db72}
 Adds a new object, creates a new frame vector if the given objects frame index is greater than the current frame vector size. 
 \begin{DoxyParams}{Parameters}
 {\em object\+\_\+data} & The object to add \\
@@ -93,19 +88,22 @@ The name
 \end{DoxyReturn}
 \index{core\+::\+Detection\+Sequence@{core\+::\+Detection\+Sequence}!Get\+Object@{Get\+Object}}
 \index{Get\+Object@{Get\+Object}!core\+::\+Detection\+Sequence@{core\+::\+Detection\+Sequence}}
-\subsubsection[{\texorpdfstring{Get\+Object(size\+\_\+t frame\+\_\+index, size\+\_\+t object\+\_\+index)}{GetObject(size\_t frame\_index, size\_t object\_index)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Object\+Data} core\+::\+Detection\+Sequence\+::\+Get\+Object (
+\subsubsection[{\texorpdfstring{Get\+Object(size\+\_\+t frame\+\_\+index, size\+\_\+t object\+\_\+index) const}{GetObject(size\_t frame\_index, size\_t object\_index) const}}]{\setlength{\rightskip}{0pt plus 5cm}Object\+Data\+Ptr core\+::\+Detection\+Sequence\+::\+Get\+Object (
 \begin{DoxyParamCaption}
 \item[{size\+\_\+t}]{frame\+\_\+index, }
 \item[{size\+\_\+t}]{object\+\_\+index}
 \end{DoxyParamCaption}
-)}\hypertarget{classcore_1_1DetectionSequence_a8d562d3ea68249306825655efc703ee1}{}\label{classcore_1_1DetectionSequence_a8d562d3ea68249306825655efc703ee1}
-Gets the object in the given frame with the given index. 
+) const}\hypertarget{classcore_1_1DetectionSequence_aab2b72c6e0a9ee14dba99d07116c1d86}{}\label{classcore_1_1DetectionSequence_aab2b72c6e0a9ee14dba99d07116c1d86}
+Gets a pointer to the object in the given frame with the given index. 
 \begin{DoxyParams}{Parameters}
 {\em frame\+\_\+index} & The frame to get the object from \\
 \hline
 {\em object\+\_\+index} & The objects index in the corresponding frame \\
 \hline
 \end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A pointer to the stored object data 
+\end{DoxyReturn}
 \index{core\+::\+Detection\+Sequence@{core\+::\+Detection\+Sequence}!Get\+Object\+Count@{Get\+Object\+Count}}
 \index{Get\+Object\+Count@{Get\+Object\+Count}!core\+::\+Detection\+Sequence@{core\+::\+Detection\+Sequence}}
 \subsubsection[{\texorpdfstring{Get\+Object\+Count(size\+\_\+t frame\+\_\+index) const}{GetObjectCount(size\_t frame\_index) const}}]{\setlength{\rightskip}{0pt plus 5cm}size\+\_\+t core\+::\+Detection\+Sequence\+::\+Get\+Object\+Count (
@@ -119,20 +117,8 @@ Gets the object count in the given frame.
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-The number of object in this frame 
+The number of objects in this frame 
 \end{DoxyReturn}
-\index{core\+::\+Detection\+Sequence@{core\+::\+Detection\+Sequence}!Print@{Print}}
-\index{Print@{Print}!core\+::\+Detection\+Sequence@{core\+::\+Detection\+Sequence}}
-\subsubsection[{\texorpdfstring{Print(std\+::ostream \&os) const}{Print(std::ostream \&os) const}}]{\setlength{\rightskip}{0pt plus 5cm}void core\+::\+Detection\+Sequence\+::\+Print (
-\begin{DoxyParamCaption}
-\item[{std\+::ostream \&}]{os}
-\end{DoxyParamCaption}
-) const\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}\hypertarget{classcore_1_1DetectionSequence_ad8e771ebdcfe84a91da5eb71cb98a410}{}\label{classcore_1_1DetectionSequence_ad8e771ebdcfe84a91da5eb71cb98a410}
-Used in the $<$$<$ operator 
-\begin{DoxyParams}{Parameters}
-{\em os} & The stream to write to \\
-\hline
-\end{DoxyParams}
 
 
 \subsection{Friends And Related Function Documentation}
@@ -144,7 +130,7 @@ Used in the $<$$<$ operator
 \item[{const {\bf Detection\+Sequence} \&}]{obj}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [friend]}}\hypertarget{classcore_1_1DetectionSequence_a557132cfbb170daf47f5a890a0c5bac0}{}\label{classcore_1_1DetectionSequence_a557132cfbb170daf47f5a890a0c5bac0}
-Overrides the $<$$<$ operator for easy output. Calls the print method. 
+Overrides the $<$$<$ operator for easy output. 
 \begin{DoxyParams}{Parameters}
 {\em os} & The stream to write to \\
 \hline
