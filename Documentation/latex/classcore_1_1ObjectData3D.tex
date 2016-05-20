@@ -1,0 +1,189 @@
+\hypertarget{classcore_1_1ObjectData3D}{}\section{core\+:\+:Object\+Data3D Class Reference}
+\label{classcore_1_1ObjectData3D}\index{core\+::\+Object\+Data3D@{core\+::\+Object\+Data3D}}
+
+
+{\ttfamily \#include $<$Object\+Data3\+D.\+h$>$}
+
+Inheritance diagram for core\+:\+:Object\+Data3D\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classcore_1_1ObjectData3D}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classcore_1_1ObjectData3D_a47c967cffcbd109f1366069958a71699}{Object\+Data3D} (size\+\_\+t frame\+\_\+index, cv\+::\+Point3d position)
+\item 
+void \hyperlink{classcore_1_1ObjectData3D_a05eafbd4d963ef14b1068ab5a3818597}{Set\+Temporal\+Weight} (double weight)
+\item 
+void \hyperlink{classcore_1_1ObjectData3D_a94d4c0d90d4e0999eb2b339d37069cd6}{Set\+Spatial\+Weight} (double weight)
+\item 
+cv\+::\+Point3d \hyperlink{classcore_1_1ObjectData3D_a0f4a0dca51eb50fdc5baf9714c4a64f6}{Get\+Position} () const
+\item 
+double \hyperlink{classcore_1_1ObjectData3D_a155e3f4dd2a6adb5d32b61f224092d4b}{Get\+Temporal\+Weight} () const
+\item 
+double \hyperlink{classcore_1_1ObjectData3D_a896607721c9d12b2e2425fe927f06d6f}{Get\+Spatial\+Weight} () const
+\item 
+virtual double \hyperlink{classcore_1_1ObjectData3D_abef3e4e7a0dc121d8a403d91964be576}{Compare\+To} (Object\+Data\+Ptr obj) const override
+\item 
+virtual Object\+Data\+Ptr \hyperlink{classcore_1_1ObjectData3D_ae57a5d8f7a02a403653c82c3b73a73d2}{Interpolate} (Object\+Data\+Ptr obj, double fraction) const override
+\item 
+virtual void \hyperlink{classcore_1_1ObjectData3D_a86216fae3dc86f1107eb1b4530b574d2}{Visualize} (cv\+::\+Mat \&image, cv\+::\+Scalar \&color) const override
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Class for storing a detection in three dimensional space. 
+
+\subsection{Constructor \& Destructor Documentation}
+\index{core\+::\+Object\+Data3D@{core\+::\+Object\+Data3D}!Object\+Data3D@{Object\+Data3D}}
+\index{Object\+Data3D@{Object\+Data3D}!core\+::\+Object\+Data3D@{core\+::\+Object\+Data3D}}
+\subsubsection[{\texorpdfstring{Object\+Data3\+D(size\+\_\+t frame\+\_\+index, cv\+::\+Point3d position)}{ObjectData3D(size\_t frame\_index, cv::Point3d position)}}]{\setlength{\rightskip}{0pt plus 5cm}core\+::\+Object\+Data3\+D\+::\+Object\+Data3D (
+\begin{DoxyParamCaption}
+\item[{size\+\_\+t}]{frame\+\_\+index, }
+\item[{cv\+::\+Point3d}]{position}
+\end{DoxyParamCaption}
+)}\hypertarget{classcore_1_1ObjectData3D_a47c967cffcbd109f1366069958a71699}{}\label{classcore_1_1ObjectData3D_a47c967cffcbd109f1366069958a71699}
+Creates a new detection with the given index and position. 
+\begin{DoxyParams}{Parameters}
+{\em frame\+\_\+index} & The frame index \\
+\hline
+{\em position} & The position in three dimensional space \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\index{core\+::\+Object\+Data3D@{core\+::\+Object\+Data3D}!Compare\+To@{Compare\+To}}
+\index{Compare\+To@{Compare\+To}!core\+::\+Object\+Data3D@{core\+::\+Object\+Data3D}}
+\subsubsection[{\texorpdfstring{Compare\+To(\+Object\+Data\+Ptr obj) const override}{CompareTo(ObjectDataPtr obj) const override}}]{\setlength{\rightskip}{0pt plus 5cm}double core\+::\+Object\+Data3\+D\+::\+Compare\+To (
+\begin{DoxyParamCaption}
+\item[{Object\+Data\+Ptr}]{obj}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}\hypertarget{classcore_1_1ObjectData3D_abef3e4e7a0dc121d8a403d91964be576}{}\label{classcore_1_1ObjectData3D_abef3e4e7a0dc121d8a403d91964be576}
+Compares this object with the given object. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & A pointer to the object to compare this object to \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A double value indicating the comparison result 
+\end{DoxyReturn}
+
+
+Reimplemented from \hyperlink{classcore_1_1ObjectData_afbf7a1e87235f1b204d4d2eb8a37a9a6}{core\+::\+Object\+Data}.
+
+
+
+Reimplemented in \hyperlink{classcore_1_1ObjectDataAngular_a2932240c6c082b76f2c04723cdf3e4f9}{core\+::\+Object\+Data\+Angular}.
+
+\index{core\+::\+Object\+Data3D@{core\+::\+Object\+Data3D}!Get\+Position@{Get\+Position}}
+\index{Get\+Position@{Get\+Position}!core\+::\+Object\+Data3D@{core\+::\+Object\+Data3D}}
+\subsubsection[{\texorpdfstring{Get\+Position() const}{GetPosition() const}}]{\setlength{\rightskip}{0pt plus 5cm}cv\+::\+Point3d core\+::\+Object\+Data3\+D\+::\+Get\+Position (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{classcore_1_1ObjectData3D_a0f4a0dca51eb50fdc5baf9714c4a64f6}{}\label{classcore_1_1ObjectData3D_a0f4a0dca51eb50fdc5baf9714c4a64f6}
+Gets the position in three dimensional space. \begin{DoxyReturn}{Returns}
+The position 
+\end{DoxyReturn}
+\index{core\+::\+Object\+Data3D@{core\+::\+Object\+Data3D}!Get\+Spatial\+Weight@{Get\+Spatial\+Weight}}
+\index{Get\+Spatial\+Weight@{Get\+Spatial\+Weight}!core\+::\+Object\+Data3D@{core\+::\+Object\+Data3D}}
+\subsubsection[{\texorpdfstring{Get\+Spatial\+Weight() const}{GetSpatialWeight() const}}]{\setlength{\rightskip}{0pt plus 5cm}double core\+::\+Object\+Data3\+D\+::\+Get\+Spatial\+Weight (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{classcore_1_1ObjectData3D_a896607721c9d12b2e2425fe927f06d6f}{}\label{classcore_1_1ObjectData3D_a896607721c9d12b2e2425fe927f06d6f}
+Gets the spatial weight \begin{DoxyReturn}{Returns}
+The spatial weight 
+\end{DoxyReturn}
+\index{core\+::\+Object\+Data3D@{core\+::\+Object\+Data3D}!Get\+Temporal\+Weight@{Get\+Temporal\+Weight}}
+\index{Get\+Temporal\+Weight@{Get\+Temporal\+Weight}!core\+::\+Object\+Data3D@{core\+::\+Object\+Data3D}}
+\subsubsection[{\texorpdfstring{Get\+Temporal\+Weight() const}{GetTemporalWeight() const}}]{\setlength{\rightskip}{0pt plus 5cm}double core\+::\+Object\+Data3\+D\+::\+Get\+Temporal\+Weight (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{classcore_1_1ObjectData3D_a155e3f4dd2a6adb5d32b61f224092d4b}{}\label{classcore_1_1ObjectData3D_a155e3f4dd2a6adb5d32b61f224092d4b}
+Gets the temporal weight. \begin{DoxyReturn}{Returns}
+The temporal weight 
+\end{DoxyReturn}
+\index{core\+::\+Object\+Data3D@{core\+::\+Object\+Data3D}!Interpolate@{Interpolate}}
+\index{Interpolate@{Interpolate}!core\+::\+Object\+Data3D@{core\+::\+Object\+Data3D}}
+\subsubsection[{\texorpdfstring{Interpolate(\+Object\+Data\+Ptr obj, double fraction) const override}{Interpolate(ObjectDataPtr obj, double fraction) const override}}]{\setlength{\rightskip}{0pt plus 5cm}Object\+Data\+Ptr core\+::\+Object\+Data3\+D\+::\+Interpolate (
+\begin{DoxyParamCaption}
+\item[{Object\+Data\+Ptr}]{obj, }
+\item[{double}]{fraction}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}\hypertarget{classcore_1_1ObjectData3D_ae57a5d8f7a02a403653c82c3b73a73d2}{}\label{classcore_1_1ObjectData3D_ae57a5d8f7a02a403653c82c3b73a73d2}
+Linearly interpolates between this and the given object. Creates a new object to fit between the two objects. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & A pointer to the target object \\
+\hline
+{\em fraction} & Describes where the interpolation should be done. A fraction of zero is a clone of this object, a fraction of one is a clone of the target object. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The interpolated object 
+\end{DoxyReturn}
+
+
+Reimplemented from \hyperlink{classcore_1_1ObjectData_ad681915317decab76c384a635fc8444e}{core\+::\+Object\+Data}.
+
+
+
+Reimplemented in \hyperlink{classcore_1_1ObjectDataAngular_a42962dd1f994b2577133450e755d586e}{core\+::\+Object\+Data\+Angular}.
+
+\index{core\+::\+Object\+Data3D@{core\+::\+Object\+Data3D}!Set\+Spatial\+Weight@{Set\+Spatial\+Weight}}
+\index{Set\+Spatial\+Weight@{Set\+Spatial\+Weight}!core\+::\+Object\+Data3D@{core\+::\+Object\+Data3D}}
+\subsubsection[{\texorpdfstring{Set\+Spatial\+Weight(double weight)}{SetSpatialWeight(double weight)}}]{\setlength{\rightskip}{0pt plus 5cm}void core\+::\+Object\+Data3\+D\+::\+Set\+Spatial\+Weight (
+\begin{DoxyParamCaption}
+\item[{double}]{weight}
+\end{DoxyParamCaption}
+)}\hypertarget{classcore_1_1ObjectData3D_a94d4c0d90d4e0999eb2b339d37069cd6}{}\label{classcore_1_1ObjectData3D_a94d4c0d90d4e0999eb2b339d37069cd6}
+Sets the spatial weight 
+\begin{DoxyParams}{Parameters}
+{\em weight} & The spatial weight \\
+\hline
+\end{DoxyParams}
+\index{core\+::\+Object\+Data3D@{core\+::\+Object\+Data3D}!Set\+Temporal\+Weight@{Set\+Temporal\+Weight}}
+\index{Set\+Temporal\+Weight@{Set\+Temporal\+Weight}!core\+::\+Object\+Data3D@{core\+::\+Object\+Data3D}}
+\subsubsection[{\texorpdfstring{Set\+Temporal\+Weight(double weight)}{SetTemporalWeight(double weight)}}]{\setlength{\rightskip}{0pt plus 5cm}void core\+::\+Object\+Data3\+D\+::\+Set\+Temporal\+Weight (
+\begin{DoxyParamCaption}
+\item[{double}]{weight}
+\end{DoxyParamCaption}
+)}\hypertarget{classcore_1_1ObjectData3D_a05eafbd4d963ef14b1068ab5a3818597}{}\label{classcore_1_1ObjectData3D_a05eafbd4d963ef14b1068ab5a3818597}
+Sets the temporal weight. 
+\begin{DoxyParams}{Parameters}
+{\em weight} & The temporal weight \\
+\hline
+\end{DoxyParams}
+\index{core\+::\+Object\+Data3D@{core\+::\+Object\+Data3D}!Visualize@{Visualize}}
+\index{Visualize@{Visualize}!core\+::\+Object\+Data3D@{core\+::\+Object\+Data3D}}
+\subsubsection[{\texorpdfstring{Visualize(cv\+::\+Mat \&image, cv\+::\+Scalar \&color) const override}{Visualize(cv::Mat \&image, cv::Scalar \&color) const override}}]{\setlength{\rightskip}{0pt plus 5cm}void core\+::\+Object\+Data3\+D\+::\+Visualize (
+\begin{DoxyParamCaption}
+\item[{cv\+::\+Mat \&}]{image, }
+\item[{cv\+::\+Scalar \&}]{color}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}\hypertarget{classcore_1_1ObjectData3D_a86216fae3dc86f1107eb1b4530b574d2}{}\label{classcore_1_1ObjectData3D_a86216fae3dc86f1107eb1b4530b574d2}
+Visualizes the object in the given image with the given color. This method does nothing, it needs to be overwritten to visualize something. 
+\begin{DoxyParams}{Parameters}
+{\em image} & The image to write into \\
+\hline
+{\em color} & The color to use \\
+\hline
+\end{DoxyParams}
+
+
+Reimplemented from \hyperlink{classcore_1_1ObjectData_aae2c4fceddc529570dbe8909309f9961}{core\+::\+Object\+Data}.
+
+
+
+Reimplemented in \hyperlink{classcore_1_1ObjectDataAngular_acb4265f6de511238460df118148bc85c}{core\+::\+Object\+Data\+Angular}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+core/Object\+Data3\+D.\+h\item 
+core/Object\+Data3\+D.\+cpp\end{DoxyCompactItemize}

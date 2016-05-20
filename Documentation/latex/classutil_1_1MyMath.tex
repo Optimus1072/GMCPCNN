@@ -1,0 +1,110 @@
+\hypertarget{classutil_1_1MyMath}{}\section{util\+:\+:My\+Math Class Reference}
+\label{classutil_1_1MyMath}\index{util\+::\+My\+Math@{util\+::\+My\+Math}}
+
+
+{\ttfamily \#include $<$My\+Math.\+h$>$}
+
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static double \hyperlink{classutil_1_1MyMath_a367a261dc52a85cc97ba376799ed13a3}{Clamp} (double min, double max, double value)
+\item 
+static double \hyperlink{classutil_1_1MyMath_ae68f361889a9929767b0c85ad7a010f1}{Lerp} (double a, double b, double value)
+\item 
+static double \hyperlink{classutil_1_1MyMath_a789c283b324494ab50955af1e35178d5}{Inverse\+Lerp} (double a, double b, double value)
+\item 
+static double \hyperlink{classutil_1_1MyMath_abaf214b2fc7a31e43cf07245cf4b2e1f}{Euclidean\+Distance} (cv\+::\+Point3d a, cv\+::\+Point3d b)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Utility class for mathematical operations. 
+
+\subsection{Member Function Documentation}
+\index{util\+::\+My\+Math@{util\+::\+My\+Math}!Clamp@{Clamp}}
+\index{Clamp@{Clamp}!util\+::\+My\+Math@{util\+::\+My\+Math}}
+\subsubsection[{\texorpdfstring{Clamp(double min, double max, double value)}{Clamp(double min, double max, double value)}}]{\setlength{\rightskip}{0pt plus 5cm}double util\+::\+My\+Math\+::\+Clamp (
+\begin{DoxyParamCaption}
+\item[{double}]{min, }
+\item[{double}]{max, }
+\item[{double}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{classutil_1_1MyMath_a367a261dc52a85cc97ba376799ed13a3}{}\label{classutil_1_1MyMath_a367a261dc52a85cc97ba376799ed13a3}
+Clamps the value between min and max, both inclusive. 
+\begin{DoxyParams}{Parameters}
+{\em min} & The minimum value \\
+\hline
+{\em max} & The maximum value \\
+\hline
+{\em value} & The value to clamp \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The clamped value 
+\end{DoxyReturn}
+\index{util\+::\+My\+Math@{util\+::\+My\+Math}!Euclidean\+Distance@{Euclidean\+Distance}}
+\index{Euclidean\+Distance@{Euclidean\+Distance}!util\+::\+My\+Math@{util\+::\+My\+Math}}
+\subsubsection[{\texorpdfstring{Euclidean\+Distance(cv\+::\+Point3d a, cv\+::\+Point3d b)}{EuclideanDistance(cv::Point3d a, cv::Point3d b)}}]{\setlength{\rightskip}{0pt plus 5cm}double util\+::\+My\+Math\+::\+Euclidean\+Distance (
+\begin{DoxyParamCaption}
+\item[{cv\+::\+Point3d}]{a, }
+\item[{cv\+::\+Point3d}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{classutil_1_1MyMath_abaf214b2fc7a31e43cf07245cf4b2e1f}{}\label{classutil_1_1MyMath_abaf214b2fc7a31e43cf07245cf4b2e1f}
+Calculates the euclidean distance of the given points. 
+\begin{DoxyParams}{Parameters}
+{\em a} & The first point in 3D space \\
+\hline
+{\em b} & The second point in 3D space \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The euclidean distance 
+\end{DoxyReturn}
+\index{util\+::\+My\+Math@{util\+::\+My\+Math}!Inverse\+Lerp@{Inverse\+Lerp}}
+\index{Inverse\+Lerp@{Inverse\+Lerp}!util\+::\+My\+Math@{util\+::\+My\+Math}}
+\subsubsection[{\texorpdfstring{Inverse\+Lerp(double a, double b, double value)}{InverseLerp(double a, double b, double value)}}]{\setlength{\rightskip}{0pt plus 5cm}double util\+::\+My\+Math\+::\+Inverse\+Lerp (
+\begin{DoxyParamCaption}
+\item[{double}]{a, }
+\item[{double}]{b, }
+\item[{double}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{classutil_1_1MyMath_a789c283b324494ab50955af1e35178d5}{}\label{classutil_1_1MyMath_a789c283b324494ab50955af1e35178d5}
+Inverse linearly interpolates between a and b at value. 
+\begin{DoxyParams}{Parameters}
+{\em a} & The first value \\
+\hline
+{\em b} & The second value \\
+\hline
+{\em value} & The value to get the interpolation of \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The interpolation value 
+\end{DoxyReturn}
+\index{util\+::\+My\+Math@{util\+::\+My\+Math}!Lerp@{Lerp}}
+\index{Lerp@{Lerp}!util\+::\+My\+Math@{util\+::\+My\+Math}}
+\subsubsection[{\texorpdfstring{Lerp(double a, double b, double value)}{Lerp(double a, double b, double value)}}]{\setlength{\rightskip}{0pt plus 5cm}double util\+::\+My\+Math\+::\+Lerp (
+\begin{DoxyParamCaption}
+\item[{double}]{a, }
+\item[{double}]{b, }
+\item[{double}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{classutil_1_1MyMath_ae68f361889a9929767b0c85ad7a010f1}{}\label{classutil_1_1MyMath_ae68f361889a9929767b0c85ad7a010f1}
+Linearly interpolates between a and b at value. 
+\begin{DoxyParams}{Parameters}
+{\em a} & The first value \\
+\hline
+{\em b} & The second value \\
+\hline
+{\em value} & The interpolation value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The interpolated value 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+util/My\+Math.\+h\item 
+util/My\+Math.\+cpp\end{DoxyCompactItemize}

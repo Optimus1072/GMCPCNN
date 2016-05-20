@@ -1,0 +1,148 @@
+\hypertarget{classutil_1_1Logger}{}\section{util\+:\+:Logger Class Reference}
+\label{classutil_1_1Logger}\index{util\+::\+Logger@{util\+::\+Logger}}
+
+
+{\ttfamily \#include $<$Logger.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classutil_1_1Logger_a83d4f38e648b39fa61a2b9b3172bda12}{Logger} (\hyperlink{classutil_1_1Logger}{Logger} const \&)=delete
+\item 
+void \hyperlink{classutil_1_1Logger_a4e9e8b8d0e75058265037976d9b256de}{operator=} (\hyperlink{classutil_1_1Logger}{Logger} const \&)=delete
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{classutil_1_1Logger}{Logger} \& \hyperlink{classutil_1_1Logger_a734bbf94e1232706f7c0bf52745cc876}{Instance} ()
+\item 
+static void \hyperlink{classutil_1_1Logger_ac7b9bc580a6d459c212c46b137742869}{Set\+Debug} (bool debug)
+\item 
+static void \hyperlink{classutil_1_1Logger_a3965358e412007989f90798e295d4b41}{Set\+Info} (bool info)
+\item 
+static bool \hyperlink{classutil_1_1Logger_a6ee9298451936b98815e20ba7f5d7275}{Is\+Debug\+Enabled} ()
+\item 
+static bool \hyperlink{classutil_1_1Logger_a194b338af92760d0f7d15b607cad5429}{Is\+Info\+Enabled} ()
+\item 
+static void \hyperlink{classutil_1_1Logger_a37504d39ec90bebffc3d02d61d47afea}{Log\+Info} (const std\+::string \&message)
+\item 
+static void \hyperlink{classutil_1_1Logger_a01ad6e5349f51964724f96a598c6d2a8}{Log\+Error} (const std\+::string \&message)
+\item 
+static void \hyperlink{classutil_1_1Logger_a9c6a0ebe97ecf3ca24aff8a908a491ee}{Log\+Debug} (const std\+::string \&message)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Utility class for logging. Is a singleton. Provides three different types of messages. 
+
+\subsection{Constructor \& Destructor Documentation}
+\index{util\+::\+Logger@{util\+::\+Logger}!Logger@{Logger}}
+\index{Logger@{Logger}!util\+::\+Logger@{util\+::\+Logger}}
+\subsubsection[{\texorpdfstring{Logger(\+Logger const \&)=delete}{Logger(Logger const \&)=delete}}]{\setlength{\rightskip}{0pt plus 5cm}util\+::\+Logger\+::\+Logger (
+\begin{DoxyParamCaption}
+\item[{{\bf Logger} const \&}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [delete]}}\hypertarget{classutil_1_1Logger_a83d4f38e648b39fa61a2b9b3172bda12}{}\label{classutil_1_1Logger_a83d4f38e648b39fa61a2b9b3172bda12}
+-\/$>$ Singleton 
+
+\subsection{Member Function Documentation}
+\index{util\+::\+Logger@{util\+::\+Logger}!Instance@{Instance}}
+\index{Instance@{Instance}!util\+::\+Logger@{util\+::\+Logger}}
+\subsubsection[{\texorpdfstring{Instance()}{Instance()}}]{\setlength{\rightskip}{0pt plus 5cm}static {\bf Logger}\& util\+::\+Logger\+::\+Instance (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}\hypertarget{classutil_1_1Logger_a734bbf94e1232706f7c0bf52745cc876}{}\label{classutil_1_1Logger_a734bbf94e1232706f7c0bf52745cc876}
+Gets T\+HE instance of this singleton. Creates a new instance if not already created. \index{util\+::\+Logger@{util\+::\+Logger}!Is\+Debug\+Enabled@{Is\+Debug\+Enabled}}
+\index{Is\+Debug\+Enabled@{Is\+Debug\+Enabled}!util\+::\+Logger@{util\+::\+Logger}}
+\subsubsection[{\texorpdfstring{Is\+Debug\+Enabled()}{IsDebugEnabled()}}]{\setlength{\rightskip}{0pt plus 5cm}bool util\+::\+Logger\+::\+Is\+Debug\+Enabled (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{classutil_1_1Logger_a6ee9298451936b98815e20ba7f5d7275}{}\label{classutil_1_1Logger_a6ee9298451936b98815e20ba7f5d7275}
+If the debug messages are logged. \begin{DoxyReturn}{Returns}
+True, if the debug messages are logged 
+\end{DoxyReturn}
+\index{util\+::\+Logger@{util\+::\+Logger}!Is\+Info\+Enabled@{Is\+Info\+Enabled}}
+\index{Is\+Info\+Enabled@{Is\+Info\+Enabled}!util\+::\+Logger@{util\+::\+Logger}}
+\subsubsection[{\texorpdfstring{Is\+Info\+Enabled()}{IsInfoEnabled()}}]{\setlength{\rightskip}{0pt plus 5cm}bool util\+::\+Logger\+::\+Is\+Info\+Enabled (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{classutil_1_1Logger_a194b338af92760d0f7d15b607cad5429}{}\label{classutil_1_1Logger_a194b338af92760d0f7d15b607cad5429}
+If the info messages are logged. \begin{DoxyReturn}{Returns}
+True, if the info messages are logged 
+\end{DoxyReturn}
+\index{util\+::\+Logger@{util\+::\+Logger}!Log\+Debug@{Log\+Debug}}
+\index{Log\+Debug@{Log\+Debug}!util\+::\+Logger@{util\+::\+Logger}}
+\subsubsection[{\texorpdfstring{Log\+Debug(const std\+::string \&message)}{LogDebug(const std::string \&message)}}]{\setlength{\rightskip}{0pt plus 5cm}void util\+::\+Logger\+::\+Log\+Debug (
+\begin{DoxyParamCaption}
+\item[{const std\+::string \&}]{message}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{classutil_1_1Logger_a9c6a0ebe97ecf3ca24aff8a908a491ee}{}\label{classutil_1_1Logger_a9c6a0ebe97ecf3ca24aff8a908a491ee}
+Logs the given message as an debug message. 
+\begin{DoxyParams}{Parameters}
+{\em message} & The debug message to log \\
+\hline
+\end{DoxyParams}
+\index{util\+::\+Logger@{util\+::\+Logger}!Log\+Error@{Log\+Error}}
+\index{Log\+Error@{Log\+Error}!util\+::\+Logger@{util\+::\+Logger}}
+\subsubsection[{\texorpdfstring{Log\+Error(const std\+::string \&message)}{LogError(const std::string \&message)}}]{\setlength{\rightskip}{0pt plus 5cm}void util\+::\+Logger\+::\+Log\+Error (
+\begin{DoxyParamCaption}
+\item[{const std\+::string \&}]{message}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{classutil_1_1Logger_a01ad6e5349f51964724f96a598c6d2a8}{}\label{classutil_1_1Logger_a01ad6e5349f51964724f96a598c6d2a8}
+Logs the given message as an error message. 
+\begin{DoxyParams}{Parameters}
+{\em message} & The error message to log \\
+\hline
+\end{DoxyParams}
+\index{util\+::\+Logger@{util\+::\+Logger}!Log\+Info@{Log\+Info}}
+\index{Log\+Info@{Log\+Info}!util\+::\+Logger@{util\+::\+Logger}}
+\subsubsection[{\texorpdfstring{Log\+Info(const std\+::string \&message)}{LogInfo(const std::string \&message)}}]{\setlength{\rightskip}{0pt plus 5cm}void util\+::\+Logger\+::\+Log\+Info (
+\begin{DoxyParamCaption}
+\item[{const std\+::string \&}]{message}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{classutil_1_1Logger_a37504d39ec90bebffc3d02d61d47afea}{}\label{classutil_1_1Logger_a37504d39ec90bebffc3d02d61d47afea}
+Logs the given message as an info message. 
+\begin{DoxyParams}{Parameters}
+{\em message} & The info message to log \\
+\hline
+\end{DoxyParams}
+\index{util\+::\+Logger@{util\+::\+Logger}!operator=@{operator=}}
+\index{operator=@{operator=}!util\+::\+Logger@{util\+::\+Logger}}
+\subsubsection[{\texorpdfstring{operator=(\+Logger const \&)=delete}{operator=(Logger const \&)=delete}}]{\setlength{\rightskip}{0pt plus 5cm}void util\+::\+Logger\+::operator= (
+\begin{DoxyParamCaption}
+\item[{{\bf Logger} const \&}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [delete]}}\hypertarget{classutil_1_1Logger_a4e9e8b8d0e75058265037976d9b256de}{}\label{classutil_1_1Logger_a4e9e8b8d0e75058265037976d9b256de}
+-\/$>$ Singleton \index{util\+::\+Logger@{util\+::\+Logger}!Set\+Debug@{Set\+Debug}}
+\index{Set\+Debug@{Set\+Debug}!util\+::\+Logger@{util\+::\+Logger}}
+\subsubsection[{\texorpdfstring{Set\+Debug(bool debug)}{SetDebug(bool debug)}}]{\setlength{\rightskip}{0pt plus 5cm}void util\+::\+Logger\+::\+Set\+Debug (
+\begin{DoxyParamCaption}
+\item[{bool}]{debug}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{classutil_1_1Logger_ac7b9bc580a6d459c212c46b137742869}{}\label{classutil_1_1Logger_ac7b9bc580a6d459c212c46b137742869}
+Sets the debug message logging. 
+\begin{DoxyParams}{Parameters}
+{\em debug} & True, if the debug messages should be logged \\
+\hline
+\end{DoxyParams}
+\index{util\+::\+Logger@{util\+::\+Logger}!Set\+Info@{Set\+Info}}
+\index{Set\+Info@{Set\+Info}!util\+::\+Logger@{util\+::\+Logger}}
+\subsubsection[{\texorpdfstring{Set\+Info(bool info)}{SetInfo(bool info)}}]{\setlength{\rightskip}{0pt plus 5cm}void util\+::\+Logger\+::\+Set\+Info (
+\begin{DoxyParamCaption}
+\item[{bool}]{info}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{classutil_1_1Logger_a3965358e412007989f90798e295d4b41}{}\label{classutil_1_1Logger_a3965358e412007989f90798e295d4b41}
+Sets the info message logging. 
+\begin{DoxyParams}{Parameters}
+{\em info} & True, if the info messages should be logged \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+util/Logger.\+h\item 
+util/Logger.\+cpp\end{DoxyCompactItemize}
