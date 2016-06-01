@@ -44,11 +44,9 @@ namespace algo
             // Create a copy of the original graph which is used
             // for the graph and edge transformations
             CopyOriginalGraph();
-            //util::FileIO::WriteCSVMatlab(copied_graph_, "/home/wrede/Dokumente/graph_copy.csv");
 
             // Extend the graph (has negative and positive edge weights)
             ExtendGraph(i);
-            //util::FileIO::WriteCSVMatlab(copied_graph_, "/home/wrede/Dokumente/graph_copy_extended.csv");
 
             //TODO (optional) Transform the edge weights (positive edge weights) and use dijkstra
 
