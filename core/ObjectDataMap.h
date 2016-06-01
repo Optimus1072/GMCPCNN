@@ -13,6 +13,9 @@
 
 namespace core
 {
+    class ObjectDataMap;
+    typedef std::shared_ptr<ObjectDataMap> ObjectDataMapPtr;
+
     //TODO RENAME
     /**
      * Stores a map of key-value-weight pairs.

@@ -10,6 +10,9 @@
 
 namespace core
 {
+    class ObjectData3D;
+    typedef std::shared_ptr<ObjectData3D> ObjectData3DPtr;
+
     /**
      * Class for storing a detection in three dimensional space.
      */

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['logger',['Logger',['../classutil_1_1Logger.html',1,'util']]]
+  ['kshortestpaths',['KShortestPaths',['../classalgo_1_1KShortestPaths.html',1,'algo']]]
 ];

@@ -8,30 +8,20 @@ include_directories(${HOME_LOCAL}/include)
 
 set(SOURCE_FILES
         main/main.cpp
-        core/DetectionSequence.cpp
-        core/DetectionSequence.h
-        core/ObjectData.cpp
-        core/ObjectData.h
-        core/ObjectDataMap.cpp
-        core/ObjectDataMap.h
-        core/Definitions.h
-        core/Tracklet.cpp
-        core/Tracklet.h
-        util/FileIO.cpp
-        util/FileIO.h
-        util/Parser.cpp
-        util/Parser.h
-        algo/TwoStage.cpp
-        algo/TwoStage.h
-        algo/Definitions.h
-        util/MyMath.cpp
-        util/MyMath.h
-        core/ObjectData3D.cpp
-        core/ObjectData3D.h
-        visual/Visualizer.cpp
-        visual/Visualizer.h
-        util/Logger.cpp
-        util/Logger.h core/ObjectDataAngular.cpp core/ObjectDataAngular.h)
+        core/DetectionSequence.cpp core/DetectionSequence.h
+        core/ObjectData.cpp core/ObjectData.h
+        core/ObjectDataMap.cpp core/ObjectDataMap.h
+        core/Tracklet.cpp core/Tracklet.h
+        util/FileIO.cpp util/FileIO.h
+        util/Parser.cpp util/Parser.h
+        algo/TwoStage.cpp algo/TwoStage.h
+        util/MyMath.cpp util/MyMath.h
+        core/ObjectData3D.cpp core/ObjectData3D.h
+        visual/Visualizer.cpp visual/Visualizer.h
+        util/Logger.cpp util/Logger.h
+        core/ObjectDataAngular.cpp core/ObjectDataAngular.h
+        algo/KShortestPaths.cpp algo/KShortestPaths.h
+        graph/Definitions.h)
 
 find_package(Doxygen)
 

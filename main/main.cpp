@@ -1,11 +1,11 @@
 //
 // Created by wrede on 19.04.16.
 //
-#include "../core/Definitions.h"
 #include "../core/DetectionSequence.h"
 #include "../util/FileIO.h"
 #include "../util/Parser.h"
 #include "../algo/TwoStage.h"
+#include "../algo/KShortestPaths.h"
 #include "../visual/Visualizer.h"
 #include "../util/Logger.h"
 #include "../core/ObjectDataAngular.h"
@@ -16,7 +16,7 @@ void ReadInput(const std::string& input_file, core::DetectionSequence& sequence,
 {
     util::Logger::LogInfo("Reading input");
 
-    core::Vector3d values;
+    util::Vector3d values;
     util::FileIO::ReadCSV(values, input_file);
     util::Parser::ParseObjectDataAngular(values, sequence,
                                          temporal_weight,
@@ -36,6 +36,7 @@ void ReadInput(const std::string& input_file, core::DetectionSequence& sequence,
 
 struct
 {
+    size_t iterations;
     size_t max_frame_skip;
     size_t max_tracklet_count;
     double penalty_value;
@@ -51,14 +52,39 @@ void RunTwoStage(core::DetectionSequence& sequence, const std::string& output_fi
                              two_stage_params.max_tracklet_count);
 
     // Running the two stage graph algorithm
-    algo::DirectedGraph obj_graph;
+    DirectedGraph obj_graph;
     two_stage.CreateObjectGraph(obj_graph, sequence);
-    algo::DirectedGraph tlt_graph_1;
-    two_stage.CreateTrackletGraph(obj_graph, tlt_graph_1, sequence.GetFrameCount());
-    algo::DirectedGraph tlt_graph_2;
-    two_stage.CreateTrackletGraph(tlt_graph_1, tlt_graph_2, sequence.GetFrameCount());
+
+    // Run the tracklet creation at least once
+    DirectedGraph tlt_graph_1, tlt_graph_2;
+    two_stage.CreateTrackletGraph(obj_graph, tlt_graph_1,
+                                  sequence.GetFrameCount());
+
+    // Run the tracklet creation iteratively
+    for (size_t i = 1; i < two_stage_params.iterations; ++i)
+    {
+        if (i % 2 == 0)
+        {
+            two_stage.CreateTrackletGraph(tlt_graph_2, tlt_graph_1,
+                                          sequence.GetFrameCount());
+        }
+        else
+        {
+            two_stage.CreateTrackletGraph(tlt_graph_1, tlt_graph_2,
+                                          sequence.GetFrameCount());
+        }
+    }
+
+    // Extract tracklets and flatten tracklets
     std::vector<core::TrackletPtr> tracks;
-    two_stage.ExtractTracks(tlt_graph_2, 1, tracks);
+    if (two_stage_params.iterations % 2 == 0)
+    {
+        two_stage.ExtractTracks(tlt_graph_2, two_stage_params.iterations - 1, tracks);
+    }
+    else
+    {
+        two_stage.ExtractTracks(tlt_graph_1, two_stage_params.iterations - 1, tracks);
+    }
 
     // Interpolate tracks
     for (auto track : tracks)
@@ -109,9 +135,13 @@ void Run(int argc, char** argv)
             ("images-folder,f",
              boost::program_options::value<std::string>(&images_folder),
              "set images folder path")
+            ("iterations",
+             boost::program_options::value<size_t>(&two_stage_params.iterations)->default_value((2)),
+             "(two-stage) number of tracklet extraction iterations")
             ("max-frame-skip",
              boost::program_options::value<size_t>(&two_stage_params.max_frame_skip)->default_value(1),
-             "(two stage) set the maximum number of frames a track can skip between two detections")
+             "(two stage) set the maximum number of frames a track can skip between two detections,"
+                     " if set to less or equal than zero all frames are linked")
             ("max-tracklet-count",
              boost::program_options::value<size_t>(&two_stage_params.max_tracklet_count)->default_value(1),
              "(two stage) set the maximum number of tracklets to be extracted")
@@ -119,13 +149,13 @@ void Run(int argc, char** argv)
              boost::program_options::value<double>(&two_stage_params.penalty_value)->default_value(0.0),
              "(two stage) set the penalty value for edges from and to source and sink")
             ("temporal-weight",
-             boost::program_options::value<double>(&temporal_weight)->default_value(0.3),
+             boost::program_options::value<double>(&temporal_weight)->default_value(1.0),
              "temporal weight for difference calculations between two detections")
             ("spatial-weight",
-             boost::program_options::value<double>(&spatial_weight)->default_value(0.3),
+             boost::program_options::value<double>(&spatial_weight)->default_value(1.0),
              "spatial weight for difference calculations between two detections")
             ("angular-weight",
-             boost::program_options::value<double>(&angular_weight)->default_value(0.3),
+             boost::program_options::value<double>(&angular_weight)->default_value(1.0),
              "angular weight for difference calculations between two detections");
 
     boost::program_options::variables_map opt_var_map;
@@ -170,11 +200,96 @@ void Run(int argc, char** argv)
     }
 }
 
+void CreateTestGraph(DirectedGraph& graph, Vertex& source, Vertex& sink)
+{
+    // Create test graph (suurballe wikipedia example)
+//    std::vector<Vertex> vertices;
+//    for (size_t i = 0; i < 6; ++i)
+//    {
+//        vertices.push_back(
+//                boost::add_vertex(
+//                        core::ObjectDataPtr(new core::ObjectData(i)),graph));
+//    }
+//
+//    // AB
+//    boost::add_edge(vertices[0], vertices[1], 1.0, graph);
+//
+//    // AC
+//    boost::add_edge(vertices[0], vertices[2], 2.0, graph);
+//
+//    // BD
+//    boost::add_edge(vertices[1], vertices[3], 1.0, graph);
+//
+//    // BE
+//    boost::add_edge(vertices[1], vertices[4], 2.0, graph);
+//
+//    // CD
+//    boost::add_edge(vertices[2], vertices[3], 2.0, graph);
+//
+//    // DF
+//    boost::add_edge(vertices[3], vertices[5], 1.0, graph);
+//
+//    // EF
+//    boost::add_edge(vertices[4], vertices[5], 2.0, graph);
+//
+//    source = vertices[0];
+//    sink = vertices[5];
+
+    // Create test graph (disjoint path finding example)
+    std::vector<Vertex> vertices;
+    for (size_t i = 0; i < 8; ++i)
+    {
+        vertices.push_back(
+                boost::add_vertex(
+                        core::ObjectDataPtr(new core::ObjectData(i)),graph));
+    }
+
+    boost::add_edge(vertices[0], vertices[1], 1.0, graph);
+    boost::add_edge(vertices[0], vertices[4], 1.0, graph);
+    boost::add_edge(vertices[1], vertices[2], 1.0, graph);
+    boost::add_edge(vertices[2], vertices[3], 1.0, graph);
+    boost::add_edge(vertices[3], vertices[7], 1.0, graph);
+    boost::add_edge(vertices[4], vertices[3], 1.0, graph);
+    boost::add_edge(vertices[4], vertices[5], 3.0, graph);
+    boost::add_edge(vertices[5], vertices[6], 1.0, graph);
+    boost::add_edge(vertices[5], vertices[3], 1.0, graph);
+    boost::add_edge(vertices[6], vertices[7], 1.0, graph);
+
+    source = vertices[0];
+    sink = vertices[7];
+}
+
 int main(int argc, char** argv)
 {
     Run(argc, argv);
 
     //TestTracklet();
+
+//    Vertex source, sink;
+//    DirectedGraph graph;
+//
+//    util::Logger::SetDebug(true);
+//    util::Logger::SetInfo(true);
+//
+//    CreateTestGraph(graph, source, sink);
+//
+//    algo::KShortestPaths ksp(graph, source, sink);
+//    MultiPredecessorMap paths = ksp.Run(3);
+//
+//    util::Logger::LogDebug("found paths:");
+//    for (Vertex first : paths[sink])
+//    {
+//        std::string path;
+//        path += std::to_string(sink) + "->" + std::to_string(first);
+//
+//        for (Vertex u = first, v = (*paths[u].begin());
+//             u != v; u = v, v = (*paths[v].begin()))
+//        {
+//            path += "->" + std::to_string(v);
+//        }
+//
+//        util::Logger::LogDebug(path);
+//    }
 
     return 0;
 }

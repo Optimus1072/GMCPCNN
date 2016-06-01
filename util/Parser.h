@@ -5,7 +5,6 @@
 #ifndef GBMOT_PARSE_H
 #define GBMOT_PARSE_H
 
-#include "../core/Definitions.h"
 #include "../core/DetectionSequence.h"
 #include "../core/ObjectData.h"
 #include "../core/ObjectDataMap.h"
@@ -14,6 +13,9 @@
 
 namespace util
 {
+    typedef std::vector<std::vector<std::vector<double>>> Vector3d;
+    typedef std::vector<std::vector<double>> Vector2d;
+
     /**
      * Utility class for parsing diverse objects.
      */
@@ -29,28 +31,25 @@ namespace util
          * @param values A 3D vector of values
          * @param sequence The sequence to store the created objects in
          */
-        static void ParseObjectDataMap(
-                const std::vector<std::string>& keys,
-                const core::Vector3d& values,
-                core::DetectionSequence& sequence);
+        static void ParseObjectDataMap(const std::vector<std::string>& keys,
+                                       const Vector3d& values,
+                                       core::DetectionSequence& sequence);
 
         /**
          * Parses the values into a DetectionSequence of ObjectData3D
          * @param values A 3D vector of values
          * @param sequence The sequence to store the created objects in
          */
-        static void ParseObjectData3D(
-                const core::Vector3d& values,
-                core::DetectionSequence& sequence);
+        static void ParseObjectData3D(const Vector3d& values,
+                                      core::DetectionSequence& sequence);
 
         /**
          * Parses the values into a DetectionSequence of ObjectDataAngular objects.
          * @param values A 3D vector of values
          * @param sequence The sequence to store the created objects in
          */
-        static void ParseObjectDataAngular(
-                const core::Vector3d& values,
-                core::DetectionSequence& sequence);
+        static void ParseObjectDataAngular(const Vector3d& values,
+                                           core::DetectionSequence& sequence);
 
         /**
          * Parses the values into a DetectionSequence of ObjectDataAngular objects.
@@ -61,7 +60,7 @@ namespace util
          * @param spatial_weight The spatial weight
          * @param angular_weight The angular weight
          */
-        static void ParseObjectDataAngular(const core::Vector3d& values,
+        static void ParseObjectDataAngular(const Vector3d& values,
                                            core::DetectionSequence& sequence,
                                            double temporal_weight,
                                            double spatial_weight,

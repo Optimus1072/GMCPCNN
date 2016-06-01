@@ -1,10 +1,5 @@
 var searchData=
 [
-  ['setangularweight',['SetAngularWeight',['../classcore_1_1ObjectDataAngular.html#af6772caef2337f3c12a3f52049c4d853',1,'core::ObjectDataAngular']]],
-  ['setdebug',['SetDebug',['../classutil_1_1Logger.html#ac7b9bc580a6d459c212c46b137742869',1,'util::Logger']]],
-  ['setdetectionscore',['SetDetectionScore',['../classcore_1_1ObjectData.html#a737216c2689aefa216c1c842922d7dd8',1,'core::ObjectData']]],
-  ['setframeindex',['SetFrameIndex',['../classcore_1_1ObjectData.html#aedfe00fa37d5ac7ef554bda746931148',1,'core::ObjectData']]],
-  ['setinfo',['SetInfo',['../classutil_1_1Logger.html#a3965358e412007989f90798e295d4b41',1,'util::Logger']]],
-  ['setspatialweight',['SetSpatialWeight',['../classcore_1_1ObjectData3D.html#a94d4c0d90d4e0999eb2b339d37069cd6',1,'core::ObjectData3D']]],
-  ['settemporalweight',['SetTemporalWeight',['../classcore_1_1ObjectData3D.html#a05eafbd4d963ef14b1068ab5a3818597',1,'core::ObjectData3D']]]
+  ['readcsv',['ReadCSV',['../classutil_1_1FileIO.html#af42c183525923014e142a10a626d3677',1,'util::FileIO::ReadCSV(Vector3d &amp;values, const std::string &amp;filename, char delimiter=&apos;;&apos;)'],['../classutil_1_1FileIO.html#a264c9b694fd7218635c8a783956d2c1e',1,'util::FileIO::ReadCSV(Vector2d &amp;values, const std::string &amp;filename, char delimiter=&apos;;&apos;)']]],
+  ['run',['Run',['../classalgo_1_1KShortestPaths.html#ae77137136462303e951f631ba7db6adf',1,'algo::KShortestPaths']]]
 ];

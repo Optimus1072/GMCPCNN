@@ -6,7 +6,6 @@
 #define GBMOT_DETECTIONSEQUENCE_H
 
 
-#include "Definitions.h"
 #include <string>
 #include "ObjectData.h"
 #include "ObjectDataMap.h"

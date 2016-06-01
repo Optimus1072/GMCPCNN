@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['visualize',['Visualize',['../classcore_1_1ObjectData.html#aae2c4fceddc529570dbe8909309f9961',1,'core::ObjectData::Visualize()'],['../classcore_1_1ObjectData3D.html#a86216fae3dc86f1107eb1b4530b574d2',1,'core::ObjectData3D::Visualize()'],['../classcore_1_1ObjectDataAngular.html#acb4265f6de511238460df118148bc85c',1,'core::ObjectDataAngular::Visualize()'],['../classcore_1_1ObjectDataMap.html#a8a0f71318dd58e0d527a63b904c6afac',1,'core::ObjectDataMap::Visualize()'],['../classcore_1_1Tracklet.html#a85f92a4059bf89f24a83f28935675181',1,'core::Tracklet::Visualize(cv::Mat &amp;image, cv::Scalar &amp;color) const override'],['../classcore_1_1Tracklet.html#a3a2b241939559e47aef701d2e2c4d4bd',1,'core::Tracklet::Visualize(cv::Mat &amp;image, cv::Scalar &amp;color, size_t frame, size_t predecessor_count, size_t successor_count) const']]]
+  ['tracklet',['Tracklet',['../classcore_1_1Tracklet.html#aedf59b5a9a068a28bb7570f2a031d4e7',1,'core::Tracklet']]],
+  ['twostage',['TwoStage',['../classalgo_1_1TwoStage.html#ae302f9ea93d56155a9dbd0be060500f7',1,'algo::TwoStage']]]
 ];

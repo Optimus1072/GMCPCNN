@@ -274,7 +274,7 @@ if (iLayers + 100 >= vertices.size())
 
                         // edge weight
                         //std::cout << " x" << params.maxLinkDistance << "," << params.maxAngularDistance << "; " << distPosition << "," << distAngular << "," << iOffset << " = " << 0.1 * (distPosition + 0.5 * distAngular) * double(iOffset) << std::endl;
-                        if (false || (distPosition < params.maxLinkDistance && distAngular < params.maxAngularDistance)) {
+                        if (distPosition < params.maxLinkDistance && distAngular < params.maxAngularDistance) {
                             // if we discard one layer, the edge weight should be higher!
                             boost::add_edge(vP, vQ, 0.1 * (distPosition + 0.5 * distAngular) * double(iOffset), g);
                             //boost::add_edge(vP, vQ, 0.001 * Weight((1.0 + 0.33 * distPosition) * (1.0 + distAngular) * Weight(1.0 + iOffset)), g);

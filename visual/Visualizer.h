@@ -8,7 +8,6 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/opencv.hpp>
 #include "../core/DetectionSequence.h"
-#include "../core/Definitions.h"
 #include "../core/ObjectData3D.h"
 #include "../core/Tracklet.h"
 #include "dirent.h"
@@ -28,15 +27,6 @@ namespace visual
          * @return the current time in ms
          */
         int GetTime();
-
-        /**
-         * Loads the names of all files in the given folder into the given
-         * vector.
-         * @param image_folder The folder to read the files from
-         * @param image_files The vector to store the file names in
-         */
-        void LoadImages(std::string image_folder,
-                        std::vector<std::string>& image_files);
     public:
         /**
          * Displays the given sequence in an window.

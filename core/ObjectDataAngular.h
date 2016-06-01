@@ -9,6 +9,9 @@
 
 namespace core
 {
+    class ObjectDataAngular;
+    typedef std::shared_ptr<ObjectDataAngular> ObjectDataAngularPtr;
+
     /**
      * Class for storing a detection in three dimensional space with an rotation
      * angle in radians.

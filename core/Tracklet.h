@@ -11,6 +11,9 @@
 
 namespace core
 {
+    class Tracklet;
+    typedef std::shared_ptr<Tracklet> TrackletPtr;
+
     /**
      * A class for storing multiple object data objects.
      * The object data objects are handled as a path.

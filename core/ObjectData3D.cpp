@@ -10,8 +10,8 @@ namespace core
     ObjectData3D::ObjectData3D(size_t frame_index, cv::Point3d position)
             : ObjectData(frame_index),
               position_(position),
-              temporal_weight_(0.5),
-              spatial_weight_(0.5)
+              temporal_weight_(1.0),
+              spatial_weight_(1.0)
     {
     }
 

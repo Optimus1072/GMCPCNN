@@ -2,13 +2,16 @@
 // Created by wrede on 19.04.16.
 //
 
+#include <algorithm>
 #include "FileIO.h"
 #include "Logger.h"
+#include "dirent.h"
 
 namespace util
 {
-    void FileIO::ReadCSV(core::Vector3d& values, const std::string& filename,
-                         const char& delimiter)
+    void FileIO::ReadCSV(Vector3d& values,
+                         const std::string& filename,
+                         char delimiter)
     {
         Logger::LogInfo("Reading CSV file");
 
@@ -50,8 +53,9 @@ namespace util
         Logger::LogDebug("frame count " + std::to_string(values.size()));
     }
 
-    void FileIO::ReadCSV(core::Vector2d& values, const std::string& filename,
-                         const char& delimiter)
+    void FileIO::ReadCSV(Vector2d& values,
+                         const std::string& filename,
+                         char delimiter)
     {
         Logger::LogInfo("Reading CSV file");
 
@@ -88,6 +92,66 @@ namespace util
         in.close();
 
         Logger::LogDebug("line count " + std::to_string(values.size()));
+    }
+
+    void FileIO::ListFiles(const std::string& folder,
+                           std::vector<std::string>& file_names,
+                           bool sort)
+    {
+        Logger::LogInfo("Listing files in folder");
+
+        DIR* dir;
+        struct dirent *ent;
+        if ((dir = opendir(folder.c_str())) != NULL)
+        {
+            int offset = 2;
+            while ((ent = readdir(dir)) != NULL)
+            {
+                if (offset <= 0)
+                {
+                    file_names.push_back(ent->d_name);
+                }
+                offset--;
+            }
+            closedir(dir);
+
+            if (sort)
+            {
+                std::sort(file_names.begin(), file_names.end());
+            }
+
+            Logger::LogDebug("file count " + std::to_string(file_names.size()));
+        }
+        else
+        {
+            Logger::LogError("Could not open folder");
+        }
+    }
+
+    void FileIO::WriteCSVMatlab(DirectedGraph& graph,
+                                const std::string& file_name,
+                                char delimiter)
+    {
+        std::ofstream out(file_name, std::ofstream::out);
+
+        // Iterate all outgoing edges of every vertex
+        EdgeWeightMap weights = boost::get(boost::edge_weight, graph);
+        VertexIndexMap indices = boost::get(boost::vertex_index, graph);
+        boost::graph_traits<DirectedGraph>::vertex_iterator vi, vi_end;
+        boost::graph_traits<DirectedGraph>::out_edge_iterator oei, oei_end;
+        for (boost::tie(vi, vi_end) = boost::vertices(graph); vi != vi_end; ++vi)
+        {
+            for (boost::tie(oei, oei_end) = boost::out_edges(*vi, graph);
+                 oei != oei_end; ++oei)
+            {
+                // Write the edge to file
+                out << indices[boost::source(*oei, graph)] << delimiter
+                    << indices[boost::target(*oei, graph)] << delimiter
+                    << weights[*oei] << std::endl;
+            }
+        }
+
+        out.close();
     }
 }
 

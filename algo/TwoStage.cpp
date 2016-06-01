@@ -4,19 +4,19 @@
 
 #include "TwoStage.h"
 #include "../util/Logger.h"
+#include <boost/graph/dijkstra_shortest_paths.hpp>
 
 namespace algo
 {
     TwoStage::TwoStage(size_t max_frame_skip, double penalty_value,
                        size_t max_tracklet_count)
+        : max_frame_skip_(max_frame_skip), penalty_value_(penalty_value),
+          max_tracklet_count_(max_tracklet_count)
     {
-        max_frame_skip_ = max_frame_skip;
-        penalty_value_ = penalty_value;
-        max_tracklet_count_ = max_tracklet_count;
     }
 
     void TwoStage::CreateObjectGraph(DirectedGraph& graph,
-                                     core::DetectionSequence& detections)
+                                     const core::DetectionSequence& detections)
     {
         util::Logger::LogInfo("Creating object graph");
 
@@ -98,7 +98,7 @@ namespace algo
         Vertex tlt_src = boost::add_vertex(
                 core::ObjectDataPtr(new core::ObjectData()), tlt_graph);
 
-        // Prepare parameter for dijkstra
+        // Prepare variables for dijkstra
         size_t obj_graph_size = boost::num_vertices(obj_graph);
         std::vector<Vertex> obj_pred_list(obj_graph_size);
         std::vector<double> obj_dist_list(obj_graph_size);
@@ -131,9 +131,6 @@ namespace algo
             {
                 tracklet->AddPathObject(obj_values[u]);
 
-//                util::Logger::LogDebug(std::to_string(tracklet->GetFirstFrameIndex())
-//                                       + "," + std::to_string(tracklet->GetLastFrameIndex()));
-
                 // Leave source and sink untouched
                 if (!obj_values[u]->IsVirtual())
                 {
@@ -159,7 +156,9 @@ namespace algo
         }
 
         // Add sink to tracklet graph
-        Vertex tlt_snk = boost::add_vertex(core::ObjectDataPtr(new core::ObjectData()), tlt_graph);
+        Vertex tlt_snk =
+                boost::add_vertex(core::ObjectDataPtr(new core::ObjectData()),
+                                  tlt_graph);
 
         // Create edges
         size_t tlt_graph_size = boost::num_vertices(tlt_graph);
@@ -170,7 +169,8 @@ namespace algo
         for (size_t i = 1; i < tlt_graph_size - 1; ++i)
         {
             Vertex u = tlt_indices[i];
-            core::TrackletPtr u_ptr = std::static_pointer_cast<core::Tracklet>(tlt_values[u]);
+            core::TrackletPtr u_ptr =
+                    std::static_pointer_cast<core::Tracklet>(tlt_values[u]);
             size_t u_first_frame = u_ptr->GetFirstFrameIndex();
             size_t u_last_frame = u_ptr->GetLastFrameIndex();
 
@@ -180,7 +180,8 @@ namespace algo
                 if (i != j)
                 {
                     Vertex v = tlt_indices[j];
-                    core::TrackletPtr v_ptr = std::static_pointer_cast<core::Tracklet>(tlt_values[v]);
+                    core::TrackletPtr v_ptr =
+                            std::static_pointer_cast<core::Tracklet>(tlt_values[v]);
                     size_t v_first_frame = v_ptr->GetFirstFrameIndex();
 
                     if (u_last_frame < v_first_frame)

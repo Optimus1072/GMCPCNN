@@ -6,14 +6,17 @@
 #define GBMOT_NODEDATA_H
 
 
-#include "Definitions.h"
 #include <string>
 #include <unordered_map>
 #include <iostream>
 #include <opencv2/core/core.hpp>
+#include <memory>
 
 namespace core
 {
+    class ObjectData;
+    typedef std::shared_ptr<ObjectData> ObjectDataPtr;
+
     //TODO RENAME ObjectDataBase / ObjectBase / DataBase / AObject / DetectionBase ...
     /**
      * Base class for all detected objects.

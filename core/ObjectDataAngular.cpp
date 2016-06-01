@@ -10,10 +10,8 @@ namespace core
     ObjectDataAngular::ObjectDataAngular(size_t frame_index,
                                          const cv::Point3d& position,
                                          double angle)
-            : ObjectData3D(frame_index, position), angle_(angle), angular_weight_(1.0 / 3.0)
+            : ObjectData3D(frame_index, position), angle_(angle), angular_weight_(1.0)
     {
-        SetSpatialWeight(1.0 / 3.0);
-        SetTemporalWeight(1.0 / 3.0);
     }
 
     void ObjectDataAngular::SetAngularWeight(double weight)

@@ -5,35 +5,10 @@
 #include "Visualizer.h"
 #include "../util/Logger.h"
 #include "../core/ObjectDataAngular.h"
+#include "../util/FileIO.h"
 
 namespace visual
 {
-    void Visualizer::LoadImages(std::string image_folder,
-                                std::vector<std::string>& image_files)
-    {
-        DIR* dir;
-        struct dirent *ent;
-        if ((dir = opendir(image_folder.c_str())) != NULL)
-        {
-            int offset = 2;
-            while ((ent = readdir(dir)) != NULL)
-            {
-                if (offset <= 0)
-                {
-                    image_files.push_back(ent->d_name);
-                }
-                offset--;
-            }
-            closedir(dir);
-
-            std::sort(image_files.begin(), image_files.end());
-        }
-        else
-        {
-            perror("Could not open image folder");
-        }
-    }
-
     void Visualizer::Display(core::DetectionSequence& sequence,
                              std::string image_folder,
                              std::string title, size_t first_frame,
@@ -43,7 +18,7 @@ namespace visual
 
         // Load images
         std::vector<std::string> image_files;
-        LoadImages(image_folder, image_files);
+        util::FileIO::ListFiles(image_folder, image_files);
 
         if (image_files.size() != sequence.GetFrameCount())
         {
@@ -148,7 +123,7 @@ namespace visual
 
         // Load images
         std::vector<std::string> image_files;
-        LoadImages(image_folder, image_files);
+        util::FileIO::ListFiles(image_folder, image_files);
 
         // Create window
         cv::namedWindow(title, CV_WINDOW_AUTOSIZE);

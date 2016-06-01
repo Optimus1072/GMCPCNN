@@ -9,10 +9,9 @@
 
 namespace util
 {
-    void Parser::ParseObjectDataMap(
-            const std::vector<std::string>& keys,
-            const core::Vector3d& values,
-            core::DetectionSequence& sequence)
+    void Parser::ParseObjectDataMap(const std::vector<std::string>& keys,
+                                    const Vector3d& values,
+                                    core::DetectionSequence& sequence)
     {
         util::Logger::LogInfo("Parsing ObjectDataMap");
 
@@ -30,7 +29,7 @@ namespace util
         }
     }
 
-    void Parser::ParseObjectData3D(const core::Vector3d& values,
+    void Parser::ParseObjectData3D(const Vector3d& values,
                                    core::DetectionSequence& sequence)
     {
         util::Logger::LogInfo("Parsing ObjectData3D");
@@ -76,7 +75,7 @@ namespace util
         }
     }
 
-    void Parser::ParseObjectDataAngular(const core::Vector3d& values,
+    void Parser::ParseObjectDataAngular(const Vector3d& values,
                                         core::DetectionSequence& sequence)
     {
         util::Logger::LogInfo("Parsing ObjectDataAngular");
@@ -123,7 +122,7 @@ namespace util
         }
     }
 
-    void Parser::ParseObjectDataAngular(const core::Vector3d& values,
+    void Parser::ParseObjectDataAngular(const Vector3d& values,
                                         core::DetectionSequence& sequence,
                                         double temporal_weight,
                                         double spatial_weight,

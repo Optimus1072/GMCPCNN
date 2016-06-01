@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['mymath',['MyMath',['../classutil_1_1MyMath.html',1,'util']]]
+  ['logger',['Logger',['../classutil_1_1Logger.html',1,'util']]]
 ];
