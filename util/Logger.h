@@ -30,6 +30,12 @@ namespace util
          * True, if the debug messages should be logged
          */
         bool debug_;
+
+        /**
+         * Logs the given message.
+         * @param message The message to log
+         */
+        void LogMessage(const std::string& message);
     public:
         /**
          * -> Singleton

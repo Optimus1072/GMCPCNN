@@ -14,7 +14,7 @@
 #include <chrono>
 #include <random>
 
-namespace visual
+namespace util
 {
     /**
      * Utility class for visualizing detection sequences or tracks.

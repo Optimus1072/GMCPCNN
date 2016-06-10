@@ -6,12 +6,8 @@
 #define GBMOT_DEFINITIONS_H
 
 #include "../core/ObjectData.h"
-#include "../../../../../usr/include/boost/graph/properties.hpp"
-#include "../../../../../usr/include/boost/pending/property.hpp"
-#include "../../../../../usr/include/boost/graph/adjacency_list.hpp"
-#include "../../../../../usr/include/boost/graph/graph_selectors.hpp"
-#include "../../../../../usr/include/boost/graph/graph_traits.hpp"
-#include "../../../../../usr/include/boost/property_map/property_map.hpp"
+#include <boost/graph/properties.hpp>
+#include <boost/graph/adjacency_list.hpp>
 
 typedef boost::property<boost::edge_weight_t, double> EdgeProp;
 typedef boost::property <boost::vertex_name_t, core::ObjectDataPtr>

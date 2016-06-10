@@ -2,8 +2,8 @@
 // Created by wrede on 25.04.16.
 //
 
-#ifndef GBMOT_KOERNERTRACKING_H
-#define GBMOT_KOERNERTRACKING_H
+#ifndef GBMOT_NSTAGE_H
+#define GBMOT_NSTAGE_H
 
 #include "../core/DetectionSequence.h"
 #include "../core/Tracklet.h"
@@ -13,33 +13,30 @@ namespace algo
 {
     /**
      * Implementation of the two-staged graph-based multi-object tracker.
+     * Extended to allow N stages.
      */
-    class TwoStage
+    class NStage
     {
     private:
         /**
          * Maximum edge length to link object
          */
-        const size_t max_frame_skip_;
+        size_t max_frame_skip_;
 
         /**
          * Edge value to link to source and sink
          */
-        const double penalty_value_;
+        std::vector<double> penalty_values_;
 
         /**
          * Maximum dijkstra iterations / number of tracklets to create
          */
-        const size_t max_tracklet_count_;
-    public:
+        std::vector<size_t> max_tracklet_counts_;
+
         /**
-         * Initializes the algorithm wih the given values.
-         * @param max_frame_skip The maximum edge length to link objects
-         * @param penalty_value The Edge value to link to source and sink
-         * @param max_tracklet_count The maximum number of tracklets to create
+         * Number of iterations
          */
-        TwoStage(size_t max_frame_skip, double penalty_value,
-                 size_t max_tracklet_count);
+        size_t iterations_;
 
         /**
          * Creates a graph with vertices for every detected object
@@ -54,10 +51,12 @@ namespace algo
          * @param obj_graph The object graph to reduce
          * @param tlt_graph The graph to write the tracklets in
          * @param frame_count The frame count of the object graph
+         * @param iteration The current iteration
          */
         void CreateTrackletGraph(DirectedGraph& obj_graph,
                                  DirectedGraph& tlt_graph,
-                                 size_t frame_count);
+                                 size_t frame_count,
+                                 size_t iteration);
 
         /**
          * Extracts the finished tracks from the given tracklet graph.
@@ -68,8 +67,22 @@ namespace algo
         void ExtractTracks(DirectedGraph& tlt_graph,
                            size_t depth,
                            std::vector<core::TrackletPtr>& tracks);
+    public:
+        /**
+         * Initializes the algorithm wih the given values.
+         * The number of stages is determined by the size of the given
+         * vectors.
+         * @param max_frame_skip The maximum edge length to link objects
+         * @param penalty_value The edge value to link to source and sink
+         * @param max_tracklet_count The maximum number of tracklets to create
+         */
+        NStage(size_t max_frame_skip, std::vector<double> penalty_value,
+                 std::vector<size_t> max_tracklet_count);
+
+        void Run(const core::DetectionSequence& sequence,
+                 std::vector<core::TrackletPtr>& tracks);
     };
 }
 
 
-#endif //GBMOT_KOERNERTRACKING_H
+#endif //GBMOT_NSTAGE_H

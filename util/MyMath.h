@@ -17,6 +17,9 @@ namespace util
     class MyMath
     {
     public:
+
+        static const double PI;
+
         /**
          * Clamps the value between min and max, both inclusive.
          * @param min The minimum value
@@ -51,6 +54,21 @@ namespace util
          * @return The euclidean distance
          */
         static double EuclideanDistance(cv::Point3d a, cv::Point3d b);
+
+        /**
+         * Calculates the euclidean distance of the given points.
+         * @param a The first point in 2D space
+         * @param b The second point in 2D space
+         * @return The euclidean distance
+         */
+        static double EuclideanDistance(cv::Point2d a, cv::Point2d b);
+
+        /**
+         * Calculates the radian value of the given degree value.
+         * @param degree The arc value in degree
+         * @return The arc value in radian
+         */
+        static double Radian(double degree);
     };
 }
 

@@ -2,20 +2,23 @@
 // Created by wrede on 25.04.16.
 //
 
-#include "TwoStage.h"
+#include "NStage.h"
 #include "../util/Logger.h"
 #include <boost/graph/dijkstra_shortest_paths.hpp>
 
 namespace algo
 {
-    TwoStage::TwoStage(size_t max_frame_skip, double penalty_value,
-                       size_t max_tracklet_count)
-        : max_frame_skip_(max_frame_skip), penalty_value_(penalty_value),
-          max_tracklet_count_(max_tracklet_count)
+    NStage::NStage(size_t max_frame_skip,
+                       std::vector<double> penalty_value,
+                       std::vector<size_t> max_tracklet_count)
     {
+        max_frame_skip_ = max_frame_skip;
+        penalty_values_ = penalty_value;
+        max_tracklet_counts_ = max_tracklet_count;
+        iterations_ = std::min(max_tracklet_count.size(), penalty_value.size());
     }
 
-    void TwoStage::CreateObjectGraph(DirectedGraph& graph,
+    void NStage::CreateObjectGraph(DirectedGraph& graph,
                                      const core::DetectionSequence& detections)
     {
         util::Logger::LogInfo("Creating object graph");
@@ -59,7 +62,7 @@ namespace algo
 
                 // For each next frame/layer until maxFrameSkip or end
                 for (size_t k = 1;
-                     k <= max_frame_skip_ && i + k < layers.size();
+                     k != (max_frame_skip_ + 1) && i + k < layers.size();
                      ++k)
                 {
                     // To every edge in the next frame/layer
@@ -75,11 +78,11 @@ namespace algo
 
                 // From source to vertex and from vertex to sink
                 boost::add_edge(source, u,
-                                (i + 1) * penalty_value_,
+                                (i + 1) * penalty_values_[0],
                                 graph);
 
                 boost::add_edge(u, sink,
-                                (layers.size() - i) * penalty_value_,
+                                (layers.size() - i) * penalty_values_[0],
                                 graph);
             }
         }
@@ -88,9 +91,10 @@ namespace algo
         util::Logger::LogDebug("edge count " + std::to_string(boost::num_edges(graph)));
     }
 
-    void TwoStage::CreateTrackletGraph(DirectedGraph& obj_graph,
+    void NStage::CreateTrackletGraph(DirectedGraph& obj_graph,
                                        DirectedGraph& tlt_graph,
-                                       size_t frame_count)
+                                       size_t frame_count,
+                                       size_t iteration)
     {
         util::Logger::LogInfo("Creating tracklet graph");
 
@@ -112,7 +116,7 @@ namespace algo
         Vertex obj_snk = obj_indices[obj_graph_size - 1];
 
         // Iteratively run dijkstra to extract tracklets
-        for (size_t i = 0; i < max_tracklet_count_; ++i)
+        for (size_t i = 0; i != max_tracklet_counts_[iteration]; ++i)
         {
             boost::dijkstra_shortest_paths(obj_graph, obj_src,
                                            boost::predecessor_map(obj_pred_map)
@@ -137,8 +141,7 @@ namespace algo
                     // Remove the path by setting all used edges to a weight of
                     // infinity
                     std::pair<DirectedGraph::out_edge_iterator,
-                              DirectedGraph::out_edge_iterator>
-                              edge_iter = boost::out_edges(u, obj_graph);
+                              DirectedGraph::out_edge_iterator> edge_iter = boost::out_edges(u, obj_graph);
 
                     for (DirectedGraph::out_edge_iterator iter = edge_iter.first;
                          iter != edge_iter.second;
@@ -184,6 +187,7 @@ namespace algo
                             std::static_pointer_cast<core::Tracklet>(tlt_values[v]);
                     size_t v_first_frame = v_ptr->GetFirstFrameIndex();
 
+                    // Link only tracklets that are in temporal order
                     if (u_last_frame < v_first_frame)
                     {
                         boost::add_edge(u, v,
@@ -195,12 +199,12 @@ namespace algo
 
             // From source
             boost::add_edge(tlt_src, u,
-                            (u_first_frame + 1) * penalty_value_,
+                            (u_first_frame + 1) * penalty_values_[iteration],
                             tlt_graph);
 
             // To sink
             boost::add_edge(u, tlt_snk,
-                            (frame_count - u_last_frame) * penalty_value_,
+                            (frame_count - u_last_frame) * penalty_values_[iteration],
                             tlt_graph);
         }
 
@@ -208,7 +212,7 @@ namespace algo
         util::Logger::LogDebug("edge count " + std::to_string(boost::num_edges(tlt_graph)));
     }
 
-    void TwoStage::ExtractTracks(DirectedGraph& tlt_graph, size_t depth,
+    void NStage::ExtractTracks(DirectedGraph& tlt_graph, size_t depth,
                                  std::vector<core::TrackletPtr>& tracks)
     {
         util::Logger::LogInfo("Extracting tracks");
@@ -231,5 +235,40 @@ namespace algo
         }
 
         util::Logger::LogDebug("track count " + std::to_string(tracks.size()));
+    }
+
+    void NStage::Run(const core::DetectionSequence& sequence,
+                       std::vector<core::TrackletPtr>& tracks)
+    {
+        // Running the two stage graph algorithm
+        DirectedGraph obj_graph;
+        CreateObjectGraph(obj_graph, sequence);
+
+        // Run the tracklet creation at least once
+        DirectedGraph tlt_graph_1, tlt_graph_2;
+        CreateTrackletGraph(obj_graph, tlt_graph_1, sequence.GetFrameCount(), 0);
+
+        // Run the tracklet creation iteratively
+        for (size_t i = 1; i < iterations_; ++i)
+        {
+            if (i % 2 == 0)
+            {
+                CreateTrackletGraph(tlt_graph_2, tlt_graph_1, sequence.GetFrameCount(), i);
+            }
+            else
+            {
+                CreateTrackletGraph(tlt_graph_1, tlt_graph_2, sequence.GetFrameCount(), i);
+            }
+        }
+
+        // Extract tracklets and flatten tracklets
+        if (iterations_ % 2 == 0)
+        {
+            ExtractTracks(tlt_graph_2, iterations_ - 1, tracks);
+        }
+        else
+        {
+            ExtractTracks(tlt_graph_1, iterations_ - 1, tracks);
+        }
     }
 }

@@ -14,7 +14,7 @@ namespace core
 
     void DetectionSequence::AddObject(ObjectDataPtr object_data)
     {
-        if (object_data->GetFrameIndex() >= objects_.size())
+        while (object_data->GetFrameIndex() >= objects_.size())
         {
             objects_.push_back(std::vector<ObjectDataPtr>());
         }

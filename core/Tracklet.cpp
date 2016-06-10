@@ -3,6 +3,7 @@
 //
 
 #include "Tracklet.h"
+#include "../util/Logger.h"
 
 namespace core
 {
@@ -101,6 +102,11 @@ namespace core
     void Tracklet::Visualize(cv::Mat& image, cv::Scalar& color, size_t frame,
                              size_t predecessor_count, size_t successor_count) const
     {
+        if (frame == 0)
+        {
+            predecessor_count = 0;
+        }
+
         size_t start = (frame - predecessor_count > GetFirstFrameIndex()) ?
                        frame - predecessor_count : GetFirstFrameIndex();
         size_t end = (frame + successor_count < GetLastFrameIndex()) ?

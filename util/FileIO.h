@@ -15,6 +15,8 @@ namespace util
 {
     typedef std::vector<std::vector<std::vector<double>>> Vector3d;
     typedef std::vector<std::vector<double>> Vector2d;
+    typedef std::unordered_map<std::string, double> ValueMap;
+    typedef std::vector<ValueMap> ValueMapVector;
 
     /**
      * Utility class for file in- and output.
@@ -30,28 +32,28 @@ namespace util
          * The second dimension is the row in the row bundle.
          * The third dimension is the value in that row.
          * @param values The 3D array of values to store the read values in
-         * @param filename The filename to read from
-         * @param delimiter The delimiter used to separate the values in the file
+         * @param file_name The name of the file to read
+         * @param delimiter The value delimiter of the file
          */
         static void ReadCSV(Vector3d& values,
-                            const std::string& filename,
+                            const std::string& file_name,
                             char delimiter = ';');
 
         /**
          * Reads a CSV file and stores the values in a 2D array.
          * The first dimension is the row and the second the value in that row.
          * @param values The 2D array of values to store the read values in
-         * @param filename The filename to read from
-         * @param delimiter The delimiter used to separate the values in the file
+         * @param file_name The name of the file to read
+         * @param delimiter The value delimiter of the file
          */
         static void ReadCSV(Vector2d& values,
-                            const std::string& filename,
+                            const std::string& file_name,
                             char delimiter = ';');
 
         /**
          * Lists all file names in the given folder.
          * @param folder The folder to look into
-         * @param file_names The vector to store the file names into
+         * @param file_names The name of the files in the folder
          * @param sort True, if the files should be sorted alphabetically
          */
         static void ListFiles(const std::string& folder,
@@ -59,15 +61,54 @@ namespace util
                               bool sort = true);
 
         /**
-         * Writes the given graph into a CSV file with an format readable by
+         * Writes the specified graph into a CSV file with an format readable by
          * Matlab.
+         *
          * @param graph The graph to write
-         * @param file_name The name of the file to write into
-         * @param delimiter The delimiter to use
+         * @param file_name The name of the file to write
          */
         static void WriteCSVMatlab(DirectedGraph& graph,
-                                   const std::string& file_name,
-                                   char delimiter = ';');
+                                   const std::string& file_name);
+
+        /**
+         * Writes the specified multi predecessor map into a CSV format
+         * readable by Matlab to display all paths in the corresponding graph.
+         *
+         * @param map The multi predecessor map to extract the paths from
+         * @param origin The origin, this is the vertex where all paths end
+         * @param file_name The name of the file to write
+         */
+        static void  WriteCSVMatlab(MultiPredecessorMap& map,
+                                    Vertex& origin,
+                                    const std::string& file_name);
+
+        /**
+         * Reads a CSV file.
+         * The first line of the CSV file is a header specifying the keys.
+         * The values are stored with their specified key into one map per line.
+         *
+         * @param values A vector of maps to store the key-value pairs into
+         * @param file_name The name of the file to read
+         * @param delimiter The value delimiter of the file
+         */
+        static void ReadCSV(ValueMapVector& values,
+                            const std::string& file_name,
+                            char delimiter = ',');
+
+        /**
+         * Reads a CSV file.
+         * The header specifies the keys.
+         * The values are stored with their specified key into one map per line.
+         *
+         * @param values A vector of maps to store the key-value pairs into
+         * @param header A string containing the keys separated by the delimiter
+         * @param file_name The name of the file to read
+         * @param delimiter The value delimiter of the file
+         */
+        static void ReadCSV(ValueMapVector& values,
+                            const std::string& header,
+                            const std::string& file_name,
+                            char delimiter = ',');
     };
 }
 

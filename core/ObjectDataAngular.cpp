@@ -8,10 +8,25 @@
 namespace core
 {
     ObjectDataAngular::ObjectDataAngular(size_t frame_index,
-                                         const cv::Point3d& position,
+                                         const cv::Point2d& position,
                                          double angle)
-            : ObjectData3D(frame_index, position), angle_(angle), angular_weight_(1.0)
+            : ObjectData2D(frame_index, position), angle_(angle), angular_weight_(1.0)
     {
+    }
+
+    ObjectDataAngular::ObjectDataAngular(size_t frame_index,
+                                         const cv::Point2d& position,
+                                         double angle,
+                                         double temporal_weight,
+                                         double spatial_weight,
+                                         double angular_weight)
+            : ObjectData2D(frame_index, position)
+    {
+        angle_ = angle;
+        angular_weight_ = angular_weight;
+
+        SetTemporalWeight(temporal_weight);
+        SetSpatialWeight(spatial_weight);
     }
 
     void ObjectDataAngular::SetAngularWeight(double weight)
@@ -36,15 +51,15 @@ namespace core
 
         double d_ang = std::abs(obj_ang->angle_ - angle_);
 
-        return ObjectData3D::CompareTo(obj) + d_ang * angular_weight_;
+        return ObjectData2D::CompareTo(obj) + d_ang * angular_weight_;
     }
 
     ObjectDataPtr ObjectDataAngular::Interpolate(ObjectDataPtr obj,
                                                  double fraction) const
     {
-        ObjectData3DPtr obj_in =
-                std::static_pointer_cast<ObjectData3D>(
-                        ObjectData3D::Interpolate(obj, fraction));
+        ObjectData2DPtr obj_in =
+                std::static_pointer_cast<ObjectData2D>(
+                        ObjectData2D::Interpolate(obj, fraction));
 
         ObjectDataAngularPtr obj_ang =
                 std::static_pointer_cast<ObjectDataAngular>(obj);
@@ -76,22 +91,6 @@ namespace core
         << "f:" << GetFrameIndex() << ", "
         << "x:" << GetPosition().x << ", "
         << "y:" << GetPosition().y << ", "
-        << "z:" << GetPosition().z << ", "
         << "a:" << GetAngle() << "}";
-    }
-
-    ObjectDataAngular::ObjectDataAngular(size_t frame_index,
-                                         const cv::Point3d& position,
-                                         double angle,
-                                         double temporal_weight,
-                                         double spatial_weight,
-                                         double angular_weight)
-            : ObjectData3D(frame_index, position)
-    {
-        angle_ = angle;
-        angular_weight_ = angular_weight;
-
-        SetTemporalWeight(temporal_weight);
-        SetSpatialWeight(spatial_weight);
     }
 }

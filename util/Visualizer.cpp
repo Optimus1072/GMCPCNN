@@ -3,11 +3,11 @@
 //
 
 #include "Visualizer.h"
-#include "../util/Logger.h"
+#include "Logger.h"
 #include "../core/ObjectDataAngular.h"
-#include "../util/FileIO.h"
+#include "FileIO.h"
 
-namespace visual
+namespace util
 {
     void Visualizer::Display(core::DetectionSequence& sequence,
                              std::string image_folder,
@@ -119,6 +119,8 @@ namespace visual
                              std::string image_folder, std::string title,
                              size_t first_frame, int play_fps)
     {
+        util::Logger::LogInfo("Displaying data");
+
         size_t current_frame = first_frame;
 
         // Load images
@@ -132,7 +134,11 @@ namespace visual
         std::vector<cv::Scalar> colors;
         std::random_device rd;
         std::mt19937 gen(rd());
-        for (size_t i = 0; i < tracks.size(); ++i)
+        colors.push_back(cv::Scalar(0, 0, 255));
+        colors.push_back(cv::Scalar(0, 255, 0));
+        colors.push_back(cv::Scalar(255, 0, 0));
+        colors.push_back(cv::Scalar(0, 255, 255));
+        for (size_t i = 4; i < tracks.size(); ++i)
         {
             // BGR
             cv::Scalar color(std::generate_canonical<double, 10>(gen) * 255,
@@ -153,10 +159,13 @@ namespace visual
                                        + image_files[current_frame],
                                        1);
 
-            util::Logger::LogDebug("visualize frame " + std::to_string(current_frame));
+//            util::Logger::LogDebug("display frame " + std::to_string(current_frame));
             for (size_t i = 0; i < tracks.size(); ++i)
             {
-                tracks[i]->Visualize(image, colors[i], current_frame, 1, 1);
+//                util::Logger::LogDebug("display track #" + std::to_string(i));
+
+//                tracks[i]->Visualize(image, colors[i]);
+                tracks[i]->Visualize(image, colors[i], current_frame, 0, 0);
             }
 
             cv::imshow(title, image);

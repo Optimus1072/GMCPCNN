@@ -9,17 +9,15 @@
 namespace core
 {
     ObjectData::ObjectData()
+            : frame_index_(0), is_virtual_(true), detection_score_(0.0)
     {
-        frame_index_ = 0;
-        is_virtual_ = true;
-        detection_score_ = 0.0;
+        /* EMPTY */
     }
 
     ObjectData::ObjectData(std::size_t frame_index)
+            : frame_index_(frame_index), is_virtual_(false), detection_score_(0.0)
     {
-        frame_index_ = frame_index;
-        is_virtual_ = false;
-        detection_score_ = 0.0;
+        /* EMPTY */
     }
 
     std::size_t ObjectData::GetFrameIndex() const
@@ -34,11 +32,19 @@ namespace core
 
     void ObjectData::Print(std::ostream &os) const
     {
-        os << "Object in frame " << frame_index_;
+        if (is_virtual_)
+        {
+            os << "Object{-}";
+        }
+        else
+        {
+            os << "Object{" << frame_index_ << "}";
+        }
     }
 
     double ObjectData::CompareTo(ObjectDataPtr obj) const
     {
+        /* EMPTY */
         return 0.0;
     }
 
@@ -73,7 +79,7 @@ namespace core
         detection_score_ = score;
     }
 
-    double ObjectData::GetDetectionScore()
+    double ObjectData::GetDetectionScore() const
     {
         return detection_score_;
     }

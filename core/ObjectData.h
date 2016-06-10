@@ -28,7 +28,7 @@ namespace core
         /**
          * If this node is considered virtual
          */
-        bool is_virtual_;
+        const bool is_virtual_;
 
         /**
          * The frame the object was detected in
@@ -80,7 +80,7 @@ namespace core
          * Gets the detection score
          * @return The detection score
          */
-        double GetDetectionScore();
+        double GetDetectionScore() const;
 
         /**
          * Is this node considered a virtual node

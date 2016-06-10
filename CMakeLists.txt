@@ -14,14 +14,16 @@ set(SOURCE_FILES
         core/Tracklet.cpp core/Tracklet.h
         util/FileIO.cpp util/FileIO.h
         util/Parser.cpp util/Parser.h
-        algo/TwoStage.cpp algo/TwoStage.h
+        algo/NStage.cpp algo/NStage.h
         util/MyMath.cpp util/MyMath.h
         core/ObjectData3D.cpp core/ObjectData3D.h
-        visual/Visualizer.cpp visual/Visualizer.h
+        util/Visualizer.cpp util/Visualizer.h
         util/Logger.cpp util/Logger.h
         core/ObjectDataAngular.cpp core/ObjectDataAngular.h
         algo/KShortestPaths.cpp algo/KShortestPaths.h
-        graph/Definitions.h)
+        graph/Definitions.h
+        core/ObjectData2D.cpp core/ObjectData2D.h
+        algo/Berclaz.cpp algo/Berclaz.h util/Grid.cpp util/Grid.h core/ObjectDataBox.cpp core/ObjectDataBox.h)
 
 find_package(Doxygen)
 

@@ -6,6 +6,8 @@
 
 namespace util
 {
+    const double MyMath::PI = 3.14159;
+
     double MyMath::Clamp(double min, double max, double value)
     {
         if (value < min)
@@ -38,6 +40,18 @@ namespace util
         double dy = b.y - a.y;
         double dz = b.z - a.z;
         return std::sqrt(dx * dx + dy * dy + dz * dz);
+    }
+
+    double MyMath::EuclideanDistance(cv::Point2d a, cv::Point2d b)
+    {
+        double dx = b.x - a.x;
+        double dy = b.y - a.y;
+        return std::sqrt(dx * dx + dy * dy);
+    }
+
+    double MyMath::Radian(double degree)
+    {
+        return (degree * PI) / 180.0;
     }
 }
 

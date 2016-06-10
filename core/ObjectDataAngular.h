@@ -5,7 +5,7 @@
 #ifndef GBMOT_OBJECTDATAANGULAR_H
 #define GBMOT_OBJECTDATAANGULAR_H
 
-#include "ObjectData3D.h"
+#include "ObjectData2D.h"
 
 namespace core
 {
@@ -13,10 +13,10 @@ namespace core
     typedef std::shared_ptr<ObjectDataAngular> ObjectDataAngularPtr;
 
     /**
-     * Class for storing a detection in three dimensional space with an rotation
+     * Class for storing a detection in two dimensional space with an rotation
      * angle in radians.
      */
-    class ObjectDataAngular : public ObjectData3D
+    class ObjectDataAngular : public ObjectData2D
     {
     private:
         /**
@@ -35,22 +35,22 @@ namespace core
          * Creates a new object in the given frame, with the given position and
          * the given angle.
          * @param frame_index The index of the frame
-         * @param position The position in three dimensional space
+         * @param position The position in two dimensional space
          * @param angle The rotation angle in radians
          */
-        ObjectDataAngular(size_t frame_index, const cv::Point3d& position, double angle);
+        ObjectDataAngular(size_t frame_index, const cv::Point2d& position, double angle);
 
         /**
          * Creates a new object in the given frame, with the given position and
          * the given angle. The weights are used in the comparison calculation.
          * @param frame_index The index of the frame
-         * @param position The position in three dimensional space
+         * @param position The position in two dimensional space
          * @param angle The rotation angle in radians
          * @param temporal_weight The temporal weight
          * @param spatial_weight The spatial weight
          * @param angular_weight The angular weight
          */
-        ObjectDataAngular(size_t frame_index, const cv::Point3d& position,
+        ObjectDataAngular(size_t frame_index, const cv::Point2d& position,
                           double angle, double temporal_weight,
                           double spatial_weight, double angular_weight);
 

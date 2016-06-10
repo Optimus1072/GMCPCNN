@@ -12,24 +12,29 @@ namespace util
         /* EMPTY */
     }
 
+    void Logger::LogMessage(const std::string& message)
+    {
+        std::cout << message;
+    }
+
     void Logger::LogInfo(const std::string& message)
     {
         if (Instance().info_)
         {
-            std::cout << "[Info] " << message << std::endl;
+            Instance().LogMessage("[Info] " + message + "\n");
         }
     }
 
     void Logger::LogError(const std::string& message)
     {
-        std::cout << "[Error] " << message << std::endl;
+        Instance().LogMessage("[Error] " + message + "\n");
     }
 
     void Logger::LogDebug(const std::string& message)
     {
         if (Instance().debug_)
         {
-            std::cout << "[Debug] " << message << std::endl;
+            Instance().LogMessage("[Debug] " + message + "\n");
         }
     }
 

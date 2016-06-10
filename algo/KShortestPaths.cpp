@@ -25,13 +25,12 @@ namespace algo
 
         util::Logger::LogDebug("find shortest path #1");
 
+        util::Logger::LogDebug("find");
         FindAndAugmentPath(1, true);
 
         // Find the k shortest paths
         for (size_t i = 1; i < max_path_count; ++i)
         {
-            util::Logger::LogDebug("find shortest path #" + std::to_string(i + 1));
-
             if (i != 1)
             {
                 //If the costs are increasing, no further shortest paths will be found
@@ -41,18 +40,26 @@ namespace algo
                 }
             }
 
+            util::Logger::LogDebug("find shortest path #" + std::to_string(i + 1));
+
+            util::Logger::LogDebug("copy");
             // Create a copy of the original graph which is used
             // for the graph and edge transformations
             CopyOriginalGraph();
 
+            util::Logger::LogDebug("extend");
             // Extend the graph (has negative and positive edge weights)
             ExtendGraph(i);
 
-            //TODO (optional) Transform the edge weights (positive edge weights) and use dijkstra
+            util::Logger::LogDebug("transform");
+            // Transforms the edge costs (has only positive edge weights)
+            TransformEdgeCosts(i);
 
+            util::Logger::LogDebug("find");
             // Finds the next path and adds it to the found paths
             FindAndAugmentPath(i + 1, false);
 
+            util::Logger::LogDebug("interlace");
             // Removes the duplicate edges to make the paths node-disjoint
             Interlace(i + 1);
         }
@@ -64,16 +71,19 @@ namespace algo
     void KShortestPaths::ExtendGraph(size_t i)
     {
         boost::graph_traits<DirectedGraph>::out_edge_iterator oei, oei_end;
+        boost::graph_traits<DirectedGraph>::edge_iterator ei, ei_end;
         boost::graph_traits<DirectedGraph>::vertex_iterator vi, vi_end;
         VertexValueMap graph_values = boost::get(boost::vertex_name, copied_graph_);
 
         // Split all vertices within the paths
-        for (boost::tie(vi, vi_end) = boost::vertices(original_graph_); vi != vi_end; ++vi)
+        for (boost::tie(vi, vi_end) = boost::vertices(original_graph_);
+             vi != vi_end; ++vi)
         {
             Vertex v_original = (*vi);
 
             // Ignore vertices off the paths, the source and the sink
-            if (i_shortest_paths_[i].count(v_original) == 0 || v_original == source_ || v_original == sink_)
+            if (i_shortest_paths_[i].count(v_original) == 0 ||
+                    v_original == source_ || v_original == sink_)
             {
                 continue;
             }
@@ -83,14 +93,16 @@ namespace algo
             copy_to_original_[v_out] = v_original;
 
             // Copy outgoing edges to v_out
-            for (boost::tie(oei, oei_end) = boost::out_edges(v_in, copied_graph_); oei != oei_end; ++oei)
+            for (boost::tie(oei, oei_end) = boost::out_edges(v_in, copied_graph_);
+                 oei != oei_end; ++oei)
             {
                 QueueAddEdge(v_out, boost::target(*oei, copied_graph_),
                              boost::get(boost::edge_weight, copied_graph_, *oei));
             }
 
             // Remove outgoing edges from vertex
-            for (boost::tie(oei, oei_end) = boost::out_edges(v_in, copied_graph_); oei != oei_end; ++oei)
+            for (boost::tie(oei, oei_end) = boost::out_edges(v_in, copied_graph_);
+                 oei != oei_end; ++oei)
             {
                 QueueRemoveEdge(v_in, boost::target(*oei, copied_graph_));
             }
@@ -101,35 +113,26 @@ namespace algo
 
         UpdateEdges();
 
-        // Iterate all vertices within the copied graph
-        for (boost::tie(vi, vi_end) = boost::vertices(copied_graph_); vi != vi_end; ++vi)
+        // Iterate all edges within the copied graph
+        EdgeWeightMap weights = boost::get(boost::edge_weight, copied_graph_);
+        for (boost::tie(ei, ei_end) = boost::edges(copied_graph_);
+             ei != ei_end; ++ei)
         {
-            Vertex v_copy = (*vi);
-            Vertex v_original = copy_to_original_[v_copy];
+            Vertex s_copy = boost::source(*ei, copied_graph_);
+            Vertex t_copy = boost::target(*ei, copied_graph_);
+            Vertex s_orig = copy_to_original_[s_copy];
+            Vertex t_orig = copy_to_original_[t_copy];
+            double weight = weights[*ei];
 
-            // Ignore vertices off the paths
-            if (i_shortest_paths_[i].count(v_original) == 0)
+            // If the edge is part of the paths
+            if (i_shortest_paths_[i].count(t_orig) > 0 &&
+                    i_shortest_paths_[i][t_orig].count(s_orig) > 0)
             {
-                continue;
-            }
+                // Add the edge with direction and weight inverted
+                QueueAddEdge(t_copy, s_copy, -weight);
 
-            // Iterate all outgoing edges at the current vertex
-            for (boost::tie(oei, oei_end) = boost::out_edges(v_copy, copied_graph_); oei != oei_end; ++oei)
-            {
-                Vertex t_copy = boost::target(*oei, copied_graph_);
-                Vertex t_original = copy_to_original_[t_copy];
-
-                // Ignore edges off the paths
-                if (i_shortest_paths_[i].count(t_original) == 0)
-                {
-                    continue;
-                }
-
-                // Invert the edge direction and weight
-                double weight = boost::get(boost::edge_weight, copied_graph_,
-                                           *oei);
-                QueueAddEdge(t_copy, v_copy, -weight);
-                QueueRemoveEdge(v_copy, t_copy);
+                // Remove the old edge
+                QueueRemoveEdge(s_copy, t_copy);
             }
         }
 
@@ -138,22 +141,26 @@ namespace algo
 
     double KShortestPaths::OverallCosts(size_t i)
     {
-        EdgeWeightMap weights = boost::get(boost::edge_weight, original_graph_);
-        boost::graph_traits<DirectedGraph>::edge_iterator ei, ei_end;
         double value = 0.0;
 
+        EdgeWeightMap weights = boost::get(boost::edge_weight, original_graph_);
+
+        // Iterate all edges
+        boost::graph_traits<DirectedGraph>::edge_iterator ei, ei_end;
         for (boost::tie(ei, ei_end) = boost::edges(original_graph_);
              ei != ei_end; ++ei)
         {
             Vertex source = boost::source(*ei, original_graph_);
             Vertex target = boost::target(*ei, original_graph_);
 
-            // Is edge within paths?
-            if (i_shortest_paths_[i].count(target) > 0 && i_shortest_paths_[i][target].count(source) > 0)
+            if (i_shortest_paths_[i].count(target) > 0 &&
+                    i_shortest_paths_[i][target].count(source) > 0)
             {
                 value += weights[*ei];
             }
         }
+
+        util::Logger::LogDebug("cost in " + std::to_string(i) + " : " + std::to_string(value));
 
         return value;
     }
@@ -202,10 +209,12 @@ namespace algo
             }
 
             // Is edge within paths?
-            if (i_shortest_paths_[i].count(target) > 0 && i_shortest_paths_[i][target].count(source) > 0)
+            if (i_shortest_paths_[i].count(target) > 0 &&
+                    i_shortest_paths_[i][target].count(source) > 0)
             {
                 // Is edge duplicate?
-                if (i_shortest_paths_[i].count(source) > 0 && i_shortest_paths_[i][source].count(target) > 0)
+                if (i_shortest_paths_[i].count(source) > 0 &&
+                        i_shortest_paths_[i][source].count(target) > 0)
                 {
                     i_shortest_paths_[i][target].erase(source);
                     i_shortest_paths_[i][source].erase(target);
@@ -222,14 +231,20 @@ namespace algo
             i_shortest_paths_.push_back(MultiPredecessorMap());
         }
 
+        // Add new distance maps until the needed iteration is reached
+        while (i_distances_.size() < (i + 1))
+        {
+            i_distances_.push_back(std::unordered_map<Vertex, double>());
+        }
+
         // Only copy old paths if old paths exist
-        if (i > 0)
+        if (i > 1)
         {
             // Copy the old paths
             for (auto it = i_shortest_paths_[i - 1].begin();
                  it != i_shortest_paths_[i - 1].end(); ++it)
             {
-                i_shortest_paths_[i][(*it).first] = (*it).second;
+                i_shortest_paths_[i][it->first] = it->second;
             }
         }
 
@@ -237,25 +252,42 @@ namespace algo
         {
             // Prepare variables for path finding
             size_t graph_size = boost::num_vertices(original_graph_);
+            Vertex root_vertex = source_;
             std::vector<Vertex> pred_list(graph_size);
             std::vector<double> dist_list(graph_size);
             VertexIndexMap graph_indices = boost::get(boost::vertex_index,
                                                       original_graph_);
+            EdgeWeightMap weight_map = boost::get(boost::edge_weight,
+                                                  original_graph_);
             PredecessorMap pred_map(&pred_list[0], graph_indices);
             DistanceMap dist_map(&dist_list[0], graph_indices);
 
             // Find the shortest path
-            boost::dijkstra_shortest_paths(original_graph_,
-                                           source_,
-                                           boost::predecessor_map(pred_map)
-                                                   .distance_map(dist_map));
+            boost::bellman_ford_shortest_paths(original_graph_,
+                                               graph_size,
+                                               boost::root_vertex(root_vertex)
+                                                       .weight_map(weight_map)
+                                                       .predecessor_map(pred_map)
+                                                       .distance_map(dist_map));
+
+            // Add the new distances
+            boost::graph_traits<DirectedGraph>::vertex_iterator vi, vi_end;
+            for (boost::tie(vi, vi_end) = boost::vertices(original_graph_);
+                 vi != vi_end; ++vi)
+            {
+                i_distances_[i][*vi] = dist_map[*vi];
+            }
 
             // Add the new path
+            size_t path_length = 0;
             for (Vertex u = sink_, v = pred_map[u];
                  u != v; u = v, v = pred_map[v])
             {
                 i_shortest_paths_[i][u].insert(v);
+
+                ++path_length;
             }
+            util::Logger::LogDebug("path length " + std::to_string(path_length));
         }
         else
         {
@@ -272,15 +304,40 @@ namespace algo
             DistanceMap dist_map(&dist_list[0], graph_indices);
 
             // Find the shortest path
-            boost::bellman_ford_shortest_paths(copied_graph_,
-                                               graph_size,
-                                               boost::root_vertex(root_vertex)
-                                                       .weight_map(weight_map)
-                                                       .predecessor_map(pred_map)
-                                                       .distance_map(dist_map));
+            boost::dijkstra_shortest_paths(copied_graph_, root_vertex,
+                                           boost::predecessor_map(pred_map)
+                                                   .distance_map(dist_map));
+
+//            boost::bellman_ford_shortest_paths(copied_graph_,
+//                                               graph_size,
+//                                               boost::root_vertex(root_vertex)
+//                                                       .weight_map(weight_map)
+//                                                       .predecessor_map(pred_map)
+//                                                       .distance_map(dist_map));
+
+            util::Logger::LogDebug("add the path");
+
+            // Add the new distances
+            boost::graph_traits<DirectedGraph>::vertex_iterator vi, vi_end;
+            for (boost::tie(vi, vi_end) = boost::vertices(copied_graph_);
+                 vi != vi_end; ++vi)
+            {
+                Vertex v_copy = *vi;
+                Vertex v_orig = copy_to_original_[v_copy];
+                i_distances_[i][v_orig] = dist_map[v_copy];
+            }
+
+            // Prevent cycles
+//            unsigned long vertex_count = boost::num_vertices(original_graph_);
+//            bool* visited = new bool[vertex_count];
+//            for (unsigned long j = 0; j < vertex_count; j++)
+//            {
+//                visited[j] = false;
+//            }
 
             // Add the new path (the given path is in the copied graph, so the
             // vertices need to be mapped to the original graph)
+            size_t path_length = 0;
             Vertex sink_copy = original_to_copy_[sink_];
             for (Vertex u_copy = sink_copy, v_copy = pred_map[u_copy];
                  u_copy != v_copy; u_copy = v_copy, v_copy = pred_map[v_copy])
@@ -294,8 +351,54 @@ namespace algo
                     continue;
                 }
 
+                // Cycle found
+//                if (visited[u_original])
+//                {
+//                    break;
+//                }
+//
+//                visited[u_original] = true;
+
                 i_shortest_paths_[i][u_original].insert(v_original);
+                i_distances_[i][u_original] = dist_map[u_copy];
+
+                ++path_length;
             }
+            util::Logger::LogDebug("path length " + std::to_string(path_length));
+
+//            delete[] visited;
+        }
+
+        // Add source
+        i_shortest_paths_[i][source_].insert(source_);
+    }
+
+    void KShortestPaths::TransformEdgeCosts(size_t i)
+    {
+        EdgeWeightMap weights = boost::get(boost::edge_weight, copied_graph_);
+        boost::graph_traits<DirectedGraph>::edge_iterator ei, ei_end;
+        double min_weight = 0.0;
+
+        for (boost::tie(ei, ei_end) = boost::edges(copied_graph_);
+             ei != ei_end; ++ei)
+        {
+            Vertex s_copy = boost::source(*ei, copied_graph_);
+            Vertex t_copy = boost::target(*ei, copied_graph_);
+            Vertex s_orig = copy_to_original_[s_copy];
+            Vertex t_orig = copy_to_original_[t_copy];
+
+            weights[*ei] += i_distances_[i][s_orig] - i_distances_[i][t_orig];
+
+            if (weights[*ei] < min_weight)
+            {
+                min_weight = weights[*ei];
+            }
+        }
+
+        for (boost::tie(ei, ei_end) = boost::edges(copied_graph_);
+             ei != ei_end; ++ei)
+        {
+            weights[*ei] -= min_weight;
         }
     }
 
