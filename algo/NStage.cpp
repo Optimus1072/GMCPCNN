@@ -118,10 +118,13 @@ namespace algo
         // Iteratively run dijkstra to extract tracklets
         for (size_t i = 0; i != max_tracklet_counts_[iteration]; ++i)
         {
+            util::Logger::LogDebug("tracklet iteration: " + std::to_string(i));
+
             boost::dijkstra_shortest_paths(obj_graph, obj_src,
                                            boost::predecessor_map(obj_pred_map)
                                                    .distance_map(obj_dist_map));
 
+            // No path from source to sink could be found
             if (obj_dist_map[obj_snk] == std::numeric_limits<double>::max())
             {
                 break;
@@ -162,6 +165,8 @@ namespace algo
         Vertex tlt_snk =
                 boost::add_vertex(core::ObjectDataPtr(new core::ObjectData()),
                                   tlt_graph);
+
+        util::Logger::LogDebug("adding edges");
 
         // Create edges
         size_t tlt_graph_size = boost::num_vertices(tlt_graph);

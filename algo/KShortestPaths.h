@@ -52,7 +52,7 @@ namespace algo
         std::unordered_map<Vertex, Vertex> copy_to_original_;
 
         /**
-         * Maps the vertices in the original graph to the distances of the
+         * Maps the vertices in the i-th copied graph to the distances of the
          * shortest path found in the i-th iteration.
          */
         std::vector<std::unordered_map<Vertex, double>> i_distances_;
@@ -79,7 +79,7 @@ namespace algo
         void ExtendGraph(size_t i);
 
         //TODO comment
-        void TransformEdgeCosts(size_t i);
+        void TransformEdgeCosts(size_t i, bool original);
 
         /**
          * Calculates the path costs of every path at the iteration given.

@@ -8,7 +8,6 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/opencv.hpp>
 #include "../core/DetectionSequence.h"
-#include "../core/ObjectData3D.h"
 #include "../core/Tracklet.h"
 #include "dirent.h"
 #include <chrono>

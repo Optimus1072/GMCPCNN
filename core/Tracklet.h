@@ -112,6 +112,8 @@ namespace core
          * removed.
          */
         void Flatten();
+
+        void Combine(TrackletPtr other);
     };
 }
 

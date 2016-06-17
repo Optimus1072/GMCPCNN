@@ -177,20 +177,26 @@ namespace util
     }
 
     void FileIO::WriteCSVMatlab(MultiPredecessorMap& map,
-                                Vertex& origin,
+                                Vertex& source, Vertex& sink,
                                 const std::string& file_name)
     {
         char delimiter = ',';
 
         std::ofstream out("/home/wrede/Dokumente/paths.csv", std::ofstream::out);
-        for (Vertex first : map[origin])
+        for (Vertex first : map[sink])
         {
-            out << (origin + 1) << delimiter << (first + 1);
+            out << (sink + 1) << delimiter << (first + 1);
 
+            //TODO change (count index)
             for (Vertex u = first, v = (*map[u].begin());
                  u != v; u = v, v = (*map[v].begin()))
             {
                 out << delimiter << (v + 1);
+
+                if (v == source)
+                {
+                    break;
+                }
             }
 
             out << std::endl;
@@ -204,6 +210,13 @@ namespace util
     {
         // Read the file
         std::ifstream in(file_name, std::ifstream::in);
+
+        // Only proceed if the file could be opened
+        if (!in.is_open())
+        {
+            throw "Unable to open file: " + file_name;
+        }
+
         std::string line;
 
         // Get the first line that is not empty
@@ -226,10 +239,17 @@ namespace util
 
         // Read the file
         std::ifstream in(file_name, std::ifstream::in);
+
+        // Only proceed if the file could be opened
+        if (!in.is_open())
+        {
+            throw "Unable to open file: " + file_name;
+        }
+
         std::string line, part;
         size_t d_index;
 
-        // Split the first line into separate keys
+        // Split the header into separate keys
         std::vector<std::string> key_vector;
         line = header;
         do
@@ -291,10 +311,10 @@ namespace util
             values.push_back(detection_values);
         }
 
-        util::Logger::LogDebug("parsed values in line 1:");
+        util::Logger::LogDebug("parsed values in line 2:");
         for (std::string str : key_vector)
         {
-            util::Logger::LogDebug(str + "=" + std::to_string(values[0][str]));
+            util::Logger::LogDebug(str + "=" + std::to_string(values[1][str]));
         }
 
         in.close();

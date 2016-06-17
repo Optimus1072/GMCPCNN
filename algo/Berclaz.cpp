@@ -7,6 +7,7 @@
 #include "../util/Parser.h"
 #include "../util/Logger.h"
 #include "../util/FileIO.h"
+#include "KShortestPaths2.h"
 
 namespace algo
 {
@@ -17,44 +18,48 @@ namespace algo
         vicinity_size_ = vicinity_size;
     }
 
-    void Berclaz::CreateGraph(DirectedGraph& graph, Vertex& source, Vertex& sink,
-                              util::Grid& grid)
+    void Berclaz::CreateGraph(DirectedGraph& graph, Vertex& source, Vertex& sink, util::Grid& grid)
     {
-        // Add source vertex
-        source = boost::add_vertex(core::ObjectDataPtr(new core::ObjectData()), graph);
+        util::Logger::LogDebug("add vertices");
 
         // Add grid vertices
-        for (int f = 0; f < grid.GetDepthCount(); ++f)
+        for (int z = 0; z < grid.GetDepthCount(); ++z)
         {
-            for (int y = 0; y < v_res_; ++y)
+            for (int y = 0; y < grid.GetHeightCount(); ++y)
             {
-                for (int x = 0; x < h_res_; ++x)
+                for (int x = 0; x < grid.GetWidthCount(); ++x)
                 {
-                    boost::add_vertex(grid.GetValue(x, y, f), graph);
+                    boost::add_vertex(grid.GetValue(x, y, z), graph);
                 }
             }
         }
 
-        // Add sink vertex
+        util::Logger::LogDebug("vertex count " + std::to_string(boost::num_vertices(graph)));
+        util::Logger::LogDebug("edge count " + std::to_string(boost::num_edges(graph)));
+
+        // Add source and sink vertex
+        source = boost::add_vertex(core::ObjectDataPtr(new core::ObjectData()), graph);
         sink = boost::add_vertex(core::ObjectDataPtr(new core::ObjectData()), graph);
-        
-        // Store the vertex indices
-        VertexIndexMap vertices = boost::get(boost::vertex_index, graph);
 
-        // Store the vertex values
-        VertexValueMap values = boost::get(boost::vertex_name, graph);
+        util::Logger::LogDebug("source index: " + std::to_string(source));
+        util::Logger::LogDebug("sink index: " + std::to_string(sink));
+        util::Logger::LogDebug("add edges");
 
-        util::Logger::LogDebug("num vertices " + std::to_string(boost::num_vertices(graph)));
-        
         // Iterate all vertices but source and sink
-        for (int f = 0; f < grid.GetDepthCount(); ++f)
+        VertexIndexMap vertices = boost::get(boost::vertex_index, graph);
+        VertexValueMap values = boost::get(boost::vertex_name, graph);
+        int layer_size = grid.GetWidthCount() * grid.GetHeightCount();
+        for (int z = 0; z < grid.GetDepthCount(); ++z)
         {
-            for (int y = 0; y < v_res_; ++y)
+            for (int y = 0; y < grid.GetHeightCount(); ++y)
             {
-                for (int x = 0; x < h_res_; ++x)
+                for (int x = 0; x < grid.GetWidthCount(); ++x)
                 {
                     // First vertex index
-                    int vi = x + y * h_res_ + f * h_res_ * v_res_ + 1;
+                    int vi = x + y * grid.GetHeightCount() + z * layer_size;
+
+                    // Get the score, clamp it, prevent division by zero and
+                    // logarithm of zero
                     double score = values[vi]->GetDetectionScore();
                     if (score > MAX_SCORE_VALUE)
                     {
@@ -65,40 +70,54 @@ namespace algo
                         score = MIN_SCORE_VALUE;
                     }
 
-                    // Iterate all nearby cells in the next frame
-                    for (int nx = std::max(0, x - vicinity_size_);
-                         nx < std::min(h_res_, x + vicinity_size_ + 1);
-                         ++nx)
+                    // Calculate the edge weight
+                    double weight = -std::log(score / (1 - score));
+
+                    // Connect with the next frame only if there is a next frame
+                    if (z < grid.GetDepthCount() - 1)
                     {
+                        // Iterate all nearby cells in the next frame
                         for (int ny = std::max(0, y - vicinity_size_);
-                             ny < std::min(v_res_, y + vicinity_size_ + 1);
+                             ny <
+                             std::min(grid.GetHeightCount(),
+                                      y + vicinity_size_ + 1);
                              ++ny)
                         {
-                            // Second vertex index
-                            int vj = nx + ny * h_res_ + (f + 1) * h_res_ * v_res_ + 1;
+                            for (int nx = std::max(0, x - vicinity_size_);
+                                 nx < std::min(grid.GetWidthCount(),
+                                               x + vicinity_size_ + 1);
+                                 ++nx)
+                            {
+                                // Second vertex index
+                                int vj = nx + ny * grid.GetHeightCount() +
+                                         (z + 1) * layer_size;
 
-                            // Connect to nearby cells
-                            double weight = -std::log(score / (1 - score));
-                            boost::add_edge(vertices[vi], vertices[vj],
-                                            weight, graph);
+                                // Connect to nearby cells
+                                boost::add_edge(vertices[vi], vertices[vj],
+                                                weight, graph);
+                            }
                         }
-                    }
-                    
-                    // Connect with source and sink
-                    boost::add_edge(source, vertices[vi],
-                                    VIRTUAL_EDGE_WEIGHT, graph);
 
-                    boost::add_edge(vertices[vi], sink,
-                                    VIRTUAL_EDGE_WEIGHT, graph);
+                        boost::add_edge(vertices[vi], sink, VIRTUAL_EDGE_WEIGHT,
+                                        graph);
+                    }
+                    else
+                    {
+                        boost::add_edge(vertices[vi], sink, weight, graph);
+                    }
+
+                    // Connect with source and sink
+                    boost::add_edge(source, vertices[vi], VIRTUAL_EDGE_WEIGHT,
+                                    graph);
                 }
             }
         }
 
-        util::Logger::LogDebug("num edges " + std::to_string(boost::num_edges(graph)));
+        util::Logger::LogDebug("vertex count " + std::to_string(boost::num_vertices(graph)));
+        util::Logger::LogDebug("edge count " + std::to_string(boost::num_edges(graph)));
     }
 
-    void Berclaz::ExtractTracks(DirectedGraph& graph,
-                                MultiPredecessorMap& map, Vertex origin,
+    void Berclaz::ExtractTracks(DirectedGraph& graph, MultiPredecessorMap& map, Vertex origin,
                                 std::vector<core::TrackletPtr>& tracks)
     {
         VertexValueMap values = boost::get(boost::vertex_name, graph);
@@ -121,31 +140,59 @@ namespace algo
     }
 
     void Berclaz::Run(core::DetectionSequence& sequence,
-                      size_t max_track_count,
+                      size_t batch_size, size_t max_track_count,
                       std::vector<core::TrackletPtr>& tracks)
     {
-        Vertex source, sink;
-        DirectedGraph graph;
-        util::Grid grid = util::Parser::ParseGrid(sequence,
-                                                  MIN_H_VALUE,
-                                                  MAX_H_VALUE,
-                                                  h_res_,
-                                                  MIN_V_VALUE,
-                                                  MAX_V_VALUE,
-                                                  v_res_);
+        for (size_t i = 0; i < sequence.GetFrameCount(); i += batch_size)
+        {
+            util::Logger::LogDebug("batch offset: " + std::to_string(i));
 
-        util::Logger::LogDebug("create graph");
-        CreateGraph(graph, source, sink, grid);
+            util::Grid grid = util::Parser::ParseGrid(sequence, i, i + batch_size,
+                                                      0.0, 1.0, h_res_, 0.0, 1.0, v_res_);
 
-        util::FileIO::WriteCSVMatlab(graph, "/home/wrede/Dokumente/graph.csv");
+            util::Logger::LogDebug("create graph");
+            DirectedGraph graph;
+            Vertex source, sink;
+            CreateGraph(graph, source, sink, grid);
 
-        util::Logger::LogDebug("init ksp");
-        KShortestPaths ksp(graph, source, sink);
+            util::Logger::LogDebug("run ksp");
+            KShortestPaths2 ksp;
+            MultiPredecessorMap ksp_result = ksp.Run(graph, source, sink, max_track_count);
 
-        util::Logger::LogDebug("run ksp");
-        MultiPredecessorMap ksp_result = ksp.Run(max_track_count);
+            util::Logger::LogDebug("extract tracks");
+            ExtractTracks(graph, ksp_result, sink, tracks);
+        }
 
-        util::Logger::LogDebug("extract tracks");
-        ExtractTracks(graph, ksp_result, sink, tracks);
+        util::Logger::LogDebug("connect tracks");
+        ConnectTracks(tracks);
+    }
+
+    void Berclaz::ConnectTracks(std::vector<core::TrackletPtr>& tracks)
+    {
+        for (size_t i = 0; i < tracks.size(); ++i)
+        {
+            // find the best matching tracklet
+            double best_value = std::numeric_limits<double>::max();
+            size_t best_index = 0;
+            for (size_t k = i + 1; k < tracks.size(); ++k)
+            {
+                if (tracks[i]->GetLastFrameIndex() < tracks[k]->GetFirstFrameIndex())
+                {
+                    double value = tracks[i]->CompareTo(tracks[k]);
+                    if (value < best_value)
+                    {
+                        best_index = k;
+                    }
+                }
+            }
+
+            // if a match was found
+            if (best_index != 0)
+            {
+                // merge the two tracks
+                tracks[i]->Combine(tracks[best_index]);
+                tracks.erase(tracks.begin() + best_index);
+            }
+        }
     }
 }

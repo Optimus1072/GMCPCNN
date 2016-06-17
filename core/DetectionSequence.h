@@ -8,7 +8,6 @@
 
 #include <string>
 #include "ObjectData.h"
-#include "ObjectDataMap.h"
 
 namespace core
 {

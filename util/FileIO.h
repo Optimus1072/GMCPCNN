@@ -37,7 +37,7 @@ namespace util
          */
         static void ReadCSV(Vector3d& values,
                             const std::string& file_name,
-                            char delimiter = ';');
+                            char delimiter);
 
         /**
          * Reads a CSV file and stores the values in a 2D array.
@@ -48,7 +48,7 @@ namespace util
          */
         static void ReadCSV(Vector2d& values,
                             const std::string& file_name,
-                            char delimiter = ';');
+                            char delimiter);
 
         /**
          * Lists all file names in the given folder.
@@ -75,11 +75,12 @@ namespace util
          * readable by Matlab to display all paths in the corresponding graph.
          *
          * @param map The multi predecessor map to extract the paths from
-         * @param origin The origin, this is the vertex where all paths end
+         * @param source The sink, this is the vertex where all paths begin
+         * @param sink The sink, this is the vertex where all paths end
          * @param file_name The name of the file to write
          */
         static void  WriteCSVMatlab(MultiPredecessorMap& map,
-                                    Vertex& origin,
+                                    Vertex& source, Vertex& sink,
                                     const std::string& file_name);
 
         /**
@@ -93,7 +94,7 @@ namespace util
          */
         static void ReadCSV(ValueMapVector& values,
                             const std::string& file_name,
-                            char delimiter = ',');
+                            char delimiter);
 
         /**
          * Reads a CSV file.
@@ -108,7 +109,7 @@ namespace util
         static void ReadCSV(ValueMapVector& values,
                             const std::string& header,
                             const std::string& file_name,
-                            char delimiter = ',');
+                            char delimiter);
     };
 }
 

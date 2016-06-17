@@ -16,12 +16,8 @@ namespace algo
     {
     private:
         const double VIRTUAL_EDGE_WEIGHT = 0.0;
-        const double MAX_SCORE_VALUE = 0.9999999999;
-        const double MIN_SCORE_VALUE = 0.0000000001;
-        const double MIN_H_VALUE = 0.0;
-        const double MAX_H_VALUE = 1.0;
-        const double MIN_V_VALUE = 0.0;
-        const double MAX_V_VALUE = 1.0;
+        const double MAX_SCORE_VALUE = 0.999999;
+        const double MIN_SCORE_VALUE = 0.000001;
 
         /**
          * Horizontal grid resolution
@@ -40,6 +36,7 @@ namespace algo
 
         /**
          * Creates a graph from the given sequence.
+         *
          * @param graph The graph to write into
          * @param source A reference to the source vertex
          * @param sink A reference to the sink vertex
@@ -50,6 +47,7 @@ namespace algo
 
         /**
          * Extracts the final tracks from the given graph and predecessor map.
+         *
          * @param graph The graph to read the values from
          * @param map The predecessor map to read the paths from
          * @param origin The vertex to start the reverse path traversal from
@@ -58,9 +56,13 @@ namespace algo
         void ExtractTracks(DirectedGraph& graph,
                            MultiPredecessorMap& map, Vertex origin,
                            std::vector<core::TrackletPtr>& tracks);
+
+        //TODO comment
+        void ConnectTracks(std::vector<core::TrackletPtr>& tracks);
     public:
         /**
          * Instantiate with the given parameters.
+         *
          * @param h_res The horizontal grid resolution
          * @param v_res The vertical grid resolution
          * @param vicinity_size The maximum number of cells a detection can skip
@@ -69,13 +71,16 @@ namespace algo
         Berclaz(int h_res, int v_res, int vicinity_size);
 
         /**
-         * Runs the algorithm on the given sequence.
+         * Runs the algorithm on the given sequence. Splits the sequence into
+         * batches to allow faster processing.
+         *
          * @param sequence The detection to use
+         * @param batch_size The number of frames one batch will have at maximum
          * @param max_track_count The maximum number of tracks to extract
          * @param tracks The vector to store the found tracks into
          */
-        void Run(core::DetectionSequence& sequence, size_t max_track_count,
-                 std::vector<core::TrackletPtr>& tracks);
+        void Run(core::DetectionSequence& sequence, size_t batch_size,
+                 size_t max_track_count, std::vector<core::TrackletPtr>& tracks);
     };
 }
 

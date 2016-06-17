@@ -164,6 +164,14 @@ namespace core
         SetFrameIndex(path_objects_.front()->GetFrameIndex());
         last_frame_index_ = path_objects_.back()->GetFrameIndex();
     }
+
+    void Tracklet::Combine(TrackletPtr other)
+    {
+        for (auto obj : other->path_objects_)
+        {
+            AddPathObject(obj);
+        }
+    }
 }
 
 

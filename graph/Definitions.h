@@ -25,7 +25,7 @@ typedef boost::property_map<DirectedGraph, boost::vertex_name_t>::type
         VertexValueMap;
 typedef boost::iterator_property_map<Vertex*, VertexIndexMap, Vertex, Vertex&>
         PredecessorMap;
-typedef std::map<Vertex, std::set<Vertex>> MultiPredecessorMap;
+typedef std::unordered_map<Vertex, std::set<Vertex>> MultiPredecessorMap;
 typedef boost::iterator_property_map<double*, VertexIndexMap, double, double&>
         DistanceMap;
 typedef boost::iterator_property_map<

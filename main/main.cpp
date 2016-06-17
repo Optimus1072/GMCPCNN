@@ -10,6 +10,7 @@
 #include "../util/Logger.h"
 #include "../core/ObjectDataAngular.h"
 #include "../algo/Berclaz.h"
+#include "../algo/KShortestPaths2.h"
 #include <boost/program_options.hpp>
 
 struct
@@ -20,9 +21,7 @@ struct
 } n_stage_params;
 
 void RunNStage(core::DetectionSequence& sequence,
-               const std::string& output_file,
-               const std::string& images_folder,
-               bool display)
+               std::vector<core::TrackletPtr>& tracks)
 {
     util::Logger::LogInfo("Running n-stage");
 
@@ -67,20 +66,12 @@ void RunNStage(core::DetectionSequence& sequence,
     algo::NStage n_stage(n_stage_params.max_frame_skip,
                          penalty_values, max_tracklet_counts);
 
-    std::vector<core::TrackletPtr> tracks;
     n_stage.Run(sequence, tracks);
 
     // Interpolate tracks
     for (auto track : tracks)
     {
         track->InterpolateMissingFrames();
-    }
-
-    // Display the tracking data
-    if (display)
-    {
-        util::Visualizer vis;
-        vis.Display(tracks, images_folder);
     }
 
     util::Logger::LogInfo("Finished");
@@ -91,14 +82,13 @@ struct
     int h_res;
     int v_res;
     int vicinity_size;
+    size_t batch_size;
     size_t max_track_count;
 } berclaz_params;
 
 
 void RunBerclaz(core::DetectionSequence& sequence,
-                const std::string& output_file,
-                const std::string& images_folder,
-                bool display)
+                std::vector<core::TrackletPtr>& tracks)
 {
     util::Logger::LogInfo("Running berclaz");
 
@@ -106,8 +96,8 @@ void RunBerclaz(core::DetectionSequence& sequence,
     algo::Berclaz berclaz(berclaz_params.h_res,
                           berclaz_params.v_res,
                           berclaz_params.vicinity_size);
-    std::vector<core::TrackletPtr> tracks;
-    berclaz.Run(sequence, berclaz_params.max_track_count, tracks);
+    berclaz.Run(sequence, berclaz_params.batch_size,
+                berclaz_params.max_track_count, tracks);
 
     util::Logger::LogInfo("Interpolate tracks");
 
@@ -115,13 +105,6 @@ void RunBerclaz(core::DetectionSequence& sequence,
     for (auto track : tracks)
     {
         track->InterpolateMissingFrames();
-    }
-
-    // Display the tracking data
-    if (display)
-    {
-        util::Visualizer vis;
-        vis.Display(tracks, images_folder);
     }
 
     util::Logger::LogInfo("Finished");
@@ -134,7 +117,8 @@ void Run(int argc, char** argv)
     bool info, debug, display;
 
     // Input dependent variables
-    std::string header;
+    std::string header, input_format;
+    char input_delimiter;
     double temporal_weight, spatial_weight, angular_weight;
     double image_width, image_height;
 
@@ -157,13 +141,13 @@ void Run(int argc, char** argv)
             ("config",
              boost::program_options::value<std::string>(&config_path),
              "the path to the config file, if no path is given the command line arguments are read")
-            ("input-file,i",
+            ("input-file",
              boost::program_options::value<std::string>(&input_file),
              "set detections file path")
-            ("output-file,o",
+            ("output-file",
              boost::program_options::value<std::string>(&output_file),
              "set the output file path")
-            ("images-folder,f",
+            ("images-folder",
              boost::program_options::value<std::string>(&images_folder),
              "set images folder path")
             ("input-header",
@@ -171,7 +155,24 @@ void Run(int argc, char** argv)
                     ->default_value(""),
              "sets the input header, this value is optional if the input file has a header labeling the values,"
                      "the delimiter used for the header needs to be the same as for the rest of the file")
-            ("algorithm,a",
+            ("image-width",
+             boost::program_options::value<double>(&image_width)
+                     ->default_value(1),
+             "the width of the image")
+            ("image-height",
+             boost::program_options::value<double>(&image_height)
+                     ->default_value(1),
+             "the height of the image")
+            ("input-format",
+             boost::program_options::value<std::string>(&input_format)
+                     ->default_value("ObjectData"),
+             "the format the input should be parsed into, valid formats are: "
+                     "2D, Box, Angular")
+            ("input-delimiter",
+             boost::program_options::value<char>(&input_delimiter)
+                     ->default_value(';'),
+             "the delimiter used to separate values in the specified input file")
+            ("algorithm",
              boost::program_options::value<std::string>(&algorithm),
              "set the algorithm to use, current viable options: n-stage berclaz")
             ("max-frame-skip",
@@ -215,14 +216,10 @@ void Run(int argc, char** argv)
              boost::program_options::value<size_t>(&berclaz_params.max_track_count)
                      ->default_value(1),
              "(berclaz) the maximal number of tracks to extract")
-            ("image-width",
-             boost::program_options::value<double>(&image_width)
-                    ->default_value(1920),
-             "the width of the image")
-            ("image-height",
-             boost::program_options::value<double>(&image_height)
-                     ->default_value(1080),
-             "the height of the image");
+            ("batch-size",
+             boost::program_options::value<size_t>(&berclaz_params.batch_size)
+                     ->default_value(100),
+             "(berclaz) the size of one processing batch");
 
     boost::program_options::variables_map opt_var_map;
 #pragma clang diagnostic push
@@ -243,12 +240,29 @@ void Run(int argc, char** argv)
     // Read config
     if (opt_var_map.count("config") != 0)
     {
-        std::ifstream config_file(config_path , std::ifstream::in);
-        boost::program_options::store(
-                boost::program_options::parse_config_file(config_file , opts),
-                opt_var_map);
-        config_file.close();
-        boost::program_options::notify(opt_var_map);
+        std::ifstream config_file(config_path, std::ifstream::in);
+
+        if (config_file.is_open())
+        {
+            boost::program_options::store(
+                    boost::program_options::parse_config_file(config_file,
+                                                              opts),
+                    opt_var_map);
+            config_file.close();
+            boost::program_options::notify(opt_var_map);
+        }
+        else
+        {
+            util::Logger::LogError("Unable to open config file!");
+            exit(0);
+        }
+    }
+    else if (opt_var_map.count("input-file") == 0 ||
+             opt_var_map.count("input-format") == 0 ||
+             opt_var_map.count("output-file") == 0)
+    {
+        std::cout << opts << std::endl;
+        exit(0);
     }
 
     // Enable info logging
@@ -268,34 +282,91 @@ void Run(int argc, char** argv)
     // Reading the input file
     util::Logger::LogInfo("Reading input");
     util::ValueMapVector values;
-    if (header.size() > 0)
+    try
     {
-        util::FileIO::ReadCSV(values, header, input_file);
+        if (header.size() > 0)
+        {
+            util::FileIO::ReadCSV(values, header, input_file, input_delimiter);
+        }
+        else
+        {
+            util::FileIO::ReadCSV(values, input_file, input_delimiter);
+        }
     }
-    else
+    catch (std::exception& e)
     {
-        util::FileIO::ReadCSV(values, input_file);
+        util::Logger::LogError("Failed to read input file!");
+        util::Logger::LogError(e.what());
+        exit(0);
     }
 
     // Parsing the read input
     core::DetectionSequence sequence;
-    util::Parser::ParseObjectDataBox(values, sequence,
-                                     image_width, image_height,
-                                     temporal_weight, spatial_weight);
-
-    // Running the specified algorithm
-    if (algorithm == "n-stage")
+    if (input_format == "2D")
     {
-        RunNStage(sequence, output_file, images_folder, display);
+        util::Parser::ParseObjectData2D(values,
+                                        sequence,
+                                        image_width,
+                                        image_height,
+                                        temporal_weight,
+                                        spatial_weight);
     }
-    else if (algorithm == "berclaz")
+    else if (input_format == "Box")
     {
-        RunBerclaz(sequence, output_file, images_folder, display);
+        util::Parser::ParseObjectDataBox(values,
+                                         sequence,
+                                         image_width,
+                                         image_height,
+                                         temporal_weight,
+                                         spatial_weight);
+    }
+    else if (input_format == "Angular")
+    {
+        util::Parser::ParseObjectDataAngular(values,
+                                             sequence,
+                                             image_width,
+                                             image_height,
+                                             temporal_weight,
+                                             spatial_weight,
+                                             angular_weight);
     }
     else
     {
+        // No valid input-format specified
         std::cout << opts << std::endl;
         exit(0);
+    }
+
+    // Running the specified algorithm
+    std::vector<core::TrackletPtr> tracks;
+    time_t begin_time, end_time;
+    util::Logger::LogInfo("Start time measurement");
+    begin_time = time(0);
+    if (algorithm == "n-stage")
+    {
+        RunNStage(sequence, tracks);
+    }
+    else if (algorithm == "berclaz")
+    {
+        RunBerclaz(sequence, tracks);
+    }
+    else
+    {
+        // No valid algorithm specified
+        std::cout << opts << std::endl;
+        exit(0);
+    }
+    end_time = time(0);
+    util::Logger::LogInfo("Time measurement stopped");
+    util::Logger::LogInfo("Time passed: "
+                          + std::to_string(difftime(end_time, begin_time))
+                          + " seconds");
+
+    // Display the tracking data
+    if (display)
+    {
+        util::Visualizer vis;
+        vis.Display(tracks, images_folder);
     }
 }
 
@@ -312,24 +383,31 @@ void CreateTestGraph(DirectedGraph& graph, Vertex& source, Vertex& sink)
 //
 //    // AB
 //    boost::add_edge(vertices[0], vertices[1], 1.0, graph);
+//    boost::add_edge(vertices[1], vertices[0], 1.0, graph);
 //
 //    // AC
 //    boost::add_edge(vertices[0], vertices[2], 2.0, graph);
+//    boost::add_edge(vertices[2], vertices[0], 2.0, graph);
 //
 //    // BD
 //    boost::add_edge(vertices[1], vertices[3], 1.0, graph);
+//    boost::add_edge(vertices[3], vertices[1], 1.0, graph);
 //
 //    // BE
 //    boost::add_edge(vertices[1], vertices[4], 2.0, graph);
+//    boost::add_edge(vertices[4], vertices[1], 2.0, graph);
 //
 //    // CD
 //    boost::add_edge(vertices[2], vertices[3], 2.0, graph);
+//    boost::add_edge(vertices[3], vertices[2], 2.0, graph);
 //
 //    // DF
 //    boost::add_edge(vertices[3], vertices[5], 1.0, graph);
+//    boost::add_edge(vertices[5], vertices[3], 1.0, graph);
 //
 //    // EF
 //    boost::add_edge(vertices[4], vertices[5], 2.0, graph);
+//    boost::add_edge(vertices[5], vertices[4], 2.0, graph);
 //
 //    source = vertices[0];
 //    sink = vertices[5];
@@ -343,29 +421,73 @@ void CreateTestGraph(DirectedGraph& graph, Vertex& source, Vertex& sink)
                         core::ObjectDataPtr(new core::ObjectData(i)),graph));
     }
 
-    boost::add_edge(vertices[0], vertices[1], 1.0, graph);
-    boost::add_edge(vertices[0], vertices[8], 1.0, graph);
-    boost::add_edge(vertices[0], vertices[4], 1.0, graph);
-    boost::add_edge(vertices[1], vertices[2], 2.0, graph);
-    boost::add_edge(vertices[1], vertices[5], 1.0, graph);
-    boost::add_edge(vertices[2], vertices[3], 1.0, graph);
-    boost::add_edge(vertices[2], vertices[6], 2.0, graph);
-    boost::add_edge(vertices[2], vertices[10], 2.0, graph);
-    boost::add_edge(vertices[3], vertices[7], 1.0, graph);
-    boost::add_edge(vertices[4], vertices[2], 1.0, graph);
-    boost::add_edge(vertices[4], vertices[5], 2.0, graph);
-    boost::add_edge(vertices[4], vertices[9], 2.0, graph);
-    boost::add_edge(vertices[5], vertices[6], 1.0, graph);
-    boost::add_edge(vertices[5], vertices[3], 2.0, graph);
-    boost::add_edge(vertices[6], vertices[7], 1.0, graph);
-    boost::add_edge(vertices[8], vertices[2], 2.0, graph);
-    boost::add_edge(vertices[8], vertices[9], 1.0, graph);
-    boost::add_edge(vertices[9], vertices[3], 2.0, graph);
-    boost::add_edge(vertices[9], vertices[10], 1.0, graph);
-    boost::add_edge(vertices[10], vertices[7], 1.0, graph);
+//    boost::add_edge(vertices[0], vertices[1], 0.0, graph);
+//    boost::add_edge(vertices[0], vertices[8], 0.0, graph);
+//    boost::add_edge(vertices[0], vertices[4], 0.0, graph);
+//    boost::add_edge(vertices[1], vertices[2], -1.0, graph);
+//    boost::add_edge(vertices[1], vertices[5], -1.0, graph);
+//    boost::add_edge(vertices[2], vertices[3], -1.0, graph);
+//    boost::add_edge(vertices[2], vertices[6], -1.0, graph);
+//    boost::add_edge(vertices[2], vertices[10], -1.0, graph);
+//    boost::add_edge(vertices[3], vertices[7], 4.0, graph);
+//    boost::add_edge(vertices[4], vertices[2], 1.0, graph);
+//    boost::add_edge(vertices[4], vertices[5], 1.0, graph);
+//    boost::add_edge(vertices[4], vertices[9], 1.0, graph);
+//    boost::add_edge(vertices[5], vertices[6], 2.0, graph);
+//    boost::add_edge(vertices[5], vertices[3], 2.0, graph);
+//    boost::add_edge(vertices[6], vertices[7], 4.0, graph);
+//    boost::add_edge(vertices[8], vertices[2], -3.0, graph);
+//    boost::add_edge(vertices[8], vertices[9], -3.0, graph);
+//    boost::add_edge(vertices[9], vertices[3], 3.0, graph);
+//    boost::add_edge(vertices[9], vertices[10], 3.0, graph);
+//    boost::add_edge(vertices[10], vertices[7], 4.0, graph);
 
     source = vertices[0];
-    sink = vertices[7];
+    sink = vertices[10];
+
+    for (int i = 1; i < vertices.size() - 1; ++i)
+    {
+        boost::add_edge(source, vertices[i], 0.0, graph);
+        boost::add_edge(vertices[i], sink, 0.0, graph);
+    }
+
+    boost::add_edge(vertices[1], vertices[4], -1.0, graph);
+    boost::add_edge(vertices[1], vertices[5], -1.0, graph);
+    boost::add_edge(vertices[4], vertices[7], -1.0, graph);
+    boost::add_edge(vertices[4], vertices[8], -1.0, graph);
+//    boost::add_edge(vertices[7], vertices[10], -1.0, graph);
+
+    boost::add_edge(vertices[2], vertices[4], -2.0, graph);
+    boost::add_edge(vertices[2], vertices[5], -2.0, graph);
+    boost::add_edge(vertices[2], vertices[6], -2.0, graph);
+    boost::add_edge(vertices[5], vertices[7], -2.0, graph);
+    boost::add_edge(vertices[5], vertices[8], -2.0, graph);
+    boost::add_edge(vertices[5], vertices[9], -2.0, graph);
+//    boost::add_edge(vertices[8], vertices[10], -2.0, graph);
+
+    boost::add_edge(vertices[3], vertices[5], -3.0, graph);
+    boost::add_edge(vertices[3], vertices[6], -3.0, graph);
+    boost::add_edge(vertices[6], vertices[8], -3.0, graph);
+    boost::add_edge(vertices[6], vertices[9], -3.0, graph);
+//    boost::add_edge(vertices[9], vertices[10], -3.0, graph);
+
+
+//     Connect all with source and sink
+//    boost::add_edge(vertices[1], sink, 0, graph);
+//    boost::add_edge(source, vertices[2], 0, graph);
+//    boost::add_edge(vertices[2], sink, 0, graph);
+//    boost::add_edge(source, vertices[3], 0, graph);
+//    boost::add_edge(vertices[4], sink, 0, graph);
+//    boost::add_edge(source, vertices[5], 0, graph);
+//    boost::add_edge(vertices[5], sink, 0, graph);
+//    boost::add_edge(source, vertices[6], 0, graph);
+//    boost::add_edge(vertices[8], sink, 0, graph);
+//    boost::add_edge(source, vertices[9], 0, graph);
+//    boost::add_edge(vertices[9], sink, 0, graph);
+//    boost::add_edge(source, vertices[10], 0, graph);
+
+//    boost::add_edge(vertices[1], vertices[7], 0.0, graph);
+//    boost::add_edge(vertices[8], vertices[7], 0.0, graph);
 }
 
 void TestKSP()
@@ -378,12 +500,12 @@ void TestKSP()
 
     CreateTestGraph(graph, source, sink);
 
-    algo::KShortestPaths ksp(graph, source, sink);
-    MultiPredecessorMap paths = ksp.Run(5);
+    algo::KShortestPaths2 ksp;
+    MultiPredecessorMap paths = ksp.Run(graph, source, sink, 10);
 
     util::FileIO::WriteCSVMatlab(graph, "/home/wrede/Dokumente/graph.csv");
-    util::FileIO::WriteCSVMatlab(paths,
-                                 sink, "/home/wrede/Dokumente/paths.csv");
+    util::FileIO::WriteCSVMatlab(paths, source, sink,
+                                 "/home/wrede/Dokumente/paths.csv");
 }
 
 void TestGrid()
@@ -449,7 +571,9 @@ void TestGrid()
 
 void TestBerclazGraph()
 {
-    std::cout << "init\n";
+    util::Logger::SetDebug(true);
+    util::Logger::SetInfo(true);
+    util::Logger::LogInfo("Test berclaz graph");
 
     // Init grid with data
     util::Grid grid(3, 3, 3, 9.0, 9.0, 9.0);
@@ -476,7 +600,7 @@ void TestBerclazGraph()
     value2->SetDetectionScore(1.0);
     grid.SetValue(value2, 0, 0, 2);
 
-    // Add path source->1,1,0->1,1,0->1,1,2->sink
+    // Add path source->0,1,0->0,1,1->0,1,2->sink
     core::ObjectDataPtr value3(new core::ObjectData(4));
     value3->SetDetectionScore(0.6);
     grid.SetValue(value3, 0, 1, 0);
@@ -487,18 +611,18 @@ void TestBerclazGraph()
     value5->SetDetectionScore(0.6);
     grid.SetValue(value5, 0, 1, 2);
 
-    // Add path source->2,2,0->2,2,0->2,2,2->sink
+    // Add path source->0,2,0->0,2,1->0,2,2->sink
     core::ObjectDataPtr value6(new core::ObjectData(7));
-    value6->SetDetectionScore(0.3);
+    value6->SetDetectionScore(0.55);
     grid.SetValue(value6, 0, 2, 0);
     core::ObjectDataPtr value7(new core::ObjectData(8));
-    value7->SetDetectionScore(0.3);
+    value7->SetDetectionScore(0.55);
     grid.SetValue(value7, 0, 2, 1);
     core::ObjectDataPtr value8(new core::ObjectData(9));
-    value8->SetDetectionScore(0.3);
+    value8->SetDetectionScore(0.55);
     grid.SetValue(value8, 0, 2, 2);
 
-    std::cout << "add vertices\n";
+    util::Logger::LogDebug("add vertices");
 
     // Add grid vertices
     DirectedGraph graph;
@@ -513,14 +637,14 @@ void TestBerclazGraph()
         }
     }
 
-    std::cout << "vertex count = " << boost::num_vertices(graph) << std::endl;
-    std::cout << "edge count = " << boost::num_edges(graph) << std::endl;
+    util::Logger::LogDebug("vertex count " + std::to_string(boost::num_vertices(graph)));
+    util::Logger::LogDebug("edge count " + std::to_string(boost::num_edges(graph)));
 
     // Add source and sink vertex
     Vertex source = boost::add_vertex(core::ObjectDataPtr(new core::ObjectData()), graph);
     Vertex sink = boost::add_vertex(core::ObjectDataPtr(new core::ObjectData()), graph);
 
-    std::cout << "add edges\n";
+    util::Logger::LogDebug("add edges");
 
     // Iterate all vertices but source and sink
     VertexIndexMap vertices = boost::get(boost::vertex_index, graph);
@@ -536,24 +660,24 @@ void TestBerclazGraph()
                 // First vertex index
                 int vi = x + y * grid.GetHeightCount() + z * layer_size;
 
+                // Get the score, clamp it, prevent division by zero and
+                // logarithm of zero
+                double score = values[vi]->GetDetectionScore();
+                if (score > 0.999999)
+                {
+                    score = 0.999999;
+                }
+                else if (score < 0.000001)
+                {
+                    score = 0.000001;
+                }
+
+                // Calculate the edge weight
+                double weight = -std::log(score / (1 - score));
+
                 // Connect with the next frame only if there is a next frame
                 if (z < grid.GetDepthCount() - 1)
                 {
-                    // Get the score, clamp it, prevent division by zero and
-                    // logarithm of zero
-                    double score = values[vi]->GetDetectionScore();
-                    if (score > 0.999999)
-                    {
-                        score = 0.999999;
-                    }
-                    else if (score < 0.000001)
-                    {
-                        score = 0.000001;
-                    }
-
-                    // Calculate the edge weight
-                    double weight = -std::log(score / (1 - score));
-
                     // Iterate all nearby cells in the next frame
                     for (int ny = std::max(0, y - vicinity_size);
                          ny <
@@ -574,34 +698,39 @@ void TestBerclazGraph()
                                             weight, graph);
                         }
                     }
+
+                    boost::add_edge(vertices[vi], sink, 0.0, graph);
+                }
+                else
+                {
+                    boost::add_edge(vertices[vi], sink, weight, graph);
                 }
 
                 // Connect with source and sink
                 boost::add_edge(source, vertices[vi], 0.0, graph);
-                boost::add_edge(vertices[vi], sink, 0.0, graph);
             }
         }
     }
 
-    std::cout << "vertex count = " << boost::num_vertices(graph) << std::endl;
-    std::cout << "edge count = " << boost::num_edges(graph) << std::endl;
+    util::Logger::LogDebug("vertex count " + std::to_string(boost::num_vertices(graph)));
+    util::Logger::LogDebug("edge count " + std::to_string(boost::num_edges(graph)));
 
     // Running KSP with 5 possible paths although only 3 are worth it
-    algo::KShortestPaths ksp(graph, source, sink);
-    MultiPredecessorMap ksp_result = ksp.Run(5);
+    algo::KShortestPaths2 ksp;
+    MultiPredecessorMap ksp_result = ksp.Run(graph, source, sink, 5);
 
     util::FileIO::WriteCSVMatlab(graph, "/home/wrede/Dokumente/graph.csv");
-    util::FileIO::WriteCSVMatlab(ksp_result,
-                                 sink, "/home/wrede/Dokumente/paths.csv");
+    util::FileIO::WriteCSVMatlab(ksp_result, source, sink,
+                                 "/home/wrede/Dokumente/paths.csv");
 }
 
 int main(int argc, char** argv)
 {
-    //Run(argc, argv);
+    Run(argc, argv);
 
     //TestTracklet();
 
-    TestKSP();
+    //TestKSP();
 
     //TestGrid();
 
