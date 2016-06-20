@@ -1,0 +1,58 @@
+\hypertarget{classalgo_1_1KShortestPaths}{}\section{algo\+:\+:K\+Shortest\+Paths Class Reference}
+\label{classalgo_1_1KShortestPaths}\index{algo\+::\+K\+Shortest\+Paths@{algo\+::\+K\+Shortest\+Paths}}
+
+
+{\ttfamily \#include $<$K\+Shortest\+Paths.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classalgo_1_1KShortestPaths_a2805f56b9abb112f10c752d125d623d8}{K\+Shortest\+Paths} (Directed\+Graph graph, Vertex source, Vertex sink)
+\item 
+Multi\+Predecessor\+Map \hyperlink{classalgo_1_1KShortestPaths_ae77137136462303e951f631ba7db6adf}{Run} (size\+\_\+t max\+\_\+path\+\_\+count)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Class providing a k-\/shortest-\/paths algorithm implementation. 
+
+\subsection{Constructor \& Destructor Documentation}
+\index{algo\+::\+K\+Shortest\+Paths@{algo\+::\+K\+Shortest\+Paths}!K\+Shortest\+Paths@{K\+Shortest\+Paths}}
+\index{K\+Shortest\+Paths@{K\+Shortest\+Paths}!algo\+::\+K\+Shortest\+Paths@{algo\+::\+K\+Shortest\+Paths}}
+\subsubsection[{\texorpdfstring{K\+Shortest\+Paths(\+Directed\+Graph graph, Vertex source, Vertex sink)}{KShortestPaths(DirectedGraph graph, Vertex source, Vertex sink)}}]{\setlength{\rightskip}{0pt plus 5cm}algo\+::\+K\+Shortest\+Paths\+::\+K\+Shortest\+Paths (
+\begin{DoxyParamCaption}
+\item[{Directed\+Graph}]{graph, }
+\item[{Vertex}]{source, }
+\item[{Vertex}]{sink}
+\end{DoxyParamCaption}
+)}\hypertarget{classalgo_1_1KShortestPaths_a2805f56b9abb112f10c752d125d623d8}{}\label{classalgo_1_1KShortestPaths_a2805f56b9abb112f10c752d125d623d8}
+Initializes the k-\/shortest-\/paths algorithm for the given graph. Uses the source vertex as starting and the sink vertex as target vertex. 
+\begin{DoxyParams}{Parameters}
+{\em graph} & The graph to work with \\
+\hline
+{\em source} & The starting vertex \\
+\hline
+{\em sink} & The target vertex \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\index{algo\+::\+K\+Shortest\+Paths@{algo\+::\+K\+Shortest\+Paths}!Run@{Run}}
+\index{Run@{Run}!algo\+::\+K\+Shortest\+Paths@{algo\+::\+K\+Shortest\+Paths}}
+\subsubsection[{\texorpdfstring{Run(size\+\_\+t max\+\_\+path\+\_\+count)}{Run(size\_t max\_path\_count)}}]{\setlength{\rightskip}{0pt plus 5cm}Multi\+Predecessor\+Map algo\+::\+K\+Shortest\+Paths\+::\+Run (
+\begin{DoxyParamCaption}
+\item[{size\+\_\+t}]{max\+\_\+path\+\_\+count}
+\end{DoxyParamCaption}
+)}\hypertarget{classalgo_1_1KShortestPaths_ae77137136462303e951f631ba7db6adf}{}\label{classalgo_1_1KShortestPaths_ae77137136462303e951f631ba7db6adf}
+Runs the algorithm to find the given number of shortest paths. The actual number of paths found is the number of entries in the Multi\+Predecessor\+Map with the sink vertex as the key. 
+\begin{DoxyParams}{Parameters}
+{\em max\+\_\+path\+\_\+count} & The maximum number of paths to find \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+algo/K\+Shortest\+Paths.\+h\item 
+algo/K\+Shortest\+Paths.\+cpp\end{DoxyCompactItemize}

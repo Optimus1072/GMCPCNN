@@ -182,14 +182,12 @@ namespace util
     {
         char delimiter = ',';
 
-        std::ofstream out("/home/wrede/Dokumente/paths.csv", std::ofstream::out);
+        std::ofstream out(file_name, std::ofstream::out);
         for (Vertex first : map[sink])
         {
             out << (sink + 1) << delimiter << (first + 1);
 
-            //TODO change (count index)
-            for (Vertex u = first, v = (*map[u].begin());
-                 u != v; u = v, v = (*map[v].begin()))
+            for (Vertex u = first, v = (*map[u].begin()); u != v; u = v, v = (*map[v].begin()))
             {
                 out << delimiter << (v + 1);
 
@@ -318,6 +316,33 @@ namespace util
         }
 
         in.close();
+    }
+
+    void FileIO::WriteCSV(std::vector<core::TrackletPtr>& tracks, const std::string& file_name,
+                          char delimiter)
+    {
+        // Get the frame range
+        size_t first_frame = tracks[0]->GetFirstFrameIndex();
+        size_t last_frame = tracks[0]->GetLastFrameIndex();
+        for (auto track : tracks)
+        {
+            if (track->GetFirstFrameIndex() < first_frame)
+                first_frame = track->GetFirstFrameIndex();
+            if (track->GetLastFrameIndex() > last_frame)
+                last_frame = track->GetLastFrameIndex();
+        }
+
+        std::ofstream out(file_name, std::ios::out);
+
+        if (!out.is_open())
+        {
+            util::Logger::LogError("Unable to open the the file: " + file_name);
+            return;
+        }
+
+        //TODO
+
+        out.close();
     }
 }
 

@@ -163,8 +163,11 @@ namespace algo
             ExtractTracks(graph, ksp_result, sink, tracks);
         }
 
-        util::Logger::LogDebug("connect tracks");
-        ConnectTracks(tracks);
+        if (batch_size < sequence.GetFrameCount())
+        {
+            util::Logger::LogDebug("connect tracks");
+            ConnectTracks(tracks);
+        }
     }
 
     void Berclaz::ConnectTracks(std::vector<core::TrackletPtr>& tracks)
