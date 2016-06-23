@@ -357,6 +357,7 @@ void Run(int argc, char** argv)
         std::cout << opts << std::endl;
         exit(0);
     }
+
     end_time = time(0);
     util::Logger::LogInfo("Time measurement stopped");
     util::Logger::LogInfo("Time passed: "
@@ -364,13 +365,18 @@ void Run(int argc, char** argv)
                           + " minutes");
 
     // Write the output file
-    //util::FileIO::WriteCSV(tracks, output_file, output_delimiter);
+    util::FileIO::WriteTracks(tracks, output_file, output_delimiter);
 
     // Display the tracking data
     if (display)
     {
         util::Visualizer vis;
-        vis.Display(tracks, images_folder);
+
+        if (algorithm == "berclaz")
+            vis.Display(tracks, images_folder, "Visualizer",
+                        0, 24, berclaz_params.h_res, berclaz_params.v_res);
+        else
+            vis.Display(tracks, images_folder);
     }
 }
 
@@ -499,15 +505,17 @@ void CreateTestGraph(DirectedGraph& graph, Vertex& source, Vertex& sink)
 //    boost::add_edge(vertices[8], vertices[7], 0.0, graph);
 }
 
-void TestKSP(DirectedGraph& graph, Vertex& source, Vertex& sink, size_t n_paths)
+void TestKSP(DirectedGraph graph, Vertex source, Vertex sink, size_t n_paths)
 {
+    util::FileIO::WriteCSVMatlab(graph, "/home/wrede/Dokumente/graph_ksp.csv");
+
     algo::KShortestPaths2 ksp;
     MultiPredecessorMap paths = ksp.Run(graph, source, sink, n_paths);
 
     util::FileIO::WriteCSVMatlab(paths, source, sink, "/home/wrede/Dokumente/paths_ksp.csv");
 }
 
-void TestKBellmanFord(DirectedGraph& graph, Vertex& source, Vertex& sink, size_t n_paths)
+void TestKBellmanFord(DirectedGraph graph, Vertex source, Vertex sink, size_t n_paths)
 {
     util::FileIO::WriteCSVMatlab(graph, "/home/wrede/Dokumente/graph_kbf.csv");
 
@@ -751,22 +759,68 @@ void CreateBerclazGraph(DirectedGraph& graph, Vertex& source, Vertex& sink)
     util::Logger::LogDebug("edge count " + std::to_string(boost::num_edges(graph)));
 }
 
+void CreatePresentationGraph(DirectedGraph& graph, Vertex& source, Vertex& sink)
+{
+    std::vector<Vertex> vertices;
+    for (size_t i = 0; i < 10; ++i)
+    {
+        vertices.push_back(boost::add_vertex(core::ObjectDataPtr(new core::ObjectData(i)), graph));
+    }
+
+    source = vertices[0];
+    sink = vertices[9];
+
+    boost::add_edge(vertices[0], vertices[1], 0.0, graph);
+    boost::add_edge(vertices[0], vertices[2], 0.0, graph);
+    boost::add_edge(vertices[1], vertices[3], 12.0, graph);
+    boost::add_edge(vertices[1], vertices[4], 15.0, graph);
+    boost::add_edge(vertices[2], vertices[3], 15.0, graph);
+    boost::add_edge(vertices[2], vertices[4], 10.0, graph);
+    boost::add_edge(vertices[3], vertices[5], 15.0, graph);
+    boost::add_edge(vertices[3], vertices[6], 12.0, graph);
+    boost::add_edge(vertices[4], vertices[5], 12.0, graph);
+    boost::add_edge(vertices[4], vertices[6], 11.0, graph);
+    boost::add_edge(vertices[5], vertices[7], 12.0, graph);
+    boost::add_edge(vertices[5], vertices[8], 12.0, graph);
+    boost::add_edge(vertices[6], vertices[7], 11.0, graph);
+    boost::add_edge(vertices[6], vertices[8], 10.0, graph);
+    boost::add_edge(vertices[7], vertices[9], 0.0, graph);
+    boost::add_edge(vertices[8], vertices[9], 0.0, graph);
+
+//    boost::add_edge(vertices[0], vertices[1], 0.0, graph);
+//    boost::add_edge(vertices[0], vertices[2], 0.0, graph);
+//    boost::add_edge(vertices[1], vertices[3], 12.0, graph);
+//    boost::add_edge(vertices[1], vertices[4], 15.0, graph);
+//    boost::add_edge(vertices[2], vertices[3], 15.0, graph);
+//    boost::add_edge(vertices[2], vertices[4], 10.0, graph);
+//    boost::add_edge(vertices[3], vertices[5], 12.0, graph);
+//    boost::add_edge(vertices[3], vertices[6], 12.0, graph);
+//    boost::add_edge(vertices[4], vertices[5], 11.0, graph);
+//    boost::add_edge(vertices[4], vertices[6], 10.0, graph);
+//    boost::add_edge(vertices[5], vertices[7], 15.0, graph);
+//    boost::add_edge(vertices[5], vertices[8], 12.0, graph);
+//    boost::add_edge(vertices[6], vertices[7], 12.0, graph);
+//    boost::add_edge(vertices[6], vertices[8], 11.0, graph);
+//    boost::add_edge(vertices[7], vertices[9], 0.0, graph);
+//    boost::add_edge(vertices[8], vertices[9], 0.0, graph);
+}
+
 int main(int argc, char** argv)
 {
     //TODO load with frame offset
 
-    Run(argc, argv);
+//    Run(argc, argv);
 
 //    TestTracklet();
 
-//    DirectedGraph graph;
-//    Vertex source, sink;
-//    CreateBerclazGraph(graph, source, sink);
+    DirectedGraph graph;
+    Vertex source, sink;
+    CreatePresentationGraph(graph, source, sink);
 
 //    util::FileIO::WriteCSVMatlab(graph, "/home/wrede/Dokumente/graph.csv");
 
-//    TestKBellmanFord(graph, source, sink, 3);
-//    TestKSP(graph, source, sink, 10);
+    TestKBellmanFord(graph, source, sink, 2);
+    TestKSP(graph, source, sink, 3);
 
 //    TestGrid();
 

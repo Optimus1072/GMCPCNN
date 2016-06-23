@@ -172,6 +172,10 @@ namespace util
          */
         void PositionToIndex(double x, double y, double z,
                              int& xi, int& yi, int& zi) const;
+
+        //TODO comment
+        void Convolve2D(int vicinity, double* mask, double multiplier);
+        void Convolve3D(int vicinity, double* mask, double multiplier);
     };
 }
 

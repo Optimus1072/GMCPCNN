@@ -33,7 +33,7 @@ namespace algo
         double PathCosts(size_t iteration);
 
         void QueueCopyEdges();
-        void QueueRemoveAll();
+        void ClearAllEdges();
         void QueueRemoveEdge(Vertex source, Vertex target);
         void QueueAddEdge(Vertex source, Vertex target, double weight);
         void UpdateEdges();

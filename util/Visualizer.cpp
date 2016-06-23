@@ -117,7 +117,7 @@ namespace util
 
     void Visualizer::Display(std::vector<core::TrackletPtr>& tracks,
                              std::string image_folder, std::string title,
-                             size_t first_frame, int play_fps)
+                             size_t first_frame, int play_fps, int grid_width, int grid_height)
     {
         util::Logger::LogInfo("Displaying data");
 
@@ -134,10 +134,10 @@ namespace util
         std::vector<cv::Scalar> colors;
         std::random_device rd;
         std::mt19937 gen(rd());
-        colors.push_back(cv::Scalar(0, 0, 255));
         colors.push_back(cv::Scalar(0, 255, 0));
-        colors.push_back(cv::Scalar(255, 0, 0));
+        colors.push_back(cv::Scalar(0, 0, 255));
         colors.push_back(cv::Scalar(0, 255, 255));
+        colors.push_back(cv::Scalar(255, 0, 0));
         for (size_t i = 4; i < tracks.size(); ++i)
         {
             // BGR
@@ -159,12 +159,26 @@ namespace util
                                        + image_files[current_frame],
                                        1);
 
-//            util::Logger::LogDebug("display frame " + std::to_string(current_frame));
+            //TODO draw grid (experimental)
+            if (grid_width > 0 && grid_height > 0)
+            {
+                cv::Scalar gridColor(255, 255, 255);
+                double cellWidth = image.cols / grid_width;
+                double cellHeight = image.rows / grid_height;
+                for (int x = 0; x < grid_width; ++x)
+                {
+                    for (int y = 0; y < grid_height; ++y)
+                    {
+                        cv::rectangle(image,
+                                      cv::Point2d(x * cellWidth, y * cellHeight),
+                                      cv::Point2d((x + 1) * cellWidth, (y + 1) * cellHeight),
+                                      gridColor);
+                    }
+                }
+            }
+
             for (size_t i = 0; i < tracks.size(); ++i)
             {
-//                util::Logger::LogDebug("display track #" + std::to_string(i));
-
-//                tracks[i]->Visualize(image, colors[i]);
                 tracks[i]->Visualize(image, colors[i], current_frame, 0, 0);
             }
 

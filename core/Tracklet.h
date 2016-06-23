@@ -114,6 +114,8 @@ namespace core
         void Flatten();
 
         void Combine(TrackletPtr other);
+
+        ObjectDataPtr GetFrameObject(size_t frame_index);
     };
 }
 

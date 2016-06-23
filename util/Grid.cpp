@@ -109,4 +109,101 @@ namespace util
     {
         return depth_;
     }
+
+    void Grid::Convolve2D(int vicinity, double* mask, double multiplier)
+    {
+        // [x,y,z]    position in grid
+        // [vx,vy,vz] position in vicinity
+        // [nx,ny,nz] position in grid
+        // [mx,my,mz] position in mask
+        // [mi]       index in mask
+
+        int mask_size = vicinity * 2 + 1;
+        for (int z = 0; z < depth_count_; ++z)
+        {
+            for (int y = 0; y < height_count_; ++y)
+            {
+                for (int x = 0; x < width_count_; ++x)
+                {
+                    double score = 0.0;
+
+                    for (int vy = -vicinity; vy <= vicinity; ++vy)
+                    {
+                        int ny = y + vy;
+
+                        if (ny < 0 || ny >= height_count_) continue;
+
+                        int my = vy + vicinity;
+
+                        for (int vx = -vicinity; vx <= vicinity; ++vx)
+                        {
+                            int nx = x + vx;
+
+                            if (nx < 0 || nx >= width_count_) continue;
+
+                            int mx = vx + vicinity;
+                            int mi = my * mask_size + mx;
+
+                            score += GetValue(nx, ny, z)->GetDetectionScore() * mask[mi];
+                        }
+                    }
+
+                    GetValue(x, y, z)->SetDetectionScore(score * multiplier);
+                }
+            }
+        }
+    }
+
+    void Grid::Convolve3D(int vicinity, double* mask, double multiplier)
+    {
+        // [x,y,z]    position in grid
+        // [vx,vy,vz] position in vicinity
+        // [nx,ny,nz] position in grid
+        // [mx,my,mz] position in mask
+        // [mi]       index in mask
+
+        int mask_size = vicinity * 2 + 1;
+        for (int z = 0; z < depth_count_; ++z)
+        {
+            for (int y = 0; y < height_count_; ++y)
+            {
+                for (int x = 0; x < width_count_; ++x)
+                {
+                    double score = 0.0;
+
+                    for (int vz = -vicinity; vz <= vicinity; ++vz)
+                    {
+                        int nz = z + vz;
+
+                        if (nz < 0 || nz >= depth_count_) continue;
+
+                        int mz = vz + vicinity;
+
+                        for (int vy = -vicinity; vy <= vicinity; ++vy)
+                        {
+                            int ny = y + vy;
+
+                            if (ny < 0 || ny >= height_count_) continue;
+
+                            int my = vy + vicinity;
+
+                            for (int vx = -vicinity; vx <= vicinity; ++vx)
+                            {
+                                int nx = x + vx;
+
+                                if (nx < 0 || nx >= width_count_) continue;
+
+                                int mx = vx + vicinity;
+                                int mi = mz * mask_size * mask_size + my * mask_size + mx;
+
+                                score += GetValue(nx, ny, nz)->GetDetectionScore() * mask[mi];
+                            }
+                        }
+                    }
+
+                    GetValue(x, y, z)->SetDetectionScore(score * multiplier);
+                }
+            }
+        }
+    }
 }

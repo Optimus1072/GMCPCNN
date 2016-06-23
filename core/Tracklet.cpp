@@ -36,6 +36,8 @@ namespace core
 
     void Tracklet::AddPathObject(ObjectDataPtr obj, bool overwrite)
     {
+        // Prevent virtual objects to be added, they should be interpolated later from
+        // the real detections
         if (!obj->IsVirtual())
         {
             bool inserted = false;
@@ -102,18 +104,13 @@ namespace core
     void Tracklet::Visualize(cv::Mat& image, cv::Scalar& color, size_t frame,
                              size_t predecessor_count, size_t successor_count) const
     {
-        if (frame == 0)
-        {
-            predecessor_count = 0;
-        }
+        // Prevent negative values because frame is unsigned
+        predecessor_count = std::min(predecessor_count, frame);
 
         size_t start = (frame - predecessor_count > GetFirstFrameIndex()) ?
                        frame - predecessor_count : GetFirstFrameIndex();
         size_t end = (frame + successor_count < GetLastFrameIndex()) ?
                      frame + successor_count : GetLastFrameIndex();
-
-//        util::Logger::LogDebug("tracklet frame range: " + std::to_string(GetFirstFrameIndex()) + "-" + std::to_string(GetLastFrameIndex()));
-//        util::Logger::LogDebug("tracklet visualize frames: " + std::to_string(start) + "-" + std::to_string(end));
 
         for (auto obj : path_objects_)
         {
@@ -132,8 +129,7 @@ namespace core
             if (gap > 1)
             {
                 path_objects_.insert(path_objects_.begin() + i,
-                                     path_objects_[i - 1]->Interpolate(path_objects_[i],
-                                                                       0.5));
+                                     path_objects_[i - 1]->Interpolate(path_objects_[i], 0.5));
                 --i;
             }
         }
@@ -171,6 +167,19 @@ namespace core
         {
             AddPathObject(obj);
         }
+    }
+
+    ObjectDataPtr Tracklet::GetFrameObject(size_t frame_index)
+    {
+        for (auto obj : path_objects_)
+        {
+            if (obj->GetFrameIndex() == frame_index)
+            {
+                return obj;
+            }
+        }
+
+        return nullptr;
     }
 }
 

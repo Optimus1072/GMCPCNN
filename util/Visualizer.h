@@ -46,16 +46,20 @@ namespace util
          * Displays the given tracks in an window.
          * Use D for next frame, A for previous frame, F to toggle auto play and
          * ESC to exit.
+         * If a grid size greater zero is specified a grid will be overlayed.
+         *
          * @param tracks The tracks to display
          * @param image_folder The images to use
          * @param title The window title
          * @param first_frame The frame to start at
-         * @param play_fps The FPS to use when auto play is activated.
+         * @param play_fps The FPS to use when auto play is activated
+         * @param grid_width The number of cells in a row
+         * @param grid_height The number of cells in a column
          */
         void Display(std::vector<core::TrackletPtr>& tracks,
                      std::string image_folder,
                      std::string title = "Visualizer", size_t first_frame = 0,
-                     int play_fps = 24);
+                     int play_fps = 24, int grid_width = 0, int grid_height = 0);
     };
 }
 

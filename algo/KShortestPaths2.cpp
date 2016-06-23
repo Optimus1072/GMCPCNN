@@ -56,6 +56,7 @@ namespace algo
 
     void KShortestPaths2::UpdateEdges()
     {
+        util::Logger::LogDebug("remove edges");
         // Remove the old edges, needs to be done without any iterator since
         // the removal invalidates any iterators
         for (auto edge : edges_to_remove_)
@@ -64,6 +65,7 @@ namespace algo
         }
         edges_to_remove_.clear();
 
+        util::Logger::LogDebug("add edges");
         // Add the new edges, needs to be done without any iterator since
         // the addition invalidates any iterators
         for (auto edge : edges_to_add_)
@@ -102,15 +104,12 @@ namespace algo
         }
     }
 
-    void KShortestPaths2::QueueRemoveAll()
+    void KShortestPaths2::ClearAllEdges()
     {
-        boost::graph_traits<DirectedGraph>::edge_iterator ei, ei_end;
-        for (boost::tie(ei, ei_end) = boost::edges(graph_copy_);
-             ei != ei_end; ++ei)
+        boost::graph_traits<DirectedGraph>::vertex_iterator vi, vi_end;
+        for (boost::tie(vi, vi_end) = boost::vertices(graph_copy_); vi != vi_end; ++vi)
         {
-            Vertex s_copy = boost::source(*ei, graph_copy_);
-            Vertex t_copy = boost::target(*ei, graph_copy_);
-            QueueRemoveEdge(s_copy, t_copy);
+            boost::clear_out_edges(*vi, graph_copy_);
         }
     }
 
@@ -143,7 +142,7 @@ namespace algo
             }
 
             ExtendGraph(i);
-            i > 0 ? TransformEdges(i - 1) : TransformEdges(0);
+            TransformEdges(i > 0 ? i - 1 : 0);
             FindAndAugment(i + 1);
             Interlace(i + 1);
         }
@@ -156,9 +155,9 @@ namespace algo
         util::Logger::LogDebug("extend graph iteration: " + std::to_string(iteration));
 
         // Clear all previous working data
-        util::Logger::LogDebug("remove all");
-        QueueRemoveAll();
-        util::Logger::LogDebug("copy all");
+        util::Logger::LogDebug("clear all edges");
+        ClearAllEdges();
+        util::Logger::LogDebug("queue copy edges");
         QueueCopyEdges();
         util::Logger::LogDebug("update edges");
         UpdateEdges();
@@ -201,6 +200,7 @@ namespace algo
             // Create auxiliary edge
             // Is already inverted, because it will not be iterated later
             QueueAddEdge(v_copy_out, v_copy_in, 0.0);
+//            QueueAddEdge(v_copy_in, v_copy_out, 0.0);
         }
 
         util::Logger::LogDebug("update edges");
@@ -231,6 +231,8 @@ namespace algo
 
         util::Logger::LogDebug("update edges");
         UpdateEdges();
+
+        util::FileIO::WriteCSVMatlab(graph_copy_, "/home/wrede/Dokumente/graph_" + std::to_string(iteration) + "e.csv");
     }
 
     void KShortestPaths2::TransformEdges(size_t iteration)
@@ -241,8 +243,7 @@ namespace algo
 
         EdgeWeightMap weights = boost::get(boost::edge_weight, graph_copy_);
         boost::graph_traits<DirectedGraph>::edge_iterator ei, ei_end;
-        for (boost::tie(ei, ei_end) = boost::edges(graph_copy_);
-             ei != ei_end; ++ei)
+        for (boost::tie(ei, ei_end) = boost::edges(graph_copy_); ei != ei_end; ++ei)
         {
             Vertex s_copy = boost::source(*ei, graph_copy_);
             Vertex t_copy = boost::target(*ei, graph_copy_);
@@ -252,21 +253,21 @@ namespace algo
             if (distances.count(s_copy) > 0 && distances.count(t_copy) > 0)
             {
                 //TODO set all edges to source to zero (experimental)
-                if (t_copy == orig_to_copy_[source_]) {
-                    weights[*ei] = 0.0;
-                    continue;
-                }
+//                if (t_copy == orig_to_copy_[source_]) {
+//                    weights[*ei] = 0.0;
+//                    continue;
+//                }
 
                 // check if the vertex was found in previous iterations
-                if (distances[s_copy] == std::numeric_limits<double>::max() ||
-                        distances[t_copy] == std::numeric_limits<double>::max())
-                {
-                    weights[*ei] = std::numeric_limits<double>::infinity();
-                }
-                else
-                {
+//                if (distances[s_copy] == std::numeric_limits<double>::max() ||
+//                        distances[t_copy] == std::numeric_limits<double>::max())
+//                {
+//                    weights[*ei] = std::numeric_limits<double>::infinity();
+//                }
+//                else
+//                {
                     weights[*ei] += distances[s_copy] - distances[t_copy];
-                }
+//                }
             }
 
             // Correct rounding errors
@@ -284,7 +285,7 @@ namespace algo
             }
         }
 
-//        util::FileIO::WriteCSVMatlab(graph_copy_, "/home/wrede/Dokumente/graph_t.csv");
+        util::FileIO::WriteCSVMatlab(graph_copy_, "/home/wrede/Dokumente/graph_" + std::to_string(iteration) + "t.csv");
     }
 
     void KShortestPaths2::FindAndAugment(size_t iteration)
@@ -346,10 +347,23 @@ namespace algo
 
         // Add the new distances
         boost::graph_traits<DirectedGraph>::vertex_iterator vi, vi_end;
-        for (boost::tie(vi, vi_end) = boost::vertices(graph_copy_);
-             vi != vi_end; ++vi)
+        for (boost::tie(vi, vi_end) = boost::vertices(graph_copy_); vi != vi_end; ++vi)
         {
-            i_distances_[iteration][*vi] = dist_map[*vi];
+            double dist = dist_map[*vi];
+
+            if (dist == std::numeric_limits<double>::max())
+            {
+                if (out_to_in_.count(*vi) > 0)
+                {
+                    dist = dist_map[out_to_in_[*vi]];
+                }
+            }
+
+            i_distances_[iteration][*vi] = dist;
+
+//            i_distances_[iteration][*vi] = dist_map[*vi];
+
+//            std::cout << iteration << " " << (*vi + 1) << " = " << i_distances_[iteration][*vi] << std::endl;
         }
 
         // Add the new path (the given path is in the copied graph, so the

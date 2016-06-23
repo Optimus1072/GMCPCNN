@@ -48,12 +48,10 @@ namespace core
         return 0.0;
     }
 
-    ObjectDataPtr ObjectData::Interpolate(ObjectDataPtr obj,
-                                       double fraction) const
+    ObjectDataPtr ObjectData::Interpolate(ObjectDataPtr obj, double fraction) const
     {
         size_t index = static_cast<size_t>(
-                util::MyMath::Lerp(
-                        GetFrameIndex(), obj->GetFrameIndex(), fraction));
+                util::MyMath::Lerp(GetFrameIndex(), obj->GetFrameIndex(), fraction));
 
         return ObjectDataPtr(new ObjectData(index));
     }

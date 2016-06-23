@@ -211,15 +211,16 @@ namespace util
         double depth = (double) (stop - start);
         Grid grid(res_x, res_y, res_z, width, height, depth);
 
-        // Fill with elements with detection score of zero
+        // Fill with elements with detection score of 0
         for (int z = 0; z < grid.GetDepthCount(); ++z)
         {
             for (int y = 0; y < grid.GetHeightCount(); ++y)
             {
                 for (int x = 0; x < grid.GetWidthCount(); ++x)
                 {
-                    core::ObjectDataPtr value(
-                            new core::ObjectData((size_t)(z + start)));
+                    // Add virtual object, thus the object will not be added to the final track and
+                    // instead be interpolated from real detections
+                    core::ObjectDataPtr value(new core::ObjectData());
 
                     grid.SetValue(value, x, y, z);
                 }
@@ -247,6 +248,27 @@ namespace util
                 }
             }
         }
+
+        // Convolve with linear filter
+//        int vicinity = 1;
+//        double multiplier = 0.25;
+//        double* linear_filter = new double[9] {
+//                0.25, 0.50, 0.25,
+//                0.50, 1.00, 0.50,
+//                0.25, 0.50, 0.25
+//        };
+//        grid.Convolve2D(vicinity, linear_filter, multiplier);
+//        delete[] linear_filter;
+
+        // Convolve with gaussian filter
+        int vicinity = 1;
+        double* gaussian_filter = new double[9] {
+                0.002284, 0.043222, 0.002284,
+                0.043222, 0.817976, 0.043222,
+                0.002284, 0.043222, 0.002284
+        };
+        grid.Convolve2D(vicinity, gaussian_filter, 1.0);
+        delete[] gaussian_filter;
 
         return grid;
     }

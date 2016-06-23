@@ -105,8 +105,13 @@ namespace util
                             const std::string& file_name, char delimiter);
 
         //TODO comment
-        static void WriteCSV(std::vector<core::TrackletPtr>& tracks, const std::string& file_name,
-                             char delimiter);
+        static void WriteTracks(std::vector<core::TrackletPtr>& tracks, const std::string& file_name,
+                                char delimiter);
+
+        static void ReadTracks(std::vector<core::TrackletPtr>& tracks, const std::string& file_name,
+                               char delimiter);
+
+        static std::vector<std::string> split(const std::string& input, char delimiter);
     };
 }
 

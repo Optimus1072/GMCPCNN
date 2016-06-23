@@ -56,7 +56,7 @@ namespace algo
                 for (int x = 0; x < grid.GetWidthCount(); ++x)
                 {
                     // First vertex index
-                    int vi = x + y * grid.GetHeightCount() + z * layer_size;
+                    int vi = x + y * grid.GetWidthCount() + z * layer_size;
 
                     // Get the score, clamp it, prevent division by zero and
                     // logarithm of zero
@@ -78,28 +78,22 @@ namespace algo
                     {
                         // Iterate all nearby cells in the next frame
                         for (int ny = std::max(0, y - vicinity_size_);
-                             ny <
-                             std::min(grid.GetHeightCount(),
-                                      y + vicinity_size_ + 1);
+                             ny < std::min(grid.GetHeightCount(), y + vicinity_size_ + 1);
                              ++ny)
                         {
                             for (int nx = std::max(0, x - vicinity_size_);
-                                 nx < std::min(grid.GetWidthCount(),
-                                               x + vicinity_size_ + 1);
+                                 nx < std::min(grid.GetWidthCount(), x + vicinity_size_ + 1);
                                  ++nx)
                             {
                                 // Second vertex index
-                                int vj = nx + ny * grid.GetHeightCount() +
-                                         (z + 1) * layer_size;
+                                int vj = nx + ny * grid.GetWidthCount() + (z + 1) * layer_size;
 
                                 // Connect to nearby cells
-                                boost::add_edge(vertices[vi], vertices[vj],
-                                                weight, graph);
+                                boost::add_edge(vertices[vi], vertices[vj], weight, graph);
                             }
                         }
 
-                        boost::add_edge(vertices[vi], sink, VIRTUAL_EDGE_WEIGHT,
-                                        graph);
+                        boost::add_edge(vertices[vi], sink, VIRTUAL_EDGE_WEIGHT, graph);
                     }
                     else
                     {
@@ -107,14 +101,25 @@ namespace algo
                     }
 
                     // Connect with source and sink
-                    boost::add_edge(source, vertices[vi], VIRTUAL_EDGE_WEIGHT,
-                                    graph);
+                    boost::add_edge(source, vertices[vi], VIRTUAL_EDGE_WEIGHT, graph);
                 }
             }
         }
 
         util::Logger::LogDebug("vertex count " + std::to_string(boost::num_vertices(graph)));
+        util::Logger::LogDebug("calculated vertex count " + std::to_string(
+           grid.GetWidthCount() * grid.GetHeightCount() * grid.GetDepthCount() + 2
+        ));
         util::Logger::LogDebug("edge count " + std::to_string(boost::num_edges(graph)));
+        util::Logger::LogDebug("width count " + std::to_string(grid.GetWidthCount()));
+        util::Logger::LogDebug("height count " + std::to_string(grid.GetHeightCount()));
+        util::Logger::LogDebug("depth count " + std::to_string(grid.GetDepthCount()));
+        util::Logger::LogDebug("calculated edge count " + std::to_string(
+           grid.GetWidthCount() * grid.GetHeightCount() * (grid.GetDepthCount() - 1) * 11 +
+           grid.GetWidthCount() * grid.GetHeightCount() * 2 -
+           (grid.GetWidthCount() + grid.GetHeightCount()) * 2 * 3 * (grid.GetDepthCount() - 1) +
+           4 * (grid.GetDepthCount() - 1)
+        ));
     }
 
     void Berclaz::ExtractTracks(DirectedGraph& graph, MultiPredecessorMap& map, Vertex origin,
@@ -163,8 +168,10 @@ namespace algo
             ExtractTracks(graph, ksp_result, sink, tracks);
         }
 
+        // Only connect tracks if the sequence was split
         if (batch_size < sequence.GetFrameCount())
         {
+            //TODO find a better way to connect tracks (n-stage)
             util::Logger::LogDebug("connect tracks");
             ConnectTracks(tracks);
         }
