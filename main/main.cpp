@@ -11,6 +11,7 @@
 #include "../core/ObjectDataAngular.h"
 #include "../algo/Berclaz.h"
 #include "../algo/KShortestPaths2.h"
+#include "../algo/KShortestPaths3.h"
 #include <boost/program_options.hpp>
 #include <boost/graph/named_function_params.hpp>
 #include <boost/graph/bellman_ford_shortest_paths.hpp>
@@ -817,7 +818,7 @@ int main(int argc, char** argv)
     Vertex source, sink;
     CreatePresentationGraph(graph, source, sink);
 
-//    util::FileIO::WriteCSVMatlab(graph, "/home/wrede/Dokumente/graph.csv");
+    util::FileIO::WriteCSVMatlab(graph, "/home/wrede/Dokumente/graph.csv");
 
     TestKBellmanFord(graph, source, sink, 2);
     TestKSP(graph, source, sink, 3);

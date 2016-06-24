@@ -8,6 +8,7 @@
 #include "../util/Logger.h"
 #include "../util/FileIO.h"
 #include "KShortestPaths2.h"
+#include "KShortestPaths3.h"
 
 namespace algo
 {
@@ -160,8 +161,7 @@ namespace algo
             Vertex source, sink;
             CreateGraph(graph, source, sink, grid);
 
-            util::Logger::LogDebug("run ksp");
-            KShortestPaths2 ksp;
+            KShortestPaths3 ksp;
             MultiPredecessorMap ksp_result = ksp.Run(graph, source, sink, max_track_count);
 
             util::Logger::LogDebug("extract tracks");
