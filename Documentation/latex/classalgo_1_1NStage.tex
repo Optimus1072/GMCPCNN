@@ -1,0 +1,44 @@
+\hypertarget{classalgo_1_1NStage}{}\section{algo\+:\+:N\+Stage Class Reference}
+\label{classalgo_1_1NStage}\index{algo\+::\+N\+Stage@{algo\+::\+N\+Stage}}
+
+
+{\ttfamily \#include $<$N\+Stage.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classalgo_1_1NStage_a0a4b4141e1e9f5fa53773c7aae49087f}{N\+Stage} (size\+\_\+t max\+\_\+frame\+\_\+skip, std\+::vector$<$ double $>$ penalty\+\_\+value, std\+::vector$<$ size\+\_\+t $>$ max\+\_\+tracklet\+\_\+count)
+\item 
+void {\bfseries Run} (const \hyperlink{classcore_1_1DetectionSequence}{core\+::\+Detection\+Sequence} \&sequence, std\+::vector$<$ core\+::\+Tracklet\+Ptr $>$ \&tracks)\hypertarget{classalgo_1_1NStage_a4e4e881b9c6f65d9e86449c71ab6d778}{}\label{classalgo_1_1NStage_a4e4e881b9c6f65d9e86449c71ab6d778}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Implementation of the two-\/staged graph-\/based multi-\/object tracker. Extended to allow N stages. 
+
+\subsection{Constructor \& Destructor Documentation}
+\index{algo\+::\+N\+Stage@{algo\+::\+N\+Stage}!N\+Stage@{N\+Stage}}
+\index{N\+Stage@{N\+Stage}!algo\+::\+N\+Stage@{algo\+::\+N\+Stage}}
+\subsubsection[{\texorpdfstring{N\+Stage(size\+\_\+t max\+\_\+frame\+\_\+skip, std\+::vector$<$ double $>$ penalty\+\_\+value, std\+::vector$<$ size\+\_\+t $>$ max\+\_\+tracklet\+\_\+count)}{NStage(size_t max_frame_skip, std::vector< double > penalty_value, std::vector< size_t > max_tracklet_count)}}]{\setlength{\rightskip}{0pt plus 5cm}algo\+::\+N\+Stage\+::\+N\+Stage (
+\begin{DoxyParamCaption}
+\item[{size\+\_\+t}]{max\+\_\+frame\+\_\+skip, }
+\item[{std\+::vector$<$ double $>$}]{penalty\+\_\+value, }
+\item[{std\+::vector$<$ size\+\_\+t $>$}]{max\+\_\+tracklet\+\_\+count}
+\end{DoxyParamCaption}
+)}\hypertarget{classalgo_1_1NStage_a0a4b4141e1e9f5fa53773c7aae49087f}{}\label{classalgo_1_1NStage_a0a4b4141e1e9f5fa53773c7aae49087f}
+Initializes the algorithm wih the given values. The number of stages is determined by the size of the given vectors. 
+\begin{DoxyParams}{Parameters}
+{\em max\+\_\+frame\+\_\+skip} & The maximum edge length to link objects \\
+\hline
+{\em penalty\+\_\+value} & The edge value to link to source and sink \\
+\hline
+{\em max\+\_\+tracklet\+\_\+count} & The maximum number of tracklets to create \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+algo/N\+Stage.\+h\item 
+algo/N\+Stage.\+cpp\end{DoxyCompactItemize}

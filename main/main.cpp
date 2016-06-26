@@ -12,6 +12,7 @@
 #include "../algo/Berclaz.h"
 #include "../algo/KShortestPaths2.h"
 #include "../algo/KShortestPaths3.h"
+#include "../algo/KShortestPaths4.h"
 #include <boost/program_options.hpp>
 #include <boost/graph/named_function_params.hpp>
 #include <boost/graph/bellman_ford_shortest_paths.hpp>
@@ -43,7 +44,7 @@ void RunNStage(core::DetectionSequence& sequence,
 
         if (part.size() > 0)
         {
-            max_tracklet_counts.push_back((unsigned long&&) std::atoi(part.c_str()));
+            max_tracklet_counts.push_back((unsigned long&&) atoi(part.c_str()));
         }
 
         str = str.substr(d_index + 1);
@@ -806,6 +807,69 @@ void CreatePresentationGraph(DirectedGraph& graph, Vertex& source, Vertex& sink)
 //    boost::add_edge(vertices[8], vertices[9], 0.0, graph);
 }
 
+void TestSuurballe()
+{
+    // Create the graph
+    Vertex source, sink;
+    DirectedGraph graph;
+    std::vector<Vertex> vertices;
+
+    // First example graph
+//    for (int i = 0; i < 7; ++i)
+//    {
+//        vertices.push_back(boost::add_vertex(graph));
+//    }
+//    source = vertices[0];
+//    sink = vertices[6];
+//    boost::add_edge(vertices[0], vertices[1], 5.0, graph);
+//    boost::add_edge(vertices[0], vertices[4], 2.0, graph);
+//    boost::add_edge(vertices[1], vertices[2], 1.0, graph);
+//    boost::add_edge(vertices[1], vertices[4], 1.0, graph);
+//    boost::add_edge(vertices[2], vertices[6], 1.0, graph);
+//    boost::add_edge(vertices[3], vertices[2], 1.0, graph);
+//    boost::add_edge(vertices[4], vertices[3], 2.0, graph);
+//    boost::add_edge(vertices[4], vertices[5], 1.0, graph);
+//    boost::add_edge(vertices[5], vertices[2], 1.0, graph);
+//    boost::add_edge(vertices[5], vertices[6], 1.0, graph);
+
+    // Second example graph
+    for (int i = 0; i < 8; ++i)
+    {
+        vertices.push_back(boost::add_vertex(graph));
+    }
+    source = vertices[0];
+    sink = vertices[7];
+    boost::add_edge(vertices[0], vertices[1], 1.0, graph);
+    boost::add_edge(vertices[0], vertices[4], 8.0, graph);
+    boost::add_edge(vertices[0], vertices[5], 1.0, graph);
+    boost::add_edge(vertices[1], vertices[2], 1.0, graph);
+    boost::add_edge(vertices[1], vertices[7], 8.0, graph);
+    boost::add_edge(vertices[2], vertices[3], 1.0, graph);
+    boost::add_edge(vertices[3], vertices[4], 1.0, graph);
+    boost::add_edge(vertices[3], vertices[6], 2.0, graph);
+    boost::add_edge(vertices[4], vertices[7], 1.0, graph);
+    boost::add_edge(vertices[5], vertices[2], 2.0, graph);
+    boost::add_edge(vertices[5], vertices[6], 6.0, graph);
+    boost::add_edge(vertices[6], vertices[7], 1.0, graph);
+
+    algo::KShortestPaths4 suurballe(graph, source, sink, 3);
+    suurballe.Run();
+
+    size_t i = 0;
+    for (std::vector<Vertex> path : suurballe.GetPaths())
+    {
+        i++;
+        std::cout << "P" << i << "{";
+        for (Vertex v : path)
+        {
+            std::cout << v;
+        }
+        std::cout << "}\n";
+    }
+
+    std::cout << "Total paths length: " << suurballe.GetTotalPathsLength() << std::endl;
+}
+
 int main(int argc, char** argv)
 {
     //TODO load with frame offset
@@ -814,16 +878,18 @@ int main(int argc, char** argv)
 
 //    TestTracklet();
 
-    DirectedGraph graph;
-    Vertex source, sink;
-    CreatePresentationGraph(graph, source, sink);
-
-    util::FileIO::WriteCSVMatlab(graph, "/home/wrede/Dokumente/graph.csv");
-
-    TestKBellmanFord(graph, source, sink, 2);
-    TestKSP(graph, source, sink, 3);
+//    DirectedGraph graph;
+//    Vertex source, sink;
+//    CreatePresentationGraph(graph, source, sink);
+//
+//    util::FileIO::WriteCSVMatlab(graph, "/home/wrede/Dokumente/graph.csv");
+//
+//    TestKBellmanFord(graph, source, sink, 2);
+//    TestKSP(graph, source, sink, 3);
 
 //    TestGrid();
+
+    TestSuurballe();
 
     return 0;
 }

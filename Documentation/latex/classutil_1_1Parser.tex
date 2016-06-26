@@ -7,13 +7,46 @@
 \subsection*{Static Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-static void \hyperlink{classutil_1_1Parser_a25a262843b391df324db620205a13156}{Parse\+Object\+Data\+Map} (const std\+::vector$<$ std\+::string $>$ \&keys, const Vector3d \&values, \hyperlink{classcore_1_1DetectionSequence}{core\+::\+Detection\+Sequence} \&sequence)
+static void \hyperlink{classutil_1_1Parser_abcf27fbfdf936204064e3e3c0ff27d9e}{Parse\+Object\+Data2D} (Value\+Map\+Vector \&values, \hyperlink{classcore_1_1DetectionSequence}{core\+::\+Detection\+Sequence} \&sequence, double image\+\_\+width, double image\+\_\+height, double temporal\+\_\+weight, double spatial\+\_\+weight)
 \item 
-static void \hyperlink{classutil_1_1Parser_a4372acb257c7c0292439f1c863287298}{Parse\+Object\+Data3D} (const Vector3d \&values, \hyperlink{classcore_1_1DetectionSequence}{core\+::\+Detection\+Sequence} \&sequence)
+static void \hyperlink{classutil_1_1Parser_a4286ab16cc0aff0669ca5a876411d532}{Parse\+Object\+Data\+Box} (Value\+Map\+Vector \&values, \hyperlink{classcore_1_1DetectionSequence}{core\+::\+Detection\+Sequence} \&sequence, double image\+\_\+width, double image\+\_\+height, double temporal\+\_\+weight, double spatial\+\_\+weight)
 \item 
-static void \hyperlink{classutil_1_1Parser_acad67e4a565fb4a008a2d85fa9ea215c}{Parse\+Object\+Data\+Angular} (const Vector3d \&values, \hyperlink{classcore_1_1DetectionSequence}{core\+::\+Detection\+Sequence} \&sequence)
+static void \hyperlink{classutil_1_1Parser_a271db7290aece47fca8fcd1734f47499}{Parse\+Object\+Data\+Angular} (Value\+Map\+Vector \&values, \hyperlink{classcore_1_1DetectionSequence}{core\+::\+Detection\+Sequence} \&sequence, double image\+\_\+width, double image\+\_\+height, double temporal\+\_\+weight, double spatial\+\_\+weight, double angular\+\_\+weight)
 \item 
-static void \hyperlink{classutil_1_1Parser_a0f2ad399b88036840fa206704253cb56}{Parse\+Object\+Data\+Angular} (const Vector3d \&values, \hyperlink{classcore_1_1DetectionSequence}{core\+::\+Detection\+Sequence} \&sequence, double temporal\+\_\+weight, double spatial\+\_\+weight, double angular\+\_\+weight)
+static \hyperlink{classutil_1_1Grid}{Grid} \hyperlink{classutil_1_1Parser_ab5d42421adbcb880ffe633981e3226e4}{Parse\+Grid} (\hyperlink{classcore_1_1DetectionSequence}{core\+::\+Detection\+Sequence} \&sequence, size\+\_\+t start, size\+\_\+t stop, double min\+\_\+x, double max\+\_\+x, int res\+\_\+x, double min\+\_\+y, double max\+\_\+y, int res\+\_\+y)
+\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static const std\+::string {\bfseries K\+E\+Y\+\_\+\+F\+R\+A\+ME} = \char`\"{}frame\char`\"{}\hypertarget{classutil_1_1Parser_a9fd08e7f29329a2d5b67e466f6f561ea}{}\label{classutil_1_1Parser_a9fd08e7f29329a2d5b67e466f6f561ea}
+
+\item 
+static const std\+::string {\bfseries K\+E\+Y\+\_\+\+ID} = \char`\"{}id\char`\"{}\hypertarget{classutil_1_1Parser_a82822b70cb89a7d402c8ebfbbc656047}{}\label{classutil_1_1Parser_a82822b70cb89a7d402c8ebfbbc656047}
+
+\item 
+static const std\+::string {\bfseries K\+E\+Y\+\_\+\+S\+C\+O\+RE} = \char`\"{}score\char`\"{}\hypertarget{classutil_1_1Parser_aea01dc9348cb59860fb279b716d3cf72}{}\label{classutil_1_1Parser_aea01dc9348cb59860fb279b716d3cf72}
+
+\item 
+static const std\+::string {\bfseries K\+E\+Y\+\_\+X} = \char`\"{}x\char`\"{}\hypertarget{classutil_1_1Parser_a67cac8af9b52947d6984d64a56ac4ad3}{}\label{classutil_1_1Parser_a67cac8af9b52947d6984d64a56ac4ad3}
+
+\item 
+static const std\+::string {\bfseries K\+E\+Y\+\_\+Y} = \char`\"{}y\char`\"{}\hypertarget{classutil_1_1Parser_aa13293b6680f1bec5532247c14acf85f}{}\label{classutil_1_1Parser_aa13293b6680f1bec5532247c14acf85f}
+
+\item 
+static const std\+::string {\bfseries K\+E\+Y\+\_\+Z}\hypertarget{classutil_1_1Parser_a33c7c6efa60e5881ebf497851b56b493}{}\label{classutil_1_1Parser_a33c7c6efa60e5881ebf497851b56b493}
+
+\item 
+static const std\+::string {\bfseries K\+E\+Y\+\_\+\+W\+I\+D\+TH} = \char`\"{}width\char`\"{}\hypertarget{classutil_1_1Parser_af460fb066f6dede3b0e3aa0ea97ac115}{}\label{classutil_1_1Parser_af460fb066f6dede3b0e3aa0ea97ac115}
+
+\item 
+static const std\+::string {\bfseries K\+E\+Y\+\_\+\+H\+E\+I\+G\+HT} = \char`\"{}height\char`\"{}\hypertarget{classutil_1_1Parser_a819fb19f3d743320864fcc125b9c40eb}{}\label{classutil_1_1Parser_a819fb19f3d743320864fcc125b9c40eb}
+
+\item 
+static const std\+::string {\bfseries K\+E\+Y\+\_\+\+D\+E\+P\+TH}\hypertarget{classutil_1_1Parser_a4add600ddc8287c10285bbae8ccd4ef1}{}\label{classutil_1_1Parser_a4add600ddc8287c10285bbae8ccd4ef1}
+
+\item 
+static const std\+::string {\bfseries K\+E\+Y\+\_\+\+A\+N\+G\+LE} = \char`\"{}angle\char`\"{}\hypertarget{classutil_1_1Parser_a03362a18612fcb3ca7c01cfcb6652521}{}\label{classutil_1_1Parser_a03362a18612fcb3ca7c01cfcb6652521}
+
 \end{DoxyCompactItemize}
 
 
@@ -21,52 +54,100 @@ static void \hyperlink{classutil_1_1Parser_a0f2ad399b88036840fa206704253cb56}{Pa
 Utility class for parsing diverse objects. 
 
 \subsection{Member Function Documentation}
-\index{util\+::\+Parser@{util\+::\+Parser}!Parse\+Object\+Data3D@{Parse\+Object\+Data3D}}
-\index{Parse\+Object\+Data3D@{Parse\+Object\+Data3D}!util\+::\+Parser@{util\+::\+Parser}}
-\subsubsection[{\texorpdfstring{Parse\+Object\+Data3\+D(const Vector3d \&values, core\+::\+Detection\+Sequence \&sequence)}{ParseObjectData3D(const Vector3d \&values, core::DetectionSequence \&sequence)}}]{\setlength{\rightskip}{0pt plus 5cm}void util\+::\+Parser\+::\+Parse\+Object\+Data3D (
+\index{util\+::\+Parser@{util\+::\+Parser}!Parse\+Grid@{Parse\+Grid}}
+\index{Parse\+Grid@{Parse\+Grid}!util\+::\+Parser@{util\+::\+Parser}}
+\subsubsection[{\texorpdfstring{Parse\+Grid(core\+::\+Detection\+Sequence \&sequence, size\+\_\+t start, size\+\_\+t stop, double min\+\_\+x, double max\+\_\+x, int res\+\_\+x, double min\+\_\+y, double max\+\_\+y, int res\+\_\+y)}{ParseGrid(core::DetectionSequence &sequence, size_t start, size_t stop, double min_x, double max_x, int res_x, double min_y, double max_y, int res_y)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Grid} util\+::\+Parser\+::\+Parse\+Grid (
 \begin{DoxyParamCaption}
-\item[{const Vector3d \&}]{values, }
-\item[{{\bf core\+::\+Detection\+Sequence} \&}]{sequence}
-\end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{classutil_1_1Parser_a4372acb257c7c0292439f1c863287298}{}\label{classutil_1_1Parser_a4372acb257c7c0292439f1c863287298}
-Parses the values into a Detection\+Sequence of Object\+Data3D 
-\begin{DoxyParams}{Parameters}
-{\em values} & A 3D vector of values \\
-\hline
-{\em sequence} & The sequence to store the created objects in \\
-\hline
-\end{DoxyParams}
-\index{util\+::\+Parser@{util\+::\+Parser}!Parse\+Object\+Data\+Angular@{Parse\+Object\+Data\+Angular}}
-\index{Parse\+Object\+Data\+Angular@{Parse\+Object\+Data\+Angular}!util\+::\+Parser@{util\+::\+Parser}}
-\subsubsection[{\texorpdfstring{Parse\+Object\+Data\+Angular(const Vector3d \&values, core\+::\+Detection\+Sequence \&sequence)}{ParseObjectDataAngular(const Vector3d \&values, core::DetectionSequence \&sequence)}}]{\setlength{\rightskip}{0pt plus 5cm}void util\+::\+Parser\+::\+Parse\+Object\+Data\+Angular (
-\begin{DoxyParamCaption}
-\item[{const Vector3d \&}]{values, }
-\item[{{\bf core\+::\+Detection\+Sequence} \&}]{sequence}
-\end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{classutil_1_1Parser_acad67e4a565fb4a008a2d85fa9ea215c}{}\label{classutil_1_1Parser_acad67e4a565fb4a008a2d85fa9ea215c}
-Parses the values into a Detection\+Sequence of Object\+Data\+Angular objects. 
-\begin{DoxyParams}{Parameters}
-{\em values} & A 3D vector of values \\
-\hline
-{\em sequence} & The sequence to store the created objects in \\
-\hline
-\end{DoxyParams}
-\index{util\+::\+Parser@{util\+::\+Parser}!Parse\+Object\+Data\+Angular@{Parse\+Object\+Data\+Angular}}
-\index{Parse\+Object\+Data\+Angular@{Parse\+Object\+Data\+Angular}!util\+::\+Parser@{util\+::\+Parser}}
-\subsubsection[{\texorpdfstring{Parse\+Object\+Data\+Angular(const Vector3d \&values, core\+::\+Detection\+Sequence \&sequence, double temporal\+\_\+weight, double spatial\+\_\+weight, double angular\+\_\+weight)}{ParseObjectDataAngular(const Vector3d \&values, core::DetectionSequence \&sequence, double temporal\_weight, double spatial\_weight, double angular\_weight)}}]{\setlength{\rightskip}{0pt plus 5cm}void util\+::\+Parser\+::\+Parse\+Object\+Data\+Angular (
-\begin{DoxyParamCaption}
-\item[{const Vector3d \&}]{values, }
 \item[{{\bf core\+::\+Detection\+Sequence} \&}]{sequence, }
+\item[{size\+\_\+t}]{start, }
+\item[{size\+\_\+t}]{stop, }
+\item[{double}]{min\+\_\+x, }
+\item[{double}]{max\+\_\+x, }
+\item[{int}]{res\+\_\+x, }
+\item[{double}]{min\+\_\+y, }
+\item[{double}]{max\+\_\+y, }
+\item[{int}]{res\+\_\+y}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{classutil_1_1Parser_ab5d42421adbcb880ffe633981e3226e4}{}\label{classutil_1_1Parser_ab5d42421adbcb880ffe633981e3226e4}
+Parses the given sequence into a grid. The sequence data need to be a Object\+Data2D. The frame index is the depth of the grid.
+
+
+\begin{DoxyParams}{Parameters}
+{\em sequence} & The detection sequence to parse \\
+\hline
+{\em start} & The first frame to use \\
+\hline
+{\em stop} & The first frame not to use \\
+\hline
+{\em min\+\_\+x} & The minimal x value \\
+\hline
+{\em max\+\_\+x} & The maximal x value \\
+\hline
+{\em res\+\_\+x} & The number of cells on the x axis \\
+\hline
+{\em min\+\_\+y} & The minimal y value \\
+\hline
+{\em max\+\_\+y} & The maximal y value \\
+\hline
+{\em res\+\_\+y} & The number of cells on the y axis \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The grid with the detection values 
+\end{DoxyReturn}
+\index{util\+::\+Parser@{util\+::\+Parser}!Parse\+Object\+Data2D@{Parse\+Object\+Data2D}}
+\index{Parse\+Object\+Data2D@{Parse\+Object\+Data2D}!util\+::\+Parser@{util\+::\+Parser}}
+\subsubsection[{\texorpdfstring{Parse\+Object\+Data2\+D(\+Value\+Map\+Vector \&values, core\+::\+Detection\+Sequence \&sequence, double image\+\_\+width, double image\+\_\+height, double temporal\+\_\+weight, double spatial\+\_\+weight)}{ParseObjectData2D(ValueMapVector &values, core::DetectionSequence &sequence, double image_width, double image_height, double temporal_weight, double spatial_weight)}}]{\setlength{\rightskip}{0pt plus 5cm}void util\+::\+Parser\+::\+Parse\+Object\+Data2D (
+\begin{DoxyParamCaption}
+\item[{Value\+Map\+Vector \&}]{values, }
+\item[{{\bf core\+::\+Detection\+Sequence} \&}]{sequence, }
+\item[{double}]{image\+\_\+width, }
+\item[{double}]{image\+\_\+height, }
+\item[{double}]{temporal\+\_\+weight, }
+\item[{double}]{spatial\+\_\+weight}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{classutil_1_1Parser_abcf27fbfdf936204064e3e3c0ff27d9e}{}\label{classutil_1_1Parser_abcf27fbfdf936204064e3e3c0ff27d9e}
+Parses the specified values into the specified sequence. The used format is Object\+Data2D.
+
+
+\begin{DoxyParams}{Parameters}
+{\em values} & The input values \\
+\hline
+{\em sequence} & The output sequence containing the parsed values \\
+\hline
+{\em image\+\_\+width} & The width of the image used for normalized coordinates \\
+\hline
+{\em image\+\_\+height} & The height of the image used for normalized coordinates \\
+\hline
+{\em temporal\+\_\+weight} & The temporal weight \\
+\hline
+{\em spatial\+\_\+weight} & The spatial weight \\
+\hline
+\end{DoxyParams}
+\index{util\+::\+Parser@{util\+::\+Parser}!Parse\+Object\+Data\+Angular@{Parse\+Object\+Data\+Angular}}
+\index{Parse\+Object\+Data\+Angular@{Parse\+Object\+Data\+Angular}!util\+::\+Parser@{util\+::\+Parser}}
+\subsubsection[{\texorpdfstring{Parse\+Object\+Data\+Angular(\+Value\+Map\+Vector \&values, core\+::\+Detection\+Sequence \&sequence, double image\+\_\+width, double image\+\_\+height, double temporal\+\_\+weight, double spatial\+\_\+weight, double angular\+\_\+weight)}{ParseObjectDataAngular(ValueMapVector &values, core::DetectionSequence &sequence, double image_width, double image_height, double temporal_weight, double spatial_weight, double angular_weight)}}]{\setlength{\rightskip}{0pt plus 5cm}void util\+::\+Parser\+::\+Parse\+Object\+Data\+Angular (
+\begin{DoxyParamCaption}
+\item[{Value\+Map\+Vector \&}]{values, }
+\item[{{\bf core\+::\+Detection\+Sequence} \&}]{sequence, }
+\item[{double}]{image\+\_\+width, }
+\item[{double}]{image\+\_\+height, }
 \item[{double}]{temporal\+\_\+weight, }
 \item[{double}]{spatial\+\_\+weight, }
 \item[{double}]{angular\+\_\+weight}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{classutil_1_1Parser_a0f2ad399b88036840fa206704253cb56}{}\label{classutil_1_1Parser_a0f2ad399b88036840fa206704253cb56}
-Parses the values into a Detection\+Sequence of Object\+Data\+Angular objects. The keys are used for the third dimension in the values list. 
+)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{classutil_1_1Parser_a271db7290aece47fca8fcd1734f47499}{}\label{classutil_1_1Parser_a271db7290aece47fca8fcd1734f47499}
+Parses the specified values into the specified sequence. The used format is Object\+Data\+Angular.
+
+
 \begin{DoxyParams}{Parameters}
-{\em values} & A 3D vector of values \\
+{\em values} & The input values \\
 \hline
 {\em sequence} & The sequence to store the created objects in \\
+\hline
+{\em image\+\_\+width} & The width of the image used for normalized coordinates \\
+\hline
+{\em image\+\_\+height} & The height of the image used for normalized coordinates \\
 \hline
 {\em temporal\+\_\+weight} & The temporal weight \\
 \hline
@@ -75,22 +156,33 @@ Parses the values into a Detection\+Sequence of Object\+Data\+Angular objects. T
 {\em angular\+\_\+weight} & The angular weight \\
 \hline
 \end{DoxyParams}
-\index{util\+::\+Parser@{util\+::\+Parser}!Parse\+Object\+Data\+Map@{Parse\+Object\+Data\+Map}}
-\index{Parse\+Object\+Data\+Map@{Parse\+Object\+Data\+Map}!util\+::\+Parser@{util\+::\+Parser}}
-\subsubsection[{\texorpdfstring{Parse\+Object\+Data\+Map(const std\+::vector$<$ std\+::string $>$ \&keys, const Vector3d \&values, core\+::\+Detection\+Sequence \&sequence)}{ParseObjectDataMap(const std::vector< std::string > \&keys, const Vector3d \&values, core::DetectionSequence \&sequence)}}]{\setlength{\rightskip}{0pt plus 5cm}void util\+::\+Parser\+::\+Parse\+Object\+Data\+Map (
+\index{util\+::\+Parser@{util\+::\+Parser}!Parse\+Object\+Data\+Box@{Parse\+Object\+Data\+Box}}
+\index{Parse\+Object\+Data\+Box@{Parse\+Object\+Data\+Box}!util\+::\+Parser@{util\+::\+Parser}}
+\subsubsection[{\texorpdfstring{Parse\+Object\+Data\+Box(\+Value\+Map\+Vector \&values, core\+::\+Detection\+Sequence \&sequence, double image\+\_\+width, double image\+\_\+height, double temporal\+\_\+weight, double spatial\+\_\+weight)}{ParseObjectDataBox(ValueMapVector &values, core::DetectionSequence &sequence, double image_width, double image_height, double temporal_weight, double spatial_weight)}}]{\setlength{\rightskip}{0pt plus 5cm}void util\+::\+Parser\+::\+Parse\+Object\+Data\+Box (
 \begin{DoxyParamCaption}
-\item[{const std\+::vector$<$ std\+::string $>$ \&}]{keys, }
-\item[{const Vector3d \&}]{values, }
-\item[{{\bf core\+::\+Detection\+Sequence} \&}]{sequence}
+\item[{Value\+Map\+Vector \&}]{values, }
+\item[{{\bf core\+::\+Detection\+Sequence} \&}]{sequence, }
+\item[{double}]{image\+\_\+width, }
+\item[{double}]{image\+\_\+height, }
+\item[{double}]{temporal\+\_\+weight, }
+\item[{double}]{spatial\+\_\+weight}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{classutil_1_1Parser_a25a262843b391df324db620205a13156}{}\label{classutil_1_1Parser_a25a262843b391df324db620205a13156}
-Parses the keys and values into a Detection\+Sequence of Object\+Data\+Map objects. The keys are used for the third dimension in the values list. 
+)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{classutil_1_1Parser_a4286ab16cc0aff0669ca5a876411d532}{}\label{classutil_1_1Parser_a4286ab16cc0aff0669ca5a876411d532}
+Parses the specified values into the specified sequence. The used format is Object\+Data\+Box.
+
+
 \begin{DoxyParams}{Parameters}
-{\em keys} & A 1D vector of keys \\
+{\em values} & The input values \\
 \hline
-{\em values} & A 3D vector of values \\
+{\em sequence} & The output sequence containing the parsed values \\
 \hline
-{\em sequence} & The sequence to store the created objects in \\
+{\em image\+\_\+width} & The width of the image used for normalized coordinates \\
+\hline
+{\em image\+\_\+height} & The height of the image used for normalized coordinates \\
+\hline
+{\em temporal\+\_\+weight} & The temporal weight \\
+\hline
+{\em spatial\+\_\+weight} & The spatial weight \\
 \hline
 \end{DoxyParams}
 

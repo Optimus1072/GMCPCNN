@@ -2,6 +2,7 @@
 // Created by wrede on 02.06.16.
 //
 
+#include <opencv2/imgproc.hpp>
 #include "ObjectData2D.h"
 #include "../util/MyMath.h"
 

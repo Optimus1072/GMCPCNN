@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['logger',['Logger',['../classutil_1_1Logger.html',1,'util']]]
+  ['grid',['Grid',['../classutil_1_1Grid.html',1,'util']]]
 ];

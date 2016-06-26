@@ -17,10 +17,14 @@ namespace algo
         Vertex sink_;
         VertexDistanceMap vertex_labels_;
         VertexDistanceMap vertex_distances_;
-        VertexVertexMap vertex_predecessors_;
         std::vector<Vertex> vertex_candidates_;
 
-        std::vector<std::list<Vertex>> i_shortest_paths_;
+        VertexPredecessorMap interlacing_predecessors_;
+        std::unordered_map<Vertex, bool> interlacing_predecessors_positive_;
+
+        std::vector<Vertex> source_neighbors_;
+        std::vector<Vertex> sink_neighbors_;
+        VertexPredecessorMap path_predecessors_;
 
         size_t max_paths_count_;
 
@@ -30,15 +34,25 @@ namespace algo
         void Initialization();
         void InterlacingConstruction();
         void NeighborDistanceTest(Vertex r);
-        void NegativeInterlacing(Vertex input);
+        void NegativeInterlacing(Vertex vertex_i);
+        void NextPathDefinition();
+        void NewInitialConditions();
         void FeasibleTermination();
         void NonFeasibleTermination();
+        void SetCandidates();
 
-        bool Contains(std::vector<Vertex>& vector, Vertex& element);
-        bool Contains(std::list<Vertex>& list, Vertex& element);
+        Vertex FindPathDestination(VertexPredecessorMap& map, Vertex origin,
+                                   std::vector<Vertex>& possible_destination, Vertex element);
+        Vertex FindPathSuccessor(VertexPredecessorMap& map, Vertex origin, Vertex destination, Vertex element);
+        bool Remove(std::vector<Vertex>& vector, Vertex element);
+        bool Contains(VertexPredecessorMap& map, Vertex origin, Vertex destination, Vertex element);
+        bool Contains(std::vector<Vertex>& vector, Vertex element);
     public:
         KShortestPaths4(DirectedGraph graph, Vertex source, Vertex sink, size_t max_paths_count);
         void Run();
+
+        std::vector<std::vector<Vertex>> GetPaths();
+        double GetTotalPathsLength();
     };
 }
 

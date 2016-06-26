@@ -26,12 +26,11 @@ typedef boost::property_map<DirectedGraph, boost::vertex_name_t>::type
 typedef boost::iterator_property_map<Vertex*, VertexIndexMap, Vertex, Vertex&>
         PredecessorMap;
 typedef std::unordered_map<Vertex, std::set<Vertex>> MultiPredecessorMap;
-typedef std::unordered_map<Vertex, std::set<Vertex>> VertexAdjacencyMap;
+typedef std::unordered_map<Vertex, Vertex> VertexPredecessorMap;
 typedef std::unordered_map<Vertex, double> VertexDistanceMap;
 typedef boost::iterator_property_map<double*, VertexIndexMap, double, double&>
         DistanceMap;
-typedef boost::iterator_property_map<
-        std::vector<Vertex>::iterator, VertexIndexMap, Vertex, Vertex&>
+typedef boost::iterator_property_map<std::vector<Vertex>::iterator, VertexIndexMap, Vertex, Vertex&>
         VertexVertexMap;
 
 #endif //GBMOT_DEFINITIONS_H

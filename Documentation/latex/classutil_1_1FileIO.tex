@@ -7,13 +7,28 @@
 \subsection*{Static Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-static void \hyperlink{classutil_1_1FileIO_af42c183525923014e142a10a626d3677}{Read\+C\+SV} (Vector3d \&values, const std\+::string \&filename, char delimiter=\textquotesingle{};\textquotesingle{})
+static void \hyperlink{classutil_1_1FileIO_ae31b9e693316483eda89df8463ea0d0a}{Read\+C\+SV} (Vector3d \&values, const std\+::string \&file\+\_\+name, char delimiter)
 \item 
-static void \hyperlink{classutil_1_1FileIO_a264c9b694fd7218635c8a783956d2c1e}{Read\+C\+SV} (Vector2d \&values, const std\+::string \&filename, char delimiter=\textquotesingle{};\textquotesingle{})
+static void \hyperlink{classutil_1_1FileIO_a49f014af1e0f03d290f00049e082d9c6}{Read\+C\+SV} (Vector2d \&values, const std\+::string \&file\+\_\+name, char delimiter)
 \item 
 static void \hyperlink{classutil_1_1FileIO_a6e290e22083d49619b757bfca96a51fa}{List\+Files} (const std\+::string \&folder, std\+::vector$<$ std\+::string $>$ \&file\+\_\+names, bool sort=true)
 \item 
-static void \hyperlink{classutil_1_1FileIO_a862586aced240e732ecd35773b57c267}{Write\+C\+S\+V\+Matlab} (Directed\+Graph \&graph, const std\+::string \&file\+\_\+name, char delimiter=\textquotesingle{};\textquotesingle{})
+static void \hyperlink{classutil_1_1FileIO_a5f2730a95e0801faa32e49dae9b86544}{Write\+C\+S\+V\+Matlab} (Directed\+Graph \&graph, const std\+::string \&file\+\_\+name)
+\item 
+static void \hyperlink{classutil_1_1FileIO_a2833554dcdf4a04f9fe67a324b5815ff}{Write\+C\+S\+V\+Matlab} (Multi\+Predecessor\+Map \&map, Vertex \&source, Vertex \&sink, const std\+::string \&file\+\_\+name)
+\item 
+static void \hyperlink{classutil_1_1FileIO_a642616eb6f07c71bd8dcb1585a532d92}{Read\+C\+SV} (Value\+Map\+Vector \&values, const std\+::string \&file\+\_\+name, char delimiter)
+\item 
+static void \hyperlink{classutil_1_1FileIO_a59b96733490d7b60e4f107da84efb245}{Read\+C\+SV} (Value\+Map\+Vector \&values, const std\+::string \&header, const std\+::string \&file\+\_\+name, char delimiter)
+\item 
+static void {\bfseries Write\+Tracks} (std\+::vector$<$ core\+::\+Tracklet\+Ptr $>$ \&tracks, const std\+::string \&file\+\_\+name, char delimiter)\hypertarget{classutil_1_1FileIO_a57059c9b52e86c753db5da6281cf23c6}{}\label{classutil_1_1FileIO_a57059c9b52e86c753db5da6281cf23c6}
+
+\item 
+static void {\bfseries Read\+Tracks} (std\+::vector$<$ core\+::\+Tracklet\+Ptr $>$ \&tracks, const std\+::string \&file\+\_\+name, char delimiter)\hypertarget{classutil_1_1FileIO_aa6294f669bdb86510c8b6cefed9ac44b}{}\label{classutil_1_1FileIO_aa6294f669bdb86510c8b6cefed9ac44b}
+
+\item 
+static std\+::vector$<$ std\+::string $>$ {\bfseries split} (const std\+::string \&input, char delimiter)\hypertarget{classutil_1_1FileIO_aa79e018874aa1da4d0b2cd1e5b7d2e01}{}\label{classutil_1_1FileIO_aa79e018874aa1da4d0b2cd1e5b7d2e01}
+
 \end{DoxyCompactItemize}
 
 
@@ -23,74 +38,145 @@ Utility class for file in-\/ and output.
 \subsection{Member Function Documentation}
 \index{util\+::\+File\+IO@{util\+::\+File\+IO}!List\+Files@{List\+Files}}
 \index{List\+Files@{List\+Files}!util\+::\+File\+IO@{util\+::\+File\+IO}}
-\subsubsection[{\texorpdfstring{List\+Files(const std\+::string \&folder, std\+::vector$<$ std\+::string $>$ \&file\+\_\+names, bool sort=true)}{ListFiles(const std::string \&folder, std::vector< std::string > \&file\_names, bool sort=true)}}]{\setlength{\rightskip}{0pt plus 5cm}void util\+::\+File\+I\+O\+::\+List\+Files (
+\subsubsection[{\texorpdfstring{List\+Files(const std\+::string \&folder, std\+::vector$<$ std\+::string $>$ \&file\+\_\+names, bool sort=true)}{ListFiles(const std::string &folder, std::vector< std::string > &file_names, bool sort=true)}}]{\setlength{\rightskip}{0pt plus 5cm}void util\+::\+File\+I\+O\+::\+List\+Files (
 \begin{DoxyParamCaption}
 \item[{const std\+::string \&}]{folder, }
 \item[{std\+::vector$<$ std\+::string $>$ \&}]{file\+\_\+names, }
 \item[{bool}]{sort = {\ttfamily true}}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{classutil_1_1FileIO_a6e290e22083d49619b757bfca96a51fa}{}\label{classutil_1_1FileIO_a6e290e22083d49619b757bfca96a51fa}
-Lists all file names in the given folder. 
+Lists all file names in the given folder.
+
+
 \begin{DoxyParams}{Parameters}
 {\em folder} & The folder to look into \\
 \hline
-{\em file\+\_\+names} & The vector to store the file names into \\
+{\em file\+\_\+names} & The name of the files in the folder \\
 \hline
 {\em sort} & True, if the files should be sorted alphabetically \\
 \hline
 \end{DoxyParams}
 \index{util\+::\+File\+IO@{util\+::\+File\+IO}!Read\+C\+SV@{Read\+C\+SV}}
 \index{Read\+C\+SV@{Read\+C\+SV}!util\+::\+File\+IO@{util\+::\+File\+IO}}
-\subsubsection[{\texorpdfstring{Read\+C\+S\+V(\+Vector3d \&values, const std\+::string \&filename, char delimiter=\textquotesingle{};\textquotesingle{})}{ReadCSV(Vector3d \&values, const std::string \&filename, char delimiter=';')}}]{\setlength{\rightskip}{0pt plus 5cm}void util\+::\+File\+I\+O\+::\+Read\+C\+SV (
+\subsubsection[{\texorpdfstring{Read\+C\+S\+V(\+Vector3d \&values, const std\+::string \&file\+\_\+name, char delimiter)}{ReadCSV(Vector3d &values, const std::string &file_name, char delimiter)}}]{\setlength{\rightskip}{0pt plus 5cm}void util\+::\+File\+I\+O\+::\+Read\+C\+SV (
 \begin{DoxyParamCaption}
 \item[{Vector3d \&}]{values, }
-\item[{const std\+::string \&}]{filename, }
-\item[{char}]{delimiter = {\ttfamily \textquotesingle{};\textquotesingle{}}}
+\item[{const std\+::string \&}]{file\+\_\+name, }
+\item[{char}]{delimiter}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{classutil_1_1FileIO_af42c183525923014e142a10a626d3677}{}\label{classutil_1_1FileIO_af42c183525923014e142a10a626d3677}
-Reads a C\+SV file and stores the values in a 3D array. The first dimension is the first value of each row, used as a index to bundle multiple rows with the same first value into a single vector. The second dimension is the row in the row bundle. The third dimension is the value in that row. 
+)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{classutil_1_1FileIO_ae31b9e693316483eda89df8463ea0d0a}{}\label{classutil_1_1FileIO_ae31b9e693316483eda89df8463ea0d0a}
+Reads a C\+SV file and stores the values in a 3D array. The first dimension is the first value of each row, used as a index to bundle multiple rows with the same first value into a single vector. The second dimension is the row in the row bundle. The third dimension is the value in that row.
+
+
 \begin{DoxyParams}{Parameters}
 {\em values} & The 3D array of values to store the read values in \\
 \hline
-{\em filename} & The filename to read from \\
+{\em file\+\_\+name} & The name of the file to read \\
 \hline
-{\em delimiter} & The delimiter used to separate the values in the file \\
+{\em delimiter} & The value delimiter of the file \\
 \hline
 \end{DoxyParams}
 \index{util\+::\+File\+IO@{util\+::\+File\+IO}!Read\+C\+SV@{Read\+C\+SV}}
 \index{Read\+C\+SV@{Read\+C\+SV}!util\+::\+File\+IO@{util\+::\+File\+IO}}
-\subsubsection[{\texorpdfstring{Read\+C\+S\+V(\+Vector2d \&values, const std\+::string \&filename, char delimiter=\textquotesingle{};\textquotesingle{})}{ReadCSV(Vector2d \&values, const std::string \&filename, char delimiter=';')}}]{\setlength{\rightskip}{0pt plus 5cm}void util\+::\+File\+I\+O\+::\+Read\+C\+SV (
+\subsubsection[{\texorpdfstring{Read\+C\+S\+V(\+Vector2d \&values, const std\+::string \&file\+\_\+name, char delimiter)}{ReadCSV(Vector2d &values, const std::string &file_name, char delimiter)}}]{\setlength{\rightskip}{0pt plus 5cm}void util\+::\+File\+I\+O\+::\+Read\+C\+SV (
 \begin{DoxyParamCaption}
 \item[{Vector2d \&}]{values, }
-\item[{const std\+::string \&}]{filename, }
-\item[{char}]{delimiter = {\ttfamily \textquotesingle{};\textquotesingle{}}}
+\item[{const std\+::string \&}]{file\+\_\+name, }
+\item[{char}]{delimiter}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{classutil_1_1FileIO_a264c9b694fd7218635c8a783956d2c1e}{}\label{classutil_1_1FileIO_a264c9b694fd7218635c8a783956d2c1e}
-Reads a C\+SV file and stores the values in a 2D array. The first dimension is the row and the second the value in that row. 
+)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{classutil_1_1FileIO_a49f014af1e0f03d290f00049e082d9c6}{}\label{classutil_1_1FileIO_a49f014af1e0f03d290f00049e082d9c6}
+Reads a C\+SV file and stores the values in a 2D array. The first dimension is the row and the second the value in that row.
+
+
 \begin{DoxyParams}{Parameters}
 {\em values} & The 2D array of values to store the read values in \\
 \hline
-{\em filename} & The filename to read from \\
+{\em file\+\_\+name} & The name of the file to read \\
 \hline
-{\em delimiter} & The delimiter used to separate the values in the file \\
+{\em delimiter} & The value delimiter of the file \\
+\hline
+\end{DoxyParams}
+\index{util\+::\+File\+IO@{util\+::\+File\+IO}!Read\+C\+SV@{Read\+C\+SV}}
+\index{Read\+C\+SV@{Read\+C\+SV}!util\+::\+File\+IO@{util\+::\+File\+IO}}
+\subsubsection[{\texorpdfstring{Read\+C\+S\+V(\+Value\+Map\+Vector \&values, const std\+::string \&file\+\_\+name, char delimiter)}{ReadCSV(ValueMapVector &values, const std::string &file_name, char delimiter)}}]{\setlength{\rightskip}{0pt plus 5cm}void util\+::\+File\+I\+O\+::\+Read\+C\+SV (
+\begin{DoxyParamCaption}
+\item[{Value\+Map\+Vector \&}]{values, }
+\item[{const std\+::string \&}]{file\+\_\+name, }
+\item[{char}]{delimiter}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{classutil_1_1FileIO_a642616eb6f07c71bd8dcb1585a532d92}{}\label{classutil_1_1FileIO_a642616eb6f07c71bd8dcb1585a532d92}
+Reads a C\+SV file. The first line of the C\+SV file is a header specifying the keys. The values are stored with their specified key into one map per line.
+
+
+\begin{DoxyParams}{Parameters}
+{\em values} & A vector of maps to store the key-\/value pairs into \\
+\hline
+{\em file\+\_\+name} & The name of the file to read \\
+\hline
+{\em delimiter} & The value delimiter of the file \\
+\hline
+\end{DoxyParams}
+\index{util\+::\+File\+IO@{util\+::\+File\+IO}!Read\+C\+SV@{Read\+C\+SV}}
+\index{Read\+C\+SV@{Read\+C\+SV}!util\+::\+File\+IO@{util\+::\+File\+IO}}
+\subsubsection[{\texorpdfstring{Read\+C\+S\+V(\+Value\+Map\+Vector \&values, const std\+::string \&header, const std\+::string \&file\+\_\+name, char delimiter)}{ReadCSV(ValueMapVector &values, const std::string &header, const std::string &file_name, char delimiter)}}]{\setlength{\rightskip}{0pt plus 5cm}void util\+::\+File\+I\+O\+::\+Read\+C\+SV (
+\begin{DoxyParamCaption}
+\item[{Value\+Map\+Vector \&}]{values, }
+\item[{const std\+::string \&}]{header, }
+\item[{const std\+::string \&}]{file\+\_\+name, }
+\item[{char}]{delimiter}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{classutil_1_1FileIO_a59b96733490d7b60e4f107da84efb245}{}\label{classutil_1_1FileIO_a59b96733490d7b60e4f107da84efb245}
+Reads a C\+SV file. The header specifies the keys. The values are stored with their specified key into one map per line.
+
+
+\begin{DoxyParams}{Parameters}
+{\em values} & A vector of maps to store the key-\/value pairs into \\
+\hline
+{\em header} & A string containing the keys separated by the delimiter \\
+\hline
+{\em file\+\_\+name} & The name of the file to read \\
+\hline
+{\em delimiter} & The value delimiter of the file \\
 \hline
 \end{DoxyParams}
 \index{util\+::\+File\+IO@{util\+::\+File\+IO}!Write\+C\+S\+V\+Matlab@{Write\+C\+S\+V\+Matlab}}
 \index{Write\+C\+S\+V\+Matlab@{Write\+C\+S\+V\+Matlab}!util\+::\+File\+IO@{util\+::\+File\+IO}}
-\subsubsection[{\texorpdfstring{Write\+C\+S\+V\+Matlab(\+Directed\+Graph \&graph, const std\+::string \&file\+\_\+name, char delimiter=\textquotesingle{};\textquotesingle{})}{WriteCSVMatlab(DirectedGraph \&graph, const std::string \&file\_name, char delimiter=';')}}]{\setlength{\rightskip}{0pt plus 5cm}void util\+::\+File\+I\+O\+::\+Write\+C\+S\+V\+Matlab (
+\subsubsection[{\texorpdfstring{Write\+C\+S\+V\+Matlab(\+Directed\+Graph \&graph, const std\+::string \&file\+\_\+name)}{WriteCSVMatlab(DirectedGraph &graph, const std::string &file_name)}}]{\setlength{\rightskip}{0pt plus 5cm}void util\+::\+File\+I\+O\+::\+Write\+C\+S\+V\+Matlab (
 \begin{DoxyParamCaption}
 \item[{Directed\+Graph \&}]{graph, }
-\item[{const std\+::string \&}]{file\+\_\+name, }
-\item[{char}]{delimiter = {\ttfamily \textquotesingle{};\textquotesingle{}}}
+\item[{const std\+::string \&}]{file\+\_\+name}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{classutil_1_1FileIO_a862586aced240e732ecd35773b57c267}{}\label{classutil_1_1FileIO_a862586aced240e732ecd35773b57c267}
-Writes the given graph into a C\+SV file with an format readable by Matlab. 
+)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{classutil_1_1FileIO_a5f2730a95e0801faa32e49dae9b86544}{}\label{classutil_1_1FileIO_a5f2730a95e0801faa32e49dae9b86544}
+Writes the specified graph into a C\+SV file with an format readable by Matlab.
+
+
 \begin{DoxyParams}{Parameters}
 {\em graph} & The graph to write \\
 \hline
-{\em file\+\_\+name} & The name of the file to write into \\
+{\em file\+\_\+name} & The name of the file to write \\
 \hline
-{\em delimiter} & The delimiter to use \\
+\end{DoxyParams}
+\index{util\+::\+File\+IO@{util\+::\+File\+IO}!Write\+C\+S\+V\+Matlab@{Write\+C\+S\+V\+Matlab}}
+\index{Write\+C\+S\+V\+Matlab@{Write\+C\+S\+V\+Matlab}!util\+::\+File\+IO@{util\+::\+File\+IO}}
+\subsubsection[{\texorpdfstring{Write\+C\+S\+V\+Matlab(\+Multi\+Predecessor\+Map \&map, Vertex \&source, Vertex \&sink, const std\+::string \&file\+\_\+name)}{WriteCSVMatlab(MultiPredecessorMap &map, Vertex &source, Vertex &sink, const std::string &file_name)}}]{\setlength{\rightskip}{0pt plus 5cm}void util\+::\+File\+I\+O\+::\+Write\+C\+S\+V\+Matlab (
+\begin{DoxyParamCaption}
+\item[{Multi\+Predecessor\+Map \&}]{map, }
+\item[{Vertex \&}]{source, }
+\item[{Vertex \&}]{sink, }
+\item[{const std\+::string \&}]{file\+\_\+name}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{classutil_1_1FileIO_a2833554dcdf4a04f9fe67a324b5815ff}{}\label{classutil_1_1FileIO_a2833554dcdf4a04f9fe67a324b5815ff}
+Writes the specified multi predecessor map into a C\+SV format readable by Matlab to display all paths in the corresponding graph.
+
+
+\begin{DoxyParams}{Parameters}
+{\em map} & The multi predecessor map to extract the paths from \\
+\hline
+{\em source} & The sink, this is the vertex where all paths begin \\
+\hline
+{\em sink} & The sink, this is the vertex where all paths end \\
+\hline
+{\em file\+\_\+name} & The name of the file to write \\
 \hline
 \end{DoxyParams}
 

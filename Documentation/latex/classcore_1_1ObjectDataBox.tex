@@ -1,0 +1,92 @@
+\hypertarget{classcore_1_1ObjectDataBox}{}\section{core\+:\+:Object\+Data\+Box Class Reference}
+\label{classcore_1_1ObjectDataBox}\index{core\+::\+Object\+Data\+Box@{core\+::\+Object\+Data\+Box}}
+Inheritance diagram for core\+:\+:Object\+Data\+Box\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classcore_1_1ObjectDataBox}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries Object\+Data\+Box} (size\+\_\+t frame\+\_\+index, cv\+::\+Point2d anchor, cv\+::\+Point2d size)\hypertarget{classcore_1_1ObjectDataBox_a9a1ee3e1e603c1e55adc58a1a58efad2}{}\label{classcore_1_1ObjectDataBox_a9a1ee3e1e603c1e55adc58a1a58efad2}
+
+\item 
+cv\+::\+Point2d {\bfseries Get\+Size} () const \hypertarget{classcore_1_1ObjectDataBox_a8134ea14198f45181014d93b27e13b6b}{}\label{classcore_1_1ObjectDataBox_a8134ea14198f45181014d93b27e13b6b}
+
+\item 
+virtual double \hyperlink{classcore_1_1ObjectDataBox_a163c57338778f957ce514611c509558a}{Compare\+To} (Object\+Data\+Ptr obj) const override
+\item 
+virtual Object\+Data\+Ptr \hyperlink{classcore_1_1ObjectDataBox_ab2816bceb771dd7442e6c29193dfe267}{Interpolate} (Object\+Data\+Ptr obj, double fraction) const override
+\item 
+virtual void \hyperlink{classcore_1_1ObjectDataBox_ab29bacb20c258ba572d0372469ec5523}{Visualize} (cv\+::\+Mat \&image, cv\+::\+Scalar \&color) const override
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Function Documentation}
+\index{core\+::\+Object\+Data\+Box@{core\+::\+Object\+Data\+Box}!Compare\+To@{Compare\+To}}
+\index{Compare\+To@{Compare\+To}!core\+::\+Object\+Data\+Box@{core\+::\+Object\+Data\+Box}}
+\subsubsection[{\texorpdfstring{Compare\+To(\+Object\+Data\+Ptr obj) const override}{CompareTo(ObjectDataPtr obj) const override}}]{\setlength{\rightskip}{0pt plus 5cm}double core\+::\+Object\+Data\+Box\+::\+Compare\+To (
+\begin{DoxyParamCaption}
+\item[{Object\+Data\+Ptr}]{obj}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}\hypertarget{classcore_1_1ObjectDataBox_a163c57338778f957ce514611c509558a}{}\label{classcore_1_1ObjectDataBox_a163c57338778f957ce514611c509558a}
+Compares this object with the given object. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & A pointer to the object to compare this object to \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A double value indicating the comparison result 
+\end{DoxyReturn}
+
+
+Reimplemented from \hyperlink{classcore_1_1ObjectData2D_a68d56bd5f26a41830a87ae32eabf9126}{core\+::\+Object\+Data2D}.
+
+\index{core\+::\+Object\+Data\+Box@{core\+::\+Object\+Data\+Box}!Interpolate@{Interpolate}}
+\index{Interpolate@{Interpolate}!core\+::\+Object\+Data\+Box@{core\+::\+Object\+Data\+Box}}
+\subsubsection[{\texorpdfstring{Interpolate(\+Object\+Data\+Ptr obj, double fraction) const override}{Interpolate(ObjectDataPtr obj, double fraction) const override}}]{\setlength{\rightskip}{0pt plus 5cm}Object\+Data\+Ptr core\+::\+Object\+Data\+Box\+::\+Interpolate (
+\begin{DoxyParamCaption}
+\item[{Object\+Data\+Ptr}]{obj, }
+\item[{double}]{fraction}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}\hypertarget{classcore_1_1ObjectDataBox_ab2816bceb771dd7442e6c29193dfe267}{}\label{classcore_1_1ObjectDataBox_ab2816bceb771dd7442e6c29193dfe267}
+Linearly interpolates between this and the given object. Creates a new object to fit between the two objects. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & A pointer to the target object \\
+\hline
+{\em fraction} & Describes where the interpolation should be done. A fraction of zero is a clone of this object, a fraction of one is a clone of the target object. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The interpolated object 
+\end{DoxyReturn}
+
+
+Reimplemented from \hyperlink{classcore_1_1ObjectData2D_a59b974e09f74f0a2640e3152893fe79f}{core\+::\+Object\+Data2D}.
+
+\index{core\+::\+Object\+Data\+Box@{core\+::\+Object\+Data\+Box}!Visualize@{Visualize}}
+\index{Visualize@{Visualize}!core\+::\+Object\+Data\+Box@{core\+::\+Object\+Data\+Box}}
+\subsubsection[{\texorpdfstring{Visualize(cv\+::\+Mat \&image, cv\+::\+Scalar \&color) const override}{Visualize(cv::Mat &image, cv::Scalar &color) const override}}]{\setlength{\rightskip}{0pt plus 5cm}void core\+::\+Object\+Data\+Box\+::\+Visualize (
+\begin{DoxyParamCaption}
+\item[{cv\+::\+Mat \&}]{image, }
+\item[{cv\+::\+Scalar \&}]{color}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}\hypertarget{classcore_1_1ObjectDataBox_ab29bacb20c258ba572d0372469ec5523}{}\label{classcore_1_1ObjectDataBox_ab29bacb20c258ba572d0372469ec5523}
+Visualizes the object in the given image with the given color. This method does nothing, it needs to be overwritten to visualize something. 
+\begin{DoxyParams}{Parameters}
+{\em image} & The image to write into \\
+\hline
+{\em color} & The color to use \\
+\hline
+\end{DoxyParams}
+
+
+Reimplemented from \hyperlink{classcore_1_1ObjectData2D_aff4e8539559f4ce50a7f43b733d6c512}{core\+::\+Object\+Data2D}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+core/Object\+Data\+Box.\+h\item 
+core/Object\+Data\+Box.\+cpp\end{DoxyCompactItemize}

@@ -1,4 +1,11 @@
 var searchData=
 [
-  ['visualize',['Visualize',['../classcore_1_1ObjectData.html#aae2c4fceddc529570dbe8909309f9961',1,'core::ObjectData::Visualize()'],['../classcore_1_1ObjectData3D.html#a86216fae3dc86f1107eb1b4530b574d2',1,'core::ObjectData3D::Visualize()'],['../classcore_1_1ObjectDataAngular.html#acb4265f6de511238460df118148bc85c',1,'core::ObjectDataAngular::Visualize()'],['../classcore_1_1ObjectDataMap.html#a8a0f71318dd58e0d527a63b904c6afac',1,'core::ObjectDataMap::Visualize()'],['../classcore_1_1Tracklet.html#a85f92a4059bf89f24a83f28935675181',1,'core::Tracklet::Visualize(cv::Mat &amp;image, cv::Scalar &amp;color) const override'],['../classcore_1_1Tracklet.html#a3a2b241939559e47aef701d2e2c4d4bd',1,'core::Tracklet::Visualize(cv::Mat &amp;image, cv::Scalar &amp;color, size_t frame, size_t predecessor_count, size_t successor_count) const']]]
+  ['setangularweight',['SetAngularWeight',['../classcore_1_1ObjectDataAngular.html#af6772caef2337f3c12a3f52049c4d853',1,'core::ObjectDataAngular']]],
+  ['setdebug',['SetDebug',['../classutil_1_1Logger.html#ac7b9bc580a6d459c212c46b137742869',1,'util::Logger']]],
+  ['setdetectionscore',['SetDetectionScore',['../classcore_1_1ObjectData.html#a737216c2689aefa216c1c842922d7dd8',1,'core::ObjectData']]],
+  ['setframeindex',['SetFrameIndex',['../classcore_1_1ObjectData.html#aedfe00fa37d5ac7ef554bda746931148',1,'core::ObjectData']]],
+  ['setinfo',['SetInfo',['../classutil_1_1Logger.html#a3965358e412007989f90798e295d4b41',1,'util::Logger']]],
+  ['setspatialweight',['SetSpatialWeight',['../classcore_1_1ObjectData2D.html#ad62bf8b2362e8f3547f8040a144fa346',1,'core::ObjectData2D']]],
+  ['settemporalweight',['SetTemporalWeight',['../classcore_1_1ObjectData2D.html#a2850785393bc7a5250427bbda84c1b58',1,'core::ObjectData2D']]],
+  ['setvalue',['SetValue',['../classutil_1_1Grid.html#a0e93bd63922e7cbe405176a1ae21877e',1,'util::Grid::SetValue(core::ObjectDataPtr value, int x, int y, int z=0)'],['../classutil_1_1Grid.html#ad7dbf79146d9f5ae1662910b82fd25ea',1,'util::Grid::SetValue(core::ObjectDataPtr value, double x, double y, double z=0)']]]
 ];

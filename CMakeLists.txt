@@ -23,7 +23,10 @@ set(SOURCE_FILES
         core/ObjectData2D.cpp core/ObjectData2D.h
         algo/Berclaz.cpp algo/Berclaz.h
         util/Grid.cpp util/Grid.h
-        core/ObjectDataBox.cpp core/ObjectDataBox.h algo/KShortestPaths2.cpp algo/KShortestPaths2.h algo/KShortestPaths3.cpp algo/KShortestPaths3.h algo/KShortestPaths4.cpp algo/KShortestPaths4.h)
+        core/ObjectDataBox.cpp core/ObjectDataBox.h
+        algo/KShortestPaths2.cpp algo/KShortestPaths2.h
+        algo/KShortestPaths3.cpp algo/KShortestPaths3.h
+        algo/KShortestPaths4.cpp algo/KShortestPaths4.h)
 
 find_package(Doxygen)
 

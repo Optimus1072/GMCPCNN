@@ -1,0 +1,275 @@
+\hypertarget{classutil_1_1Grid}{}\section{util\+:\+:Grid Class Reference}
+\label{classutil_1_1Grid}\index{util\+::\+Grid@{util\+::\+Grid}}
+
+
+{\ttfamily \#include $<$Grid.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classutil_1_1Grid_a0b2bfd0044eb5633a3f1121e5e70709e}{Grid} (int width\+\_\+count, int height\+\_\+count, double width, double height)
+\item 
+\hyperlink{classutil_1_1Grid_ad6457dda588e20ccd503e363e96dd57e}{Grid} (int width\+\_\+count, int height\+\_\+count, int depth\+\_\+count, double width, double height, double depth)
+\item 
+void \hyperlink{classutil_1_1Grid_a0e93bd63922e7cbe405176a1ae21877e}{Set\+Value} (core\+::\+Object\+Data\+Ptr value, int x, int y, int z=0)
+\item 
+void \hyperlink{classutil_1_1Grid_ad7dbf79146d9f5ae1662910b82fd25ea}{Set\+Value} (core\+::\+Object\+Data\+Ptr value, double x, double y, double z=0)
+\item 
+core\+::\+Object\+Data\+Ptr \hyperlink{classutil_1_1Grid_af464d8381c8e9b6c3088854fc0358dfe}{Get\+Value} (int x, int y, int z=0) const 
+\item 
+core\+::\+Object\+Data\+Ptr \hyperlink{classutil_1_1Grid_a9171ea7472fdd6010a8065cd9e1c1f06}{Get\+Value} (double x, double y, double z=0.\+0) const 
+\item 
+int \hyperlink{classutil_1_1Grid_afcc08d36823ea853f6b50a797684c9bc}{Get\+Width\+Count} () const 
+\item 
+int \hyperlink{classutil_1_1Grid_a2c77cf471457b1af17107a92979b24a2}{Get\+Height\+Count} () const 
+\item 
+int \hyperlink{classutil_1_1Grid_a330429009107ee0b416dfdbdcbadb5ed}{Get\+Depth\+Count} () const 
+\item 
+double \hyperlink{classutil_1_1Grid_aa4d14eb145ab9e3ca6c3a4ae606ced37}{Get\+Width} () const 
+\item 
+double \hyperlink{classutil_1_1Grid_a5e9346d2264a2cf241059428cb6c6bc1}{Get\+Height} () const 
+\item 
+double \hyperlink{classutil_1_1Grid_a063a8881da7be7919eab6743068232ec}{Get\+Depth} () const 
+\item 
+void \hyperlink{classutil_1_1Grid_a7fd996135bf881b2ed4565e8c4a9c2e8}{Position\+To\+Index} (double x, double y, double z, int \&xi, int \&yi, int \&zi) const 
+\item 
+void {\bfseries Convolve2D} (int vicinity, double $\ast$mask, double multiplier)\hypertarget{classutil_1_1Grid_a6597c4f785a764c0b291b8135863fe67}{}\label{classutil_1_1Grid_a6597c4f785a764c0b291b8135863fe67}
+
+\item 
+void {\bfseries Convolve3D} (int vicinity, double $\ast$mask, double multiplier)\hypertarget{classutil_1_1Grid_ac161adb14df09651a6b33f855d887bfa}{}\label{classutil_1_1Grid_ac161adb14df09651a6b33f855d887bfa}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Class for storing values in a three dimensional grid. Can also be used for two dimensions but has a bit overhead. 
+
+\subsection{Constructor \& Destructor Documentation}
+\index{util\+::\+Grid@{util\+::\+Grid}!Grid@{Grid}}
+\index{Grid@{Grid}!util\+::\+Grid@{util\+::\+Grid}}
+\subsubsection[{\texorpdfstring{Grid(int width\+\_\+count, int height\+\_\+count, double width, double height)}{Grid(int width_count, int height_count, double width, double height)}}]{\setlength{\rightskip}{0pt plus 5cm}util\+::\+Grid\+::\+Grid (
+\begin{DoxyParamCaption}
+\item[{int}]{width\+\_\+count, }
+\item[{int}]{height\+\_\+count, }
+\item[{double}]{width, }
+\item[{double}]{height}
+\end{DoxyParamCaption}
+)}\hypertarget{classutil_1_1Grid_a0b2bfd0044eb5633a3f1121e5e70709e}{}\label{classutil_1_1Grid_a0b2bfd0044eb5633a3f1121e5e70709e}
+Creates a new two dimensional grid. 
+\begin{DoxyParams}{Parameters}
+{\em width\+\_\+count} & The number of elements on the x axis \\
+\hline
+{\em height\+\_\+count} & The number of elements on the y axis \\
+\hline
+{\em width} & The size of the whole grid on the x axis \\
+\hline
+{\em height} & The size of the whole grid on the y axis \\
+\hline
+\end{DoxyParams}
+\index{util\+::\+Grid@{util\+::\+Grid}!Grid@{Grid}}
+\index{Grid@{Grid}!util\+::\+Grid@{util\+::\+Grid}}
+\subsubsection[{\texorpdfstring{Grid(int width\+\_\+count, int height\+\_\+count, int depth\+\_\+count, double width, double height, double depth)}{Grid(int width_count, int height_count, int depth_count, double width, double height, double depth)}}]{\setlength{\rightskip}{0pt plus 5cm}util\+::\+Grid\+::\+Grid (
+\begin{DoxyParamCaption}
+\item[{int}]{width\+\_\+count, }
+\item[{int}]{height\+\_\+count, }
+\item[{int}]{depth\+\_\+count, }
+\item[{double}]{width, }
+\item[{double}]{height, }
+\item[{double}]{depth}
+\end{DoxyParamCaption}
+)}\hypertarget{classutil_1_1Grid_ad6457dda588e20ccd503e363e96dd57e}{}\label{classutil_1_1Grid_ad6457dda588e20ccd503e363e96dd57e}
+Creates a new three dimensional grid. 
+\begin{DoxyParams}{Parameters}
+{\em width\+\_\+count} & The number of elements on the x axis \\
+\hline
+{\em height\+\_\+count} & The number of elements on the y axis \\
+\hline
+{\em depth\+\_\+count} & The number of elements on the z axis \\
+\hline
+{\em width} & The size of the whole grid on the x axis \\
+\hline
+{\em height} & The size of the whole grid on the y axis \\
+\hline
+{\em depth} & The size of the whole grid on the z axis \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\index{util\+::\+Grid@{util\+::\+Grid}!Get\+Depth@{Get\+Depth}}
+\index{Get\+Depth@{Get\+Depth}!util\+::\+Grid@{util\+::\+Grid}}
+\subsubsection[{\texorpdfstring{Get\+Depth() const }{GetDepth() const }}]{\setlength{\rightskip}{0pt plus 5cm}double util\+::\+Grid\+::\+Get\+Depth (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{classutil_1_1Grid_a063a8881da7be7919eab6743068232ec}{}\label{classutil_1_1Grid_a063a8881da7be7919eab6743068232ec}
+Gets the size of the whole grid on the z axis. \begin{DoxyReturn}{Returns}
+the size of the whole grid on the z axis 
+\end{DoxyReturn}
+\index{util\+::\+Grid@{util\+::\+Grid}!Get\+Depth\+Count@{Get\+Depth\+Count}}
+\index{Get\+Depth\+Count@{Get\+Depth\+Count}!util\+::\+Grid@{util\+::\+Grid}}
+\subsubsection[{\texorpdfstring{Get\+Depth\+Count() const }{GetDepthCount() const }}]{\setlength{\rightskip}{0pt plus 5cm}int util\+::\+Grid\+::\+Get\+Depth\+Count (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{classutil_1_1Grid_a330429009107ee0b416dfdbdcbadb5ed}{}\label{classutil_1_1Grid_a330429009107ee0b416dfdbdcbadb5ed}
+Gets the number of elements on the z axis. \begin{DoxyReturn}{Returns}
+The number of elements on the z axis 
+\end{DoxyReturn}
+\index{util\+::\+Grid@{util\+::\+Grid}!Get\+Height@{Get\+Height}}
+\index{Get\+Height@{Get\+Height}!util\+::\+Grid@{util\+::\+Grid}}
+\subsubsection[{\texorpdfstring{Get\+Height() const }{GetHeight() const }}]{\setlength{\rightskip}{0pt plus 5cm}double util\+::\+Grid\+::\+Get\+Height (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{classutil_1_1Grid_a5e9346d2264a2cf241059428cb6c6bc1}{}\label{classutil_1_1Grid_a5e9346d2264a2cf241059428cb6c6bc1}
+Gets the size of the whole grid on the y axis. \begin{DoxyReturn}{Returns}
+the size of the whole grid on the y axis 
+\end{DoxyReturn}
+\index{util\+::\+Grid@{util\+::\+Grid}!Get\+Height\+Count@{Get\+Height\+Count}}
+\index{Get\+Height\+Count@{Get\+Height\+Count}!util\+::\+Grid@{util\+::\+Grid}}
+\subsubsection[{\texorpdfstring{Get\+Height\+Count() const }{GetHeightCount() const }}]{\setlength{\rightskip}{0pt plus 5cm}int util\+::\+Grid\+::\+Get\+Height\+Count (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{classutil_1_1Grid_a2c77cf471457b1af17107a92979b24a2}{}\label{classutil_1_1Grid_a2c77cf471457b1af17107a92979b24a2}
+Gets the number of elements on the y axis. \begin{DoxyReturn}{Returns}
+The number of elements on the y axis 
+\end{DoxyReturn}
+\index{util\+::\+Grid@{util\+::\+Grid}!Get\+Value@{Get\+Value}}
+\index{Get\+Value@{Get\+Value}!util\+::\+Grid@{util\+::\+Grid}}
+\subsubsection[{\texorpdfstring{Get\+Value(int x, int y, int z=0) const }{GetValue(int x, int y, int z=0) const }}]{\setlength{\rightskip}{0pt plus 5cm}core\+::\+Object\+Data\+Ptr util\+::\+Grid\+::\+Get\+Value (
+\begin{DoxyParamCaption}
+\item[{int}]{x, }
+\item[{int}]{y, }
+\item[{int}]{z = {\ttfamily 0}}
+\end{DoxyParamCaption}
+) const}\hypertarget{classutil_1_1Grid_af464d8381c8e9b6c3088854fc0358dfe}{}\label{classutil_1_1Grid_af464d8381c8e9b6c3088854fc0358dfe}
+Gets the value in the grid cell with the given index. 
+\begin{DoxyParams}{Parameters}
+{\em x} & The x axis index \\
+\hline
+{\em y} & The y axis index \\
+\hline
+{\em z} & The z axis index \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The value in the grid cell 
+\end{DoxyReturn}
+\index{util\+::\+Grid@{util\+::\+Grid}!Get\+Value@{Get\+Value}}
+\index{Get\+Value@{Get\+Value}!util\+::\+Grid@{util\+::\+Grid}}
+\subsubsection[{\texorpdfstring{Get\+Value(double x, double y, double z=0.\+0) const }{GetValue(double x, double y, double z=0.0) const }}]{\setlength{\rightskip}{0pt plus 5cm}core\+::\+Object\+Data\+Ptr util\+::\+Grid\+::\+Get\+Value (
+\begin{DoxyParamCaption}
+\item[{double}]{x, }
+\item[{double}]{y, }
+\item[{double}]{z = {\ttfamily 0.0}}
+\end{DoxyParamCaption}
+) const}\hypertarget{classutil_1_1Grid_a9171ea7472fdd6010a8065cd9e1c1f06}{}\label{classutil_1_1Grid_a9171ea7472fdd6010a8065cd9e1c1f06}
+Gets the value in the grid cell at the given position. 
+\begin{DoxyParams}{Parameters}
+{\em x} & The x axis value \\
+\hline
+{\em y} & The y axis value \\
+\hline
+{\em z} & The z axis value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The value in the grid cell 
+\end{DoxyReturn}
+\index{util\+::\+Grid@{util\+::\+Grid}!Get\+Width@{Get\+Width}}
+\index{Get\+Width@{Get\+Width}!util\+::\+Grid@{util\+::\+Grid}}
+\subsubsection[{\texorpdfstring{Get\+Width() const }{GetWidth() const }}]{\setlength{\rightskip}{0pt plus 5cm}double util\+::\+Grid\+::\+Get\+Width (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{classutil_1_1Grid_aa4d14eb145ab9e3ca6c3a4ae606ced37}{}\label{classutil_1_1Grid_aa4d14eb145ab9e3ca6c3a4ae606ced37}
+Gets the size of the whole grid on the x axis. \begin{DoxyReturn}{Returns}
+the size of the whole grid on the x axis 
+\end{DoxyReturn}
+\index{util\+::\+Grid@{util\+::\+Grid}!Get\+Width\+Count@{Get\+Width\+Count}}
+\index{Get\+Width\+Count@{Get\+Width\+Count}!util\+::\+Grid@{util\+::\+Grid}}
+\subsubsection[{\texorpdfstring{Get\+Width\+Count() const }{GetWidthCount() const }}]{\setlength{\rightskip}{0pt plus 5cm}int util\+::\+Grid\+::\+Get\+Width\+Count (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{classutil_1_1Grid_afcc08d36823ea853f6b50a797684c9bc}{}\label{classutil_1_1Grid_afcc08d36823ea853f6b50a797684c9bc}
+Gets the number of elements on the x axis. \begin{DoxyReturn}{Returns}
+The number of elements on the x axis 
+\end{DoxyReturn}
+\index{util\+::\+Grid@{util\+::\+Grid}!Position\+To\+Index@{Position\+To\+Index}}
+\index{Position\+To\+Index@{Position\+To\+Index}!util\+::\+Grid@{util\+::\+Grid}}
+\subsubsection[{\texorpdfstring{Position\+To\+Index(double x, double y, double z, int \&xi, int \&yi, int \&zi) const }{PositionToIndex(double x, double y, double z, int &xi, int &yi, int &zi) const }}]{\setlength{\rightskip}{0pt plus 5cm}void util\+::\+Grid\+::\+Position\+To\+Index (
+\begin{DoxyParamCaption}
+\item[{double}]{x, }
+\item[{double}]{y, }
+\item[{double}]{z, }
+\item[{int \&}]{xi, }
+\item[{int \&}]{yi, }
+\item[{int \&}]{zi}
+\end{DoxyParamCaption}
+) const}\hypertarget{classutil_1_1Grid_a7fd996135bf881b2ed4565e8c4a9c2e8}{}\label{classutil_1_1Grid_a7fd996135bf881b2ed4565e8c4a9c2e8}
+Converts a 3D position to an 3D index. 
+\begin{DoxyParams}{Parameters}
+{\em x} & The x axis value \\
+\hline
+{\em y} & The y axis value \\
+\hline
+{\em z} & The z axis value \\
+\hline
+{\em xi} & The x axis index \\
+\hline
+{\em yi} & The y axis index \\
+\hline
+{\em zi} & The z axis index \\
+\hline
+\end{DoxyParams}
+\index{util\+::\+Grid@{util\+::\+Grid}!Set\+Value@{Set\+Value}}
+\index{Set\+Value@{Set\+Value}!util\+::\+Grid@{util\+::\+Grid}}
+\subsubsection[{\texorpdfstring{Set\+Value(core\+::\+Object\+Data\+Ptr value, int x, int y, int z=0)}{SetValue(core::ObjectDataPtr value, int x, int y, int z=0)}}]{\setlength{\rightskip}{0pt plus 5cm}void util\+::\+Grid\+::\+Set\+Value (
+\begin{DoxyParamCaption}
+\item[{core\+::\+Object\+Data\+Ptr}]{value, }
+\item[{int}]{x, }
+\item[{int}]{y, }
+\item[{int}]{z = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}\hypertarget{classutil_1_1Grid_a0e93bd63922e7cbe405176a1ae21877e}{}\label{classutil_1_1Grid_a0e93bd63922e7cbe405176a1ae21877e}
+Sets a value in the grid cell with the given index. 
+\begin{DoxyParams}{Parameters}
+{\em value} & The value to set \\
+\hline
+{\em x} & The x axis index \\
+\hline
+{\em y} & The y axis index \\
+\hline
+{\em z} & The z axis index \\
+\hline
+\end{DoxyParams}
+\index{util\+::\+Grid@{util\+::\+Grid}!Set\+Value@{Set\+Value}}
+\index{Set\+Value@{Set\+Value}!util\+::\+Grid@{util\+::\+Grid}}
+\subsubsection[{\texorpdfstring{Set\+Value(core\+::\+Object\+Data\+Ptr value, double x, double y, double z=0)}{SetValue(core::ObjectDataPtr value, double x, double y, double z=0)}}]{\setlength{\rightskip}{0pt plus 5cm}void util\+::\+Grid\+::\+Set\+Value (
+\begin{DoxyParamCaption}
+\item[{core\+::\+Object\+Data\+Ptr}]{value, }
+\item[{double}]{x, }
+\item[{double}]{y, }
+\item[{double}]{z = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}\hypertarget{classutil_1_1Grid_ad7dbf79146d9f5ae1662910b82fd25ea}{}\label{classutil_1_1Grid_ad7dbf79146d9f5ae1662910b82fd25ea}
+Sets a value in the grid cell at the given position. 
+\begin{DoxyParams}{Parameters}
+{\em value} & The value to set \\
+\hline
+{\em x} & The x axis value \\
+\hline
+{\em y} & The y axis value \\
+\hline
+{\em z} & The z axis value \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+util/Grid.\+h\item 
+util/Grid.\+cpp\end{DoxyCompactItemize}

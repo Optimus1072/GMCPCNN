@@ -13,15 +13,15 @@ Inheritance diagram for core\+:\+:Object\+Data\+Angular\+:\begin{figure}[H]
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hyperlink{classcore_1_1ObjectDataAngular_acc9d75397b5e4aa43a05f2366b00ccfa}{Object\+Data\+Angular} (size\+\_\+t frame\+\_\+index, const cv\+::\+Point3d \&position, double angle)
+\hyperlink{classcore_1_1ObjectDataAngular_a276b02fc7646e3275f1cb81fca7e9a47}{Object\+Data\+Angular} (size\+\_\+t frame\+\_\+index, const cv\+::\+Point2d \&position, double angle)
 \item 
-\hyperlink{classcore_1_1ObjectDataAngular_ae2c40f53f5dc630d610cf513bf4cd767}{Object\+Data\+Angular} (size\+\_\+t frame\+\_\+index, const cv\+::\+Point3d \&position, double angle, double temporal\+\_\+weight, double spatial\+\_\+weight, double angular\+\_\+weight)
+\hyperlink{classcore_1_1ObjectDataAngular_aae3a8f335e26771d06c8940931d5d654}{Object\+Data\+Angular} (size\+\_\+t frame\+\_\+index, const cv\+::\+Point2d \&position, double angle, double temporal\+\_\+weight, double spatial\+\_\+weight, double angular\+\_\+weight)
 \item 
 void \hyperlink{classcore_1_1ObjectDataAngular_af6772caef2337f3c12a3f52049c4d853}{Set\+Angular\+Weight} (double weight)
 \item 
-double \hyperlink{classcore_1_1ObjectDataAngular_a6c2da5010cd919af3b0f156579d04ef8}{Get\+Angle} () const
+double \hyperlink{classcore_1_1ObjectDataAngular_aad72f2e6cbd690f492d71b3dbe20c6b8}{Get\+Angle} () const 
 \item 
-double \hyperlink{classcore_1_1ObjectDataAngular_ae1c5db7b9fc06e648450d9388c93a1aa}{Get\+Angular\+Weight} () const
+double \hyperlink{classcore_1_1ObjectDataAngular_a35e13c65fd7ba246ce0ee1680f2690cf}{Get\+Angular\+Weight} () const 
 \item 
 virtual double \hyperlink{classcore_1_1ObjectDataAngular_a2932240c6c082b76f2c04723cdf3e4f9}{Compare\+To} (Object\+Data\+Ptr obj) const override
 \item 
@@ -32,44 +32,44 @@ virtual void \hyperlink{classcore_1_1ObjectDataAngular_acb4265f6de511238460df118
 
 
 \subsection{Detailed Description}
-Class for storing a detection in three dimensional space with an rotation angle in radians. 
+Class for storing a detection in two dimensional space with an rotation angle in radians. 
 
 \subsection{Constructor \& Destructor Documentation}
 \index{core\+::\+Object\+Data\+Angular@{core\+::\+Object\+Data\+Angular}!Object\+Data\+Angular@{Object\+Data\+Angular}}
 \index{Object\+Data\+Angular@{Object\+Data\+Angular}!core\+::\+Object\+Data\+Angular@{core\+::\+Object\+Data\+Angular}}
-\subsubsection[{\texorpdfstring{Object\+Data\+Angular(size\+\_\+t frame\+\_\+index, const cv\+::\+Point3d \&position, double angle)}{ObjectDataAngular(size\_t frame\_index, const cv::Point3d \&position, double angle)}}]{\setlength{\rightskip}{0pt plus 5cm}core\+::\+Object\+Data\+Angular\+::\+Object\+Data\+Angular (
+\subsubsection[{\texorpdfstring{Object\+Data\+Angular(size\+\_\+t frame\+\_\+index, const cv\+::\+Point2d \&position, double angle)}{ObjectDataAngular(size_t frame_index, const cv::Point2d &position, double angle)}}]{\setlength{\rightskip}{0pt plus 5cm}core\+::\+Object\+Data\+Angular\+::\+Object\+Data\+Angular (
 \begin{DoxyParamCaption}
 \item[{size\+\_\+t}]{frame\+\_\+index, }
-\item[{const cv\+::\+Point3d \&}]{position, }
+\item[{const cv\+::\+Point2d \&}]{position, }
 \item[{double}]{angle}
 \end{DoxyParamCaption}
-)}\hypertarget{classcore_1_1ObjectDataAngular_acc9d75397b5e4aa43a05f2366b00ccfa}{}\label{classcore_1_1ObjectDataAngular_acc9d75397b5e4aa43a05f2366b00ccfa}
+)}\hypertarget{classcore_1_1ObjectDataAngular_a276b02fc7646e3275f1cb81fca7e9a47}{}\label{classcore_1_1ObjectDataAngular_a276b02fc7646e3275f1cb81fca7e9a47}
 Creates a new object in the given frame, with the given position and the given angle. 
 \begin{DoxyParams}{Parameters}
 {\em frame\+\_\+index} & The index of the frame \\
 \hline
-{\em position} & The position in three dimensional space \\
+{\em position} & The position in two dimensional space \\
 \hline
 {\em angle} & The rotation angle in radians \\
 \hline
 \end{DoxyParams}
 \index{core\+::\+Object\+Data\+Angular@{core\+::\+Object\+Data\+Angular}!Object\+Data\+Angular@{Object\+Data\+Angular}}
 \index{Object\+Data\+Angular@{Object\+Data\+Angular}!core\+::\+Object\+Data\+Angular@{core\+::\+Object\+Data\+Angular}}
-\subsubsection[{\texorpdfstring{Object\+Data\+Angular(size\+\_\+t frame\+\_\+index, const cv\+::\+Point3d \&position, double angle, double temporal\+\_\+weight, double spatial\+\_\+weight, double angular\+\_\+weight)}{ObjectDataAngular(size\_t frame\_index, const cv::Point3d \&position, double angle, double temporal\_weight, double spatial\_weight, double angular\_weight)}}]{\setlength{\rightskip}{0pt plus 5cm}core\+::\+Object\+Data\+Angular\+::\+Object\+Data\+Angular (
+\subsubsection[{\texorpdfstring{Object\+Data\+Angular(size\+\_\+t frame\+\_\+index, const cv\+::\+Point2d \&position, double angle, double temporal\+\_\+weight, double spatial\+\_\+weight, double angular\+\_\+weight)}{ObjectDataAngular(size_t frame_index, const cv::Point2d &position, double angle, double temporal_weight, double spatial_weight, double angular_weight)}}]{\setlength{\rightskip}{0pt plus 5cm}core\+::\+Object\+Data\+Angular\+::\+Object\+Data\+Angular (
 \begin{DoxyParamCaption}
 \item[{size\+\_\+t}]{frame\+\_\+index, }
-\item[{const cv\+::\+Point3d \&}]{position, }
+\item[{const cv\+::\+Point2d \&}]{position, }
 \item[{double}]{angle, }
 \item[{double}]{temporal\+\_\+weight, }
 \item[{double}]{spatial\+\_\+weight, }
 \item[{double}]{angular\+\_\+weight}
 \end{DoxyParamCaption}
-)}\hypertarget{classcore_1_1ObjectDataAngular_ae2c40f53f5dc630d610cf513bf4cd767}{}\label{classcore_1_1ObjectDataAngular_ae2c40f53f5dc630d610cf513bf4cd767}
+)}\hypertarget{classcore_1_1ObjectDataAngular_aae3a8f335e26771d06c8940931d5d654}{}\label{classcore_1_1ObjectDataAngular_aae3a8f335e26771d06c8940931d5d654}
 Creates a new object in the given frame, with the given position and the given angle. The weights are used in the comparison calculation. 
 \begin{DoxyParams}{Parameters}
 {\em frame\+\_\+index} & The index of the frame \\
 \hline
-{\em position} & The position in three dimensional space \\
+{\em position} & The position in two dimensional space \\
 \hline
 {\em angle} & The rotation angle in radians \\
 \hline
@@ -100,25 +100,25 @@ A double value indicating the comparison result
 \end{DoxyReturn}
 
 
-Reimplemented from \hyperlink{classcore_1_1ObjectData3D_abef3e4e7a0dc121d8a403d91964be576}{core\+::\+Object\+Data3D}.
+Reimplemented from \hyperlink{classcore_1_1ObjectData2D_a68d56bd5f26a41830a87ae32eabf9126}{core\+::\+Object\+Data2D}.
 
 \index{core\+::\+Object\+Data\+Angular@{core\+::\+Object\+Data\+Angular}!Get\+Angle@{Get\+Angle}}
 \index{Get\+Angle@{Get\+Angle}!core\+::\+Object\+Data\+Angular@{core\+::\+Object\+Data\+Angular}}
-\subsubsection[{\texorpdfstring{Get\+Angle() const}{GetAngle() const}}]{\setlength{\rightskip}{0pt plus 5cm}double core\+::\+Object\+Data\+Angular\+::\+Get\+Angle (
+\subsubsection[{\texorpdfstring{Get\+Angle() const }{GetAngle() const }}]{\setlength{\rightskip}{0pt plus 5cm}double core\+::\+Object\+Data\+Angular\+::\+Get\+Angle (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-) const}\hypertarget{classcore_1_1ObjectDataAngular_a6c2da5010cd919af3b0f156579d04ef8}{}\label{classcore_1_1ObjectDataAngular_a6c2da5010cd919af3b0f156579d04ef8}
+) const}\hypertarget{classcore_1_1ObjectDataAngular_aad72f2e6cbd690f492d71b3dbe20c6b8}{}\label{classcore_1_1ObjectDataAngular_aad72f2e6cbd690f492d71b3dbe20c6b8}
 Gets the rotation angle in radians. \begin{DoxyReturn}{Returns}
 The rotation angle in radians 
 \end{DoxyReturn}
 \index{core\+::\+Object\+Data\+Angular@{core\+::\+Object\+Data\+Angular}!Get\+Angular\+Weight@{Get\+Angular\+Weight}}
 \index{Get\+Angular\+Weight@{Get\+Angular\+Weight}!core\+::\+Object\+Data\+Angular@{core\+::\+Object\+Data\+Angular}}
-\subsubsection[{\texorpdfstring{Get\+Angular\+Weight() const}{GetAngularWeight() const}}]{\setlength{\rightskip}{0pt plus 5cm}double core\+::\+Object\+Data\+Angular\+::\+Get\+Angular\+Weight (
+\subsubsection[{\texorpdfstring{Get\+Angular\+Weight() const }{GetAngularWeight() const }}]{\setlength{\rightskip}{0pt plus 5cm}double core\+::\+Object\+Data\+Angular\+::\+Get\+Angular\+Weight (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-) const}\hypertarget{classcore_1_1ObjectDataAngular_ae1c5db7b9fc06e648450d9388c93a1aa}{}\label{classcore_1_1ObjectDataAngular_ae1c5db7b9fc06e648450d9388c93a1aa}
+) const}\hypertarget{classcore_1_1ObjectDataAngular_a35e13c65fd7ba246ce0ee1680f2690cf}{}\label{classcore_1_1ObjectDataAngular_a35e13c65fd7ba246ce0ee1680f2690cf}
 Gets the angular weight. \begin{DoxyReturn}{Returns}
 The angular weight 
 \end{DoxyReturn}
@@ -142,7 +142,7 @@ The interpolated object
 \end{DoxyReturn}
 
 
-Reimplemented from \hyperlink{classcore_1_1ObjectData3D_ae57a5d8f7a02a403653c82c3b73a73d2}{core\+::\+Object\+Data3D}.
+Reimplemented from \hyperlink{classcore_1_1ObjectData2D_a59b974e09f74f0a2640e3152893fe79f}{core\+::\+Object\+Data2D}.
 
 \index{core\+::\+Object\+Data\+Angular@{core\+::\+Object\+Data\+Angular}!Set\+Angular\+Weight@{Set\+Angular\+Weight}}
 \index{Set\+Angular\+Weight@{Set\+Angular\+Weight}!core\+::\+Object\+Data\+Angular@{core\+::\+Object\+Data\+Angular}}
@@ -158,7 +158,7 @@ Sets the angular weight.
 \end{DoxyParams}
 \index{core\+::\+Object\+Data\+Angular@{core\+::\+Object\+Data\+Angular}!Visualize@{Visualize}}
 \index{Visualize@{Visualize}!core\+::\+Object\+Data\+Angular@{core\+::\+Object\+Data\+Angular}}
-\subsubsection[{\texorpdfstring{Visualize(cv\+::\+Mat \&image, cv\+::\+Scalar \&color) const override}{Visualize(cv::Mat \&image, cv::Scalar \&color) const override}}]{\setlength{\rightskip}{0pt plus 5cm}void core\+::\+Object\+Data\+Angular\+::\+Visualize (
+\subsubsection[{\texorpdfstring{Visualize(cv\+::\+Mat \&image, cv\+::\+Scalar \&color) const override}{Visualize(cv::Mat &image, cv::Scalar &color) const override}}]{\setlength{\rightskip}{0pt plus 5cm}void core\+::\+Object\+Data\+Angular\+::\+Visualize (
 \begin{DoxyParamCaption}
 \item[{cv\+::\+Mat \&}]{image, }
 \item[{cv\+::\+Scalar \&}]{color}
@@ -173,7 +173,7 @@ Visualizes the object in the given image with the given color. This method does 
 \end{DoxyParams}
 
 
-Reimplemented from \hyperlink{classcore_1_1ObjectData3D_a86216fae3dc86f1107eb1b4530b574d2}{core\+::\+Object\+Data3D}.
+Reimplemented from \hyperlink{classcore_1_1ObjectData2D_aff4e8539559f4ce50a7f43b733d6c512}{core\+::\+Object\+Data2D}.
 
 
 

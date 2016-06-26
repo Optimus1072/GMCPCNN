@@ -2,7 +2,9 @@
 // Created by wrede on 09.06.16.
 //
 
+#include <opencv2/imgproc.hpp>
 #include "ObjectDataBox.h"
+#include <math.h>
 #include "../util/MyMath.h"
 
 namespace core

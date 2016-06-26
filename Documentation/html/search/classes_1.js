@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['fileio',['FileIO',['../classutil_1_1FileIO.html',1,'util']]]
+  ['detectionsequence',['DetectionSequence',['../classcore_1_1DetectionSequence.html',1,'core']]]
 ];

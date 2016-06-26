@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['tracklet',['Tracklet',['../classcore_1_1Tracklet.html',1,'core']]],
-  ['twostage',['NStage',['../classalgo_1_1TwoStage.html',1,'algo']]]
+  ['nstage',['NStage',['../classalgo_1_1NStage.html',1,'algo']]]
 ];

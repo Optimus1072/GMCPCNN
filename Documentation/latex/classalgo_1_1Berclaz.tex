@@ -1,0 +1,64 @@
+\hypertarget{classalgo_1_1Berclaz}{}\section{algo\+:\+:Berclaz Class Reference}
+\label{classalgo_1_1Berclaz}\index{algo\+::\+Berclaz@{algo\+::\+Berclaz}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classalgo_1_1Berclaz_a62a8d6165ca156a4099d6d181f1557af}{Berclaz} (int h\+\_\+res, int v\+\_\+res, int vicinity\+\_\+size)
+\item 
+void \hyperlink{classalgo_1_1Berclaz_a918f30c2f67eac9d5f9bc07ceeb0880e}{Run} (\hyperlink{classcore_1_1DetectionSequence}{core\+::\+Detection\+Sequence} \&sequence, size\+\_\+t batch\+\_\+size, size\+\_\+t max\+\_\+track\+\_\+count, std\+::vector$<$ core\+::\+Tracklet\+Ptr $>$ \&tracks)
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{algo\+::\+Berclaz@{algo\+::\+Berclaz}!Berclaz@{Berclaz}}
+\index{Berclaz@{Berclaz}!algo\+::\+Berclaz@{algo\+::\+Berclaz}}
+\subsubsection[{\texorpdfstring{Berclaz(int h\+\_\+res, int v\+\_\+res, int vicinity\+\_\+size)}{Berclaz(int h_res, int v_res, int vicinity_size)}}]{\setlength{\rightskip}{0pt plus 5cm}algo\+::\+Berclaz\+::\+Berclaz (
+\begin{DoxyParamCaption}
+\item[{int}]{h\+\_\+res, }
+\item[{int}]{v\+\_\+res, }
+\item[{int}]{vicinity\+\_\+size}
+\end{DoxyParamCaption}
+)}\hypertarget{classalgo_1_1Berclaz_a62a8d6165ca156a4099d6d181f1557af}{}\label{classalgo_1_1Berclaz_a62a8d6165ca156a4099d6d181f1557af}
+Instantiate with the given parameters.
+
+
+\begin{DoxyParams}{Parameters}
+{\em h\+\_\+res} & The horizontal grid resolution \\
+\hline
+{\em v\+\_\+res} & The vertical grid resolution \\
+\hline
+{\em vicinity\+\_\+size} & The maximum number of cells a detection can skip within one frame \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\index{algo\+::\+Berclaz@{algo\+::\+Berclaz}!Run@{Run}}
+\index{Run@{Run}!algo\+::\+Berclaz@{algo\+::\+Berclaz}}
+\subsubsection[{\texorpdfstring{Run(core\+::\+Detection\+Sequence \&sequence, size\+\_\+t batch\+\_\+size, size\+\_\+t max\+\_\+track\+\_\+count, std\+::vector$<$ core\+::\+Tracklet\+Ptr $>$ \&tracks)}{Run(core::DetectionSequence &sequence, size_t batch_size, size_t max_track_count, std::vector< core::TrackletPtr > &tracks)}}]{\setlength{\rightskip}{0pt plus 5cm}void algo\+::\+Berclaz\+::\+Run (
+\begin{DoxyParamCaption}
+\item[{{\bf core\+::\+Detection\+Sequence} \&}]{sequence, }
+\item[{size\+\_\+t}]{batch\+\_\+size, }
+\item[{size\+\_\+t}]{max\+\_\+track\+\_\+count, }
+\item[{std\+::vector$<$ core\+::\+Tracklet\+Ptr $>$ \&}]{tracks}
+\end{DoxyParamCaption}
+)}\hypertarget{classalgo_1_1Berclaz_a918f30c2f67eac9d5f9bc07ceeb0880e}{}\label{classalgo_1_1Berclaz_a918f30c2f67eac9d5f9bc07ceeb0880e}
+Runs the algorithm on the given sequence. Splits the sequence into batches to allow faster processing.
+
+
+\begin{DoxyParams}{Parameters}
+{\em sequence} & The detection to use \\
+\hline
+{\em batch\+\_\+size} & The number of frames one batch will have at maximum \\
+\hline
+{\em max\+\_\+track\+\_\+count} & The maximum number of tracks to extract \\
+\hline
+{\em tracks} & The vector to store the found tracks into \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+algo/Berclaz.\+h\item 
+algo/Berclaz.\+cpp\end{DoxyCompactItemize}
