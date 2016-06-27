@@ -31,9 +31,11 @@ namespace algo
         size_t total_paths_count_;
         double total_paths_distance_;
 
+        EdgeWeightMap original_weights_;
+
         void Initialization();
         void InterlacingConstruction();
-        void NeighborDistanceTest(Vertex r);
+        void NeighborDistanceTest(Vertex vertex_r);
         void NegativeInterlacing(Vertex vertex_i);
         void NextPathDefinition();
         void NewInitialConditions();

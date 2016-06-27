@@ -852,7 +852,7 @@ void TestSuurballe()
     boost::add_edge(vertices[5], vertices[6], 6.0, graph);
     boost::add_edge(vertices[6], vertices[7], 1.0, graph);
 
-    algo::KShortestPaths4 suurballe(graph, source, sink, 3);
+    algo::KShortestPaths4 suurballe(graph, source, sink, 4);
     suurballe.Run();
 
     size_t i = 0;
@@ -881,6 +881,21 @@ int main(int argc, char** argv)
 //    DirectedGraph graph;
 //    Vertex source, sink;
 //    CreatePresentationGraph(graph, source, sink);
+//
+//    algo::KShortestPaths4 suurballe(graph, source, sink, 4);
+//    suurballe.Run();
+//    size_t i = 0;
+//    for (std::vector<Vertex> path : suurballe.GetPaths())
+//    {
+//        i++;
+//        std::cout << "P" << i << "{";
+//        for (Vertex v : path)
+//        {
+//            std::cout << v;
+//        }
+//        std::cout << "}\n";
+//    }
+//    std::cout << "Total paths length: " << suurballe.GetTotalPathsLength() << std::endl;
 //
 //    util::FileIO::WriteCSVMatlab(graph, "/home/wrede/Dokumente/graph.csv");
 //

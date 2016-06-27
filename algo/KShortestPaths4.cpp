@@ -40,6 +40,7 @@ namespace algo
     void KShortestPaths4::Initialization()
     {
         boost::graph_traits<DirectedGraph>::vertex_iterator vi, vi_end;
+        boost::graph_traits<DirectedGraph>::edge_iterator ei, ei_end;
 
         // Clear previous data
         vertex_labels_.clear();
@@ -96,47 +97,13 @@ namespace algo
             double distance = path_dist_map[*vi];
 
             // If the vertex is not part of the spanning tree, or the distance is greater then the total distance,
-            // set the label to unlabeled (max double value)
             if (distance > path_total_distance || (path_pred_map[*vi] == *vi && *vi != source_))
             {
-                distance = std::numeric_limits<double>::max();
+                distance = path_total_distance;
             }
 
             vertex_labels_[*vi] = distance;
         }
-
-//#ifdef DEBUG
-//        std::cout << "Graph edges:\n";
-//        for (boost::tie(ei, ei_end) = boost::edges(graph_); ei != ei_end; ++ei)
-//        {
-//            Vertex e_s = boost::source(*ei, graph_);
-//            Vertex e_t = boost::target(*ei, graph_);
-//            std::cout << "from " << std::setw(2) << e_s << " to " << std::setw(2) << e_t
-//                      << " with weight " << std::setw(2) << boost::get(boost::edge_weight, graph_, *ei) << std::endl;
-//        }
-//#endif
-//
-//        // Transform the graph into its canonic equivalent
-//        EdgeWeightMap edge_weights = boost::get(boost::edge_weight, graph_);
-//        for (boost::tie(ei, ei_end) = boost::edges(graph_); ei != ei_end; ++ei)
-//        {
-//            Vertex e_s = boost::source(*ei, graph_);
-//            Vertex e_t = boost::target(*ei, graph_);
-//            double l_s = std::min(vertex_labels_[e_s], path_total_distance);
-//            double l_t = std::min(vertex_labels_[e_t], path_total_distance);
-//            edge_weights[*ei] = l_s + edge_weights[*ei] - l_t;
-//        }
-//
-//#ifdef DEBUG
-//        std::cout << "Graph edges transformed:\n";
-//        for (boost::tie(ei, ei_end) = boost::edges(graph_); ei != ei_end; ++ei)
-//        {
-//            Vertex e_s = boost::source(*ei, graph_);
-//            Vertex e_t = boost::target(*ei, graph_);
-//            std::cout << "from " << std::setw(2) << e_s << " to " << std::setw(2) << e_t
-//                      << " with weight " << std::setw(2) << boost::get(boost::edge_weight, graph_, *ei) << std::endl;
-//        }
-//#endif
 
         // Define the candidate list
         SetCandidates();
@@ -212,26 +179,26 @@ namespace algo
         }
     }
 
-    void KShortestPaths4::NeighborDistanceTest(Vertex r)
+    void KShortestPaths4::NeighborDistanceTest(Vertex vertex_r)
     {
         // Compute the distance to all neighbors and find the best fitting neighbor,
         // than save that neighbor and the new calculated distance
         EdgeWeightMap edge_weights = boost::get(boost::edge_weight, graph_);
         boost::graph_traits<DirectedGraph>::out_edge_iterator oei, oei_end;
-        for (boost::tie(oei, oei_end) = boost::out_edges(r, graph_); oei != oei_end; ++oei)
+        for (boost::tie(oei, oei_end) = boost::out_edges(vertex_r, graph_); oei != oei_end; ++oei)
         {
-            Vertex j = boost::target(*oei, graph_);
+            Vertex vertex_j = boost::target(*oei, graph_);
 
             // Check if the vertex is a candidate
-            if (Contains(vertex_candidates_, j))
+            if (Contains(vertex_candidates_, vertex_j))
             {
                 // Calculate possible new edge weight for the candidate
-                double delta = vertex_labels_[r] + edge_weights[*oei] - vertex_labels_[j];
+                double delta = vertex_labels_[vertex_r] + edge_weights[*oei] - vertex_labels_[vertex_j];
 
-                if (vertex_distances_[j] > delta)
+                if (vertex_distances_[vertex_j] > delta)
                 {
-                    vertex_distances_[j] = delta;
-                    interlacing_predecessors_[j] = r;
+                    vertex_distances_[vertex_j] = delta;
+                    interlacing_predecessors_[vertex_j] = vertex_r;
                 }
             }
         }
@@ -245,7 +212,7 @@ namespace algo
         // Find the path containing the specified vertex
         Vertex path_destination = FindPathDestination(path_predecessors_, source_, sink_neighbors_, vertex_i);
 
-        // Find the first vertex after I, in reverse vertex order, which is either weighted or not a candidate
+        // Find the first vertex going from I in reverse vertex order, which is either weighted or not a candidate
         Vertex vertex_j = source_;
         for (auto u = vertex_i, v = path_predecessors_[u]; v != source_; u = v, v = path_predecessors_[v])
         {
@@ -272,21 +239,14 @@ namespace algo
             }
         }
 
-//#ifdef DEBUG
-//        std::cout << "I = " << std::setw(2) << vertex_i << " "
-//                  << "J = " << std::setw(2) << vertex_j << " "
-//                  << "Q = " << std::setw(2) << vertex_q << " "
-//                  << "T = " << std::setw(2) << vertex_t << std::endl;
-//#endif
-
-        // For each node on path between J and I (and different from)
+        // For each node on path between (and different from) J and I
         for (auto v = path_predecessors_[vertex_i]; v != vertex_j; v = path_predecessors_[v])
         {
             // Remove the node from candidates
             Remove(vertex_candidates_, v);
         }
 
-        // For each node on path between J and I (and different from)
+        // For each node on path between (and different from) J and I
         for (auto v = path_predecessors_[vertex_i]; v != vertex_j; v = path_predecessors_[v])
         {
             // Increase the label by the distance to I
@@ -321,11 +281,15 @@ namespace algo
             }
         }
 
+
         InterlacingConstruction();
     }
 
     void KShortestPaths4::NextPathDefinition()
     {
+        // Create a copy of the paths to work with
+        VertexPredecessorMap path_predecessors_old = path_predecessors_;
+
         // Start with the sink vertex
         Vertex vertex_i = sink_;
 
@@ -334,39 +298,49 @@ namespace algo
         {
             // Set J to the vertex in the shortest path where the interlacing last leaves the path prior to I
             Vertex vertex_j = source_;
-            for (auto u = vertex_i, v = interlacing_predecessors_[vertex_i]; v != source_;
+            for (auto u = vertex_i, v = interlacing_predecessors_[u]; v != source_;
                  u = v, v = interlacing_predecessors_[v])
             {
-                if (path_predecessors_.count(u) == 0 && path_predecessors_.count(v) > 0)
-                {
+                if ((path_predecessors_old.count(u) == 0 && path_predecessors_old.count(v) > 0) ||
+                        path_predecessors_old.count(u) != 0 && path_predecessors_old[u] != v) {
                     vertex_j = v;
                     break;
                 }
             }
 
+
             // Set Q to the first vertex in the interlacing following J
             Vertex vertex_q = FindPathSuccessor(interlacing_predecessors_, source_, vertex_i, vertex_j);
 
             // For each node j from Q to I (inclusive) on S, set t_j = p_j
-            for (auto u = vertex_i, v = interlacing_predecessors_[u]; u != vertex_q;
+            for (auto u = vertex_i, v = interlacing_predecessors_[u]; ;
                  u = v, v = interlacing_predecessors_[v])
             {
-                path_predecessors_[u] = v;
+                if (u != sink_)
+                    path_predecessors_[u] = v;
+
+                if (u == vertex_q) break;
             }
-            path_predecessors_[vertex_q] = interlacing_predecessors_[vertex_q]; //TODO (experimental)
 
             // Check if the interlacing reached the source vertex, if so, the interlacing is completed
             if (vertex_j != source_)
             {
                 // Find T = node following J on P_M
                 Vertex vertex_t = 0;
-                for (auto& v : sink_neighbors_)
+                if (Contains(sink_neighbors_, vertex_j))
                 {
-                    Vertex successor = FindPathSuccessor(path_predecessors_, source_, v, vertex_j);
-                    if (successor != vertex_j)
+                    vertex_t = sink_;
+                }
+                else
+                {
+                    for (auto &v : sink_neighbors_)
                     {
-                        vertex_t = successor;
-                        break;
+                        Vertex successor = FindPathSuccessor(path_predecessors_, source_, v, vertex_j);
+                        if (successor != vertex_j)
+                        {
+                            vertex_t = successor;
+                            break;
+                        }
                     }
                 }
 
@@ -413,18 +387,6 @@ namespace algo
             vertex_labels_[v] += vertex_distances_[sink_];
         }
 
-        // Transform the graph
-//        EdgeWeightMap edge_weights = boost::get(boost::edge_weight, graph_);
-//        boost::graph_traits<DirectedGraph>::edge_iterator ei, ei_end;
-//        for (boost::tie(ei, ei_end) = boost::edges(graph_); ei != ei_end; ++ei)
-//        {
-//            Vertex e_s = boost::source(*ei, graph_);
-//            Vertex e_t = boost::target(*ei, graph_);
-//            double l_s = vertex_labels_[e_s];
-//            double l_t = vertex_labels_[e_t];
-//            edge_weights[*ei] = l_s + edge_weights[*ei] - l_t;
-//        }
-
         // Redefine candidate list
         SetCandidates();
 
@@ -458,6 +420,7 @@ namespace algo
             if (e_found)
             {
                 vertex_distances_[v] = boost::get(boost::edge_weight, graph_, ed) - vertex_labels_[v];
+
                 interlacing_predecessors_[v] = source_;
                 interlacing_predecessors_positive_[v] = true;
             }
@@ -495,7 +458,7 @@ namespace algo
 
         for (auto d : possible_destination)
         {
-            for (auto& v = d; v != origin; v = map[v])
+            for (auto v = d; v != origin; v = map[v])
             {
                 if (v == element)
                 {
