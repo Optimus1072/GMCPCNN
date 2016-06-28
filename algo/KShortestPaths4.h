@@ -6,6 +6,7 @@
 #define GBMOT_KSHORTESTPATHS4_H
 
 #include "../graph/Definitions.h"
+#include "../core/Tracklet.h"
 
 namespace algo
 {
@@ -54,6 +55,7 @@ namespace algo
         void Run();
 
         std::vector<std::vector<Vertex>> GetPaths();
+        void GetTracks(std::vector<core::TrackletPtr>& tracks);
         double GetTotalPathsLength();
     };
 }

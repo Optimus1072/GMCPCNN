@@ -7,7 +7,7 @@
 #include <boost/graph/copy.hpp>
 #include "KShortestPaths4.h"
 #include <iomanip>
-#define DEBUG
+//#define DEBUG
 
 namespace algo
 {
@@ -240,14 +240,16 @@ namespace algo
         }
 
         // For each node on path between (and different from) J and I
-        for (auto v = path_predecessors_[vertex_i]; v != vertex_j; v = path_predecessors_[v])
+        for (auto v = path_predecessors_[vertex_i]; ; v = path_predecessors_[v])
         {
             // Remove the node from candidates
             Remove(vertex_candidates_, v);
+
+            if (v == vertex_j) break;
         }
 
         // For each node on path between (and different from) J and I
-        for (auto v = path_predecessors_[vertex_i]; v != vertex_j; v = path_predecessors_[v])
+        for (auto v = path_predecessors_[vertex_i]; ; v = path_predecessors_[v])
         {
             // Increase the label by the distance to I
             vertex_labels_[v] += vertex_distances_[vertex_i];
@@ -257,6 +259,8 @@ namespace algo
             interlacing_predecessors_positive_[v] = false;
 
             NeighborDistanceTest(v);
+
+            if (v == vertex_j) break;
         }
 
         // Save L_J and compute L_J' to perform a neighbor distance test with L_J' and then restore L_J
@@ -281,12 +285,13 @@ namespace algo
             }
         }
 
-
         InterlacingConstruction();
     }
 
     void KShortestPaths4::NextPathDefinition()
     {
+        std::cout << "NextPathDefinition\n";
+
         // Create a copy of the paths to work with
         VertexPredecessorMap path_predecessors_old = path_predecessors_;
 
@@ -333,9 +338,9 @@ namespace algo
                 }
                 else
                 {
-                    for (auto &v : sink_neighbors_)
+                    for (auto v : sink_neighbors_)
                     {
-                        Vertex successor = FindPathSuccessor(path_predecessors_, source_, v, vertex_j);
+                        Vertex successor = FindPathSuccessor(path_predecessors_old, source_, v, vertex_j);
                         if (successor != vertex_j)
                         {
                             vertex_t = successor;
@@ -470,8 +475,8 @@ namespace algo
         return element;
     }
 
-    Vertex KShortestPaths4::FindPathSuccessor(VertexPredecessorMap& map, Vertex origin, Vertex destination,
-                                              Vertex element)
+    Vertex KShortestPaths4::FindPathSuccessor(VertexPredecessorMap& map, Vertex origin,
+                                              Vertex destination, Vertex element)
     {
         for (auto u = destination, v = map[u]; u != origin; u = v, v = map[v])
         {
@@ -547,6 +552,23 @@ namespace algo
 
     double KShortestPaths4::GetTotalPathsLength() {
         return total_paths_distance_;
+    }
+
+    void KShortestPaths4::GetTracks(std::vector<core::TrackletPtr>& tracks)
+    {
+        VertexValueMap values = boost::get(boost::vertex_name, graph_);
+
+        for (auto u : sink_neighbors_)
+        {
+            core::TrackletPtr tlt(new core::Tracklet());
+
+            for (auto v = u; v != source_; v = path_predecessors_[v])
+            {
+                tlt->AddPathObject(values[v]);
+            }
+
+            tracks.push_back(tlt);
+        }
     }
 }
 

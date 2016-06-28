@@ -13,6 +13,7 @@
 #include "../algo/KShortestPaths2.h"
 #include "../algo/KShortestPaths3.h"
 #include "../algo/KShortestPaths4.h"
+#include "../algo/KShortestPaths5.h"
 #include <boost/program_options.hpp>
 #include <boost/graph/named_function_params.hpp>
 #include <boost/graph/bellman_ford_shortest_paths.hpp>
@@ -772,8 +773,8 @@ void CreatePresentationGraph(DirectedGraph& graph, Vertex& source, Vertex& sink)
     source = vertices[0];
     sink = vertices[9];
 
-    boost::add_edge(vertices[0], vertices[1], 0.0, graph);
-    boost::add_edge(vertices[0], vertices[2], 0.0, graph);
+    boost::add_edge(vertices[0], vertices[1], 1.0, graph);
+    boost::add_edge(vertices[0], vertices[2], 1.0, graph);
     boost::add_edge(vertices[1], vertices[3], 12.0, graph);
     boost::add_edge(vertices[1], vertices[4], 15.0, graph);
     boost::add_edge(vertices[2], vertices[3], 15.0, graph);
@@ -786,8 +787,16 @@ void CreatePresentationGraph(DirectedGraph& graph, Vertex& source, Vertex& sink)
     boost::add_edge(vertices[5], vertices[8], 12.0, graph);
     boost::add_edge(vertices[6], vertices[7], 11.0, graph);
     boost::add_edge(vertices[6], vertices[8], 10.0, graph);
-    boost::add_edge(vertices[7], vertices[9], 0.0, graph);
-    boost::add_edge(vertices[8], vertices[9], 0.0, graph);
+    boost::add_edge(vertices[7], vertices[9], 1.0, graph);
+    boost::add_edge(vertices[8], vertices[9], 1.0, graph);
+
+    // add a negative cycle
+//    boost::add_edge(vertices[4], vertices[6], -1.0, graph);
+//    boost::add_edge(vertices[5], vertices[4], -1.0, graph);
+//    boost::add_edge(vertices[6], vertices[5], -1.0, graph);
+
+    // add a unreachable vertex
+//    boost::add_vertex(core::ObjectDataPtr(new core::ObjectData(10)), graph);
 
 //    boost::add_edge(vertices[0], vertices[1], 0.0, graph);
 //    boost::add_edge(vertices[0], vertices[2], 0.0, graph);
@@ -852,7 +861,7 @@ void TestSuurballe()
     boost::add_edge(vertices[5], vertices[6], 6.0, graph);
     boost::add_edge(vertices[6], vertices[7], 1.0, graph);
 
-    algo::KShortestPaths4 suurballe(graph, source, sink, 4);
+    algo::KShortestPaths4 suurballe(graph, source, sink, 3);
     suurballe.Run();
 
     size_t i = 0;
@@ -870,6 +879,28 @@ void TestSuurballe()
     std::cout << "Total paths length: " << suurballe.GetTotalPathsLength() << std::endl;
 }
 
+void TestYAOKSP()
+{
+    Vertex source, sink;
+    DirectedGraph graph;
+    CreatePresentationGraph(graph, source, sink);
+    algo::KShortestPaths5 ksp(graph, source, sink);
+
+    ksp.Run(2);
+
+    std::vector<std::vector<Vertex>> paths;
+    ksp.GetPaths(paths);
+    for (auto path : paths)
+    {
+        std::cout << "path: ";
+        for (auto v : path)
+        {
+            std::cout << v << " ";
+        }
+        std::cout << std::endl;
+    }
+}
+
 int main(int argc, char** argv)
 {
     //TODO load with frame offset
@@ -882,8 +913,9 @@ int main(int argc, char** argv)
 //    Vertex source, sink;
 //    CreatePresentationGraph(graph, source, sink);
 //
-//    algo::KShortestPaths4 suurballe(graph, source, sink, 4);
+//    algo::KShortestPaths4 suurballe(graph, source, sink, 2);
 //    suurballe.Run();
+//
 //    size_t i = 0;
 //    for (std::vector<Vertex> path : suurballe.GetPaths())
 //    {
@@ -895,6 +927,7 @@ int main(int argc, char** argv)
 //        }
 //        std::cout << "}\n";
 //    }
+//
 //    std::cout << "Total paths length: " << suurballe.GetTotalPathsLength() << std::endl;
 //
 //    util::FileIO::WriteCSVMatlab(graph, "/home/wrede/Dokumente/graph.csv");
@@ -904,7 +937,9 @@ int main(int argc, char** argv)
 
 //    TestGrid();
 
-    TestSuurballe();
+//    TestSuurballe();
+
+    TestYAOKSP();
 
     return 0;
 }

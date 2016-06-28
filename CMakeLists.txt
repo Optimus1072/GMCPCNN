@@ -26,7 +26,7 @@ set(SOURCE_FILES
         core/ObjectDataBox.cpp core/ObjectDataBox.h
         algo/KShortestPaths2.cpp algo/KShortestPaths2.h
         algo/KShortestPaths3.cpp algo/KShortestPaths3.h
-        algo/KShortestPaths4.cpp algo/KShortestPaths4.h)
+        algo/KShortestPaths4.cpp algo/KShortestPaths4.h algo/KShortestPaths5.cpp algo/KShortestPaths5.h)
 
 find_package(Doxygen)
 

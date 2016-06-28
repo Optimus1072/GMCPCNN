@@ -2,7 +2,6 @@
 // Created by wrede on 19.05.16.
 //
 
-#include <opencv2/imgproc.hpp>
 #include <math.h>
 #include "ObjectDataAngular.h"
 #include "../util/MyMath.h"

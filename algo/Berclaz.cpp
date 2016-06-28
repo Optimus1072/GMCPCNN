@@ -9,6 +9,7 @@
 #include "../util/FileIO.h"
 #include "KShortestPaths2.h"
 #include "KShortestPaths3.h"
+#include "KShortestPaths4.h"
 
 namespace algo
 {
@@ -161,11 +162,26 @@ namespace algo
             Vertex source, sink;
             CreateGraph(graph, source, sink, grid);
 
-            KShortestPaths3 ksp;
-            MultiPredecessorMap ksp_result = ksp.Run(graph, source, sink, max_track_count);
+            util::Logger::LogDebug("run suurballe");
+//            KShortestPaths3 ksp;
+//            MultiPredecessorMap ksp_result = ksp.Run(graph, source, sink, max_track_count);
+            KShortestPaths4 suurballe(graph, source, sink, max_track_count);
+            suurballe.Run();
 
             util::Logger::LogDebug("extract tracks");
-            ExtractTracks(graph, ksp_result, sink, tracks);
+            suurballe.GetTracks(tracks);
+
+//            size_t l = 0;
+//            for (std::vector<Vertex> path : suurballe.GetPaths())
+//            {
+//                l++;
+//                std::cout << "P" << l << "{ ";
+//                for (Vertex v : path)
+//                {
+//                    std::cout << v << " ";
+//                }
+//                std::cout << "}\n";
+//            }
         }
 
         // Only connect tracks if the sequence was split
