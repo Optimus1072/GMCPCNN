@@ -10,6 +10,7 @@
 #include "KShortestPaths2.h"
 #include "KShortestPaths3.h"
 #include "KShortestPaths4.h"
+#include "KShortestPaths5.h"
 
 namespace algo
 {
@@ -36,15 +37,12 @@ namespace algo
             }
         }
 
-        util::Logger::LogDebug("vertex count " + std::to_string(boost::num_vertices(graph)));
-        util::Logger::LogDebug("edge count " + std::to_string(boost::num_edges(graph)));
-
         // Add source and sink vertex
         source = boost::add_vertex(core::ObjectDataPtr(new core::ObjectData()), graph);
         sink = boost::add_vertex(core::ObjectDataPtr(new core::ObjectData()), graph);
 
-        util::Logger::LogDebug("source index: " + std::to_string(source));
-        util::Logger::LogDebug("sink index: " + std::to_string(sink));
+//        util::Logger::LogDebug("source index: " + std::to_string(source));
+//        util::Logger::LogDebug("sink index: " + std::to_string(sink));
         util::Logger::LogDebug("add edges");
 
         // Iterate all vertices but source and sink
@@ -109,19 +107,19 @@ namespace algo
         }
 
         util::Logger::LogDebug("vertex count " + std::to_string(boost::num_vertices(graph)));
-        util::Logger::LogDebug("calculated vertex count " + std::to_string(
-           grid.GetWidthCount() * grid.GetHeightCount() * grid.GetDepthCount() + 2
-        ));
+//        util::Logger::LogDebug("calculated vertex count " + std::to_string(
+//           grid.GetWidthCount() * grid.GetHeightCount() * grid.GetDepthCount() + 2
+//        ));
         util::Logger::LogDebug("edge count " + std::to_string(boost::num_edges(graph)));
-        util::Logger::LogDebug("width count " + std::to_string(grid.GetWidthCount()));
-        util::Logger::LogDebug("height count " + std::to_string(grid.GetHeightCount()));
-        util::Logger::LogDebug("depth count " + std::to_string(grid.GetDepthCount()));
-        util::Logger::LogDebug("calculated edge count " + std::to_string(
-           grid.GetWidthCount() * grid.GetHeightCount() * (grid.GetDepthCount() - 1) * 11 +
-           grid.GetWidthCount() * grid.GetHeightCount() * 2 -
-           (grid.GetWidthCount() + grid.GetHeightCount()) * 2 * 3 * (grid.GetDepthCount() - 1) +
-           4 * (grid.GetDepthCount() - 1)
-        ));
+//        util::Logger::LogDebug("width count " + std::to_string(grid.GetWidthCount()));
+//        util::Logger::LogDebug("height count " + std::to_string(grid.GetHeightCount()));
+//        util::Logger::LogDebug("depth count " + std::to_string(grid.GetDepthCount()));
+//        util::Logger::LogDebug("calculated edge count " + std::to_string(
+//           grid.GetWidthCount() * grid.GetHeightCount() * (grid.GetDepthCount() - 1) * 11 +
+//           grid.GetWidthCount() * grid.GetHeightCount() * 2 -
+//           (grid.GetWidthCount() + grid.GetHeightCount()) * 2 * 3 * (grid.GetDepthCount() - 1) +
+//           4 * (grid.GetDepthCount() - 1)
+//        ));
     }
 
     void Berclaz::ExtractTracks(DirectedGraph& graph, MultiPredecessorMap& map, Vertex origin,
@@ -162,26 +160,25 @@ namespace algo
             Vertex source, sink;
             CreateGraph(graph, source, sink, grid);
 
-            util::Logger::LogDebug("run suurballe");
-//            KShortestPaths3 ksp;
-//            MultiPredecessorMap ksp_result = ksp.Run(graph, source, sink, max_track_count);
-            KShortestPaths4 suurballe(graph, source, sink, max_track_count);
-            suurballe.Run();
+            util::Logger::LogDebug("run ksp");
+            KShortestPaths5 ksp(graph, source, sink);
+            ksp.Run(max_track_count);
+
+            util::Logger::LogDebug("get paths");
+            std::vector<std::vector<Vertex>> paths;
+            ksp.GetPaths(paths);
 
             util::Logger::LogDebug("extract tracks");
-            suurballe.GetTracks(tracks);
-
-//            size_t l = 0;
-//            for (std::vector<Vertex> path : suurballe.GetPaths())
-//            {
-//                l++;
-//                std::cout << "P" << l << "{ ";
-//                for (Vertex v : path)
-//                {
-//                    std::cout << v << " ";
-//                }
-//                std::cout << "}\n";
-//            }
+            VertexValueMap values = boost::get(boost::vertex_name, graph);
+            for (auto path : paths)
+            {
+                core::TrackletPtr tlt(new core::Tracklet());
+                for (auto v : path)
+                {
+                    tlt->AddPathObject(values[v]);
+                }
+                tracks.push_back(tlt);
+            }
         }
 
         // Only connect tracks if the sequence was split

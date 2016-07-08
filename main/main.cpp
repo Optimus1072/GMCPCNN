@@ -17,10 +17,11 @@
 #include <boost/program_options.hpp>
 #include <boost/graph/named_function_params.hpp>
 #include <boost/graph/bellman_ford_shortest_paths.hpp>
+#include <iomanip>
 
 struct
 {
-    size_t max_frame_skip;
+    std::string max_frame_skip;
     std::string max_tracklet_count;
     std::string penalty_value;
 } n_stage_params;
@@ -30,13 +31,14 @@ void RunNStage(core::DetectionSequence& sequence,
 {
     util::Logger::LogInfo("Running n-stage");
 
+    std::vector<size_t> max_frame_skips;
     std::vector<double> penalty_values;
     std::vector<size_t> max_tracklet_counts;
 
     // Parse strings to vectors
     size_t d_index;
     std::string str, part;
-    str = n_stage_params.max_tracklet_count;
+    str = n_stage_params.max_frame_skip;
     do
     {
         d_index = str.find(",");
@@ -45,7 +47,7 @@ void RunNStage(core::DetectionSequence& sequence,
 
         if (part.size() > 0)
         {
-            max_tracklet_counts.push_back((unsigned long&&) atoi(part.c_str()));
+            max_frame_skips.push_back((unsigned long&&) atoi(part.c_str()));
         }
 
         str = str.substr(d_index + 1);
@@ -66,10 +68,24 @@ void RunNStage(core::DetectionSequence& sequence,
         str = str.substr(d_index + 1);
     }
     while (d_index != std::string::npos);
+    str = n_stage_params.max_tracklet_count;
+    do
+    {
+        d_index = str.find(",");
+
+        part = str.substr(0, d_index);
+
+        if (part.size() > 0)
+        {
+            max_tracklet_counts.push_back((unsigned long&&) atoi(part.c_str()));
+        }
+
+        str = str.substr(d_index + 1);
+    }
+    while (d_index != std::string::npos);
 
     // Init n stage
-    algo::NStage n_stage(n_stage_params.max_frame_skip,
-                         penalty_values, max_tracklet_counts);
+    algo::NStage n_stage(max_frame_skips, penalty_values, max_tracklet_counts);
 
     n_stage.Run(sequence, tracks);
 
@@ -118,8 +134,8 @@ void RunBerclaz(core::DetectionSequence& sequence,
 void Run(int argc, char** argv)
 {
     // Algorithm independent values
-    std::string input_file, output_file, images_folder, algorithm, config_path, header, input_format;
-    bool info, debug, display;
+    std::string input_file, output_path, images_folder, algorithm, config_path, header, input_format;
+    bool info, debug, display, output;
     char input_delimiter, output_delimiter;
     double temporal_weight, spatial_weight, angular_weight, image_width, image_height;
 
@@ -139,14 +155,18 @@ void Run(int argc, char** argv)
              boost::program_options::value<bool>(&display)
                      ->default_value(false),
              "if a window with the images and the detected tracks should be opened")
+            ("output",
+             boost::program_options::value<bool>(&output)
+                     ->default_value(false),
+             "if the results should be written into the specified output folder")
             ("config",
              boost::program_options::value<std::string>(&config_path),
              "the path to the config file, if no path is given the command line arguments are read")
             ("input-file",
              boost::program_options::value<std::string>(&input_file),
              "set detections file path")
-            ("output-file",
-             boost::program_options::value<std::string>(&output_file),
+            ("output-path",
+             boost::program_options::value<std::string>(&output_path),
              "set the output file path")
             ("output-delimiter",
              boost::program_options::value<char>(&output_delimiter)
@@ -180,8 +200,8 @@ void Run(int argc, char** argv)
              boost::program_options::value<std::string>(&algorithm),
              "set the algorithm to use, current viable options: n-stage berclaz")
             ("max-frame-skip",
-             boost::program_options::value<size_t>(&n_stage_params.max_frame_skip)
-                     ->default_value(1),
+             boost::program_options::value<std::string>(&n_stage_params.max_frame_skip)
+                     ->default_value("1,1"),
              "(n stage) set the maximum number of frames a track can skip between two detections,"
                      " if set to less or equal than zero all frames are linked")
             ("max-tracklet-count",
@@ -263,7 +283,7 @@ void Run(int argc, char** argv)
     }
     else if (opt_var_map.count("input-file") == 0 ||
              opt_var_map.count("input-format") == 0 ||
-             opt_var_map.count("output-file") == 0)
+                (opt_var_map.count("output-path") == 0 && output))
     {
         std::cout << opts << std::endl;
         exit(0);
@@ -368,7 +388,10 @@ void Run(int argc, char** argv)
                           + " minutes");
 
     // Write the output file
-    util::FileIO::WriteTracks(tracks, output_file, output_delimiter);
+    if (output)
+    {
+        util::FileIO::WriteTracks(tracks, output_path + "/tracks.csv", output_delimiter);
+    }
 
     // Display the tracking data
     if (display)
@@ -376,10 +399,10 @@ void Run(int argc, char** argv)
         util::Visualizer vis;
 
         if (algorithm == "berclaz")
-            vis.Display(tracks, images_folder, "Visualizer",
+            vis.Display(tracks, images_folder, output, output_path, "Visualizer",
                         0, 24, berclaz_params.h_res, berclaz_params.v_res);
         else
-            vis.Display(tracks, images_folder);
+            vis.Display(tracks, images_folder, output, output_path);
     }
 }
 
@@ -726,34 +749,33 @@ void CreateBerclazGraph(DirectedGraph& graph, Vertex& source, Vertex& sink)
                 {
                     // Iterate all nearby cells in the next frame
                     for (int ny = std::max(0, y - vicinity_size);
-                         ny <
-                         std::min(grid.GetHeightCount(), y + vicinity_size + 1);
+                         ny < std::min(grid.GetHeightCount(), y + vicinity_size + 1);
                          ++ny)
                     {
                         for (int nx = std::max(0, x - vicinity_size);
-                             nx < std::min(grid.GetWidthCount(),
-                                           x + vicinity_size + 1);
+                             nx < std::min(grid.GetWidthCount(), x + vicinity_size + 1);
                              ++nx)
                         {
                             // Second vertex index
-                            int vj = nx + ny * grid.GetHeightCount() +
-                                     (z + 1) * layer_size;
+                            int vj = nx + ny * grid.GetHeightCount() + (z + 1) * layer_size;
 
                             // Connect to nearby cells
-                            boost::add_edge(vertices[vi], vertices[vj],
-                                            weight, graph);
+                            boost::add_edge(vertices[vi], vertices[vj], weight, graph);
                         }
                     }
 
-                    boost::add_edge(vertices[vi], sink, 0.0, graph);
+//                    boost::add_edge(vertices[vi], sink, 0.0, graph);
                 }
                 else
                 {
                     boost::add_edge(vertices[vi], sink, weight, graph);
                 }
 
-                // Connect with source and sink
-                boost::add_edge(source, vertices[vi], 0.0, graph);
+                if (z < 1)
+                {
+                    // Connect with source
+                    boost::add_edge(source, vertices[vi], 0.0, graph);
+                }
             }
         }
     }
@@ -762,58 +784,75 @@ void CreateBerclazGraph(DirectedGraph& graph, Vertex& source, Vertex& sink)
     util::Logger::LogDebug("edge count " + std::to_string(boost::num_edges(graph)));
 }
 
-void CreatePresentationGraph(DirectedGraph& graph, Vertex& source, Vertex& sink)
+void CreatePresentationGraph(DirectedGraph& graph, Vertex& source, Vertex& sink, bool two_paths)
 {
     std::vector<Vertex> vertices;
-    for (size_t i = 0; i < 10; ++i)
+
+    if (two_paths)
     {
-        vertices.push_back(boost::add_vertex(core::ObjectDataPtr(new core::ObjectData(i)), graph));
+        for (size_t i = 0; i < 10; ++i)
+        {
+            vertices.push_back(
+                    boost::add_vertex(core::ObjectDataPtr(new core::ObjectData(i)), graph));
+        }
+
+        source = vertices[0];
+        sink = vertices[9];
+
+        boost::add_edge(vertices[0], vertices[1], 1.0, graph);
+        boost::add_edge(vertices[0], vertices[2], 1.0, graph);
+        boost::add_edge(vertices[1], vertices[3], 12.0, graph);
+        boost::add_edge(vertices[1], vertices[4], 15.0, graph);
+        boost::add_edge(vertices[2], vertices[3], 15.0, graph);
+        boost::add_edge(vertices[2], vertices[4], 10.0, graph);
+        boost::add_edge(vertices[3], vertices[5], 15.0, graph);
+        boost::add_edge(vertices[3], vertices[6], 12.0, graph);
+        boost::add_edge(vertices[4], vertices[5], 12.0, graph);
+        boost::add_edge(vertices[4], vertices[6], 11.0, graph);
+        boost::add_edge(vertices[5], vertices[7], 12.0, graph);
+        boost::add_edge(vertices[5], vertices[8], 12.0, graph);
+        boost::add_edge(vertices[6], vertices[7], 11.0, graph);
+        boost::add_edge(vertices[6], vertices[8], 10.0, graph);
+        boost::add_edge(vertices[7], vertices[9], 1.0, graph);
+        boost::add_edge(vertices[8], vertices[9], 1.0, graph);
     }
+    else
+    {
+        for (size_t i = 0; i < 14; ++i)
+        {
+            vertices.push_back(
+                    boost::add_vertex(core::ObjectDataPtr(new core::ObjectData(i)), graph));
+        }
 
-    source = vertices[0];
-    sink = vertices[9];
+        source = vertices[0];
+        sink = vertices[9];
 
-    boost::add_edge(vertices[0], vertices[1], 1.0, graph);
-    boost::add_edge(vertices[0], vertices[2], 1.0, graph);
-    boost::add_edge(vertices[1], vertices[3], 12.0, graph);
-    boost::add_edge(vertices[1], vertices[4], 15.0, graph);
-    boost::add_edge(vertices[2], vertices[3], 15.0, graph);
-    boost::add_edge(vertices[2], vertices[4], 10.0, graph);
-    boost::add_edge(vertices[3], vertices[5], 15.0, graph);
-    boost::add_edge(vertices[3], vertices[6], 12.0, graph);
-    boost::add_edge(vertices[4], vertices[5], 12.0, graph);
-    boost::add_edge(vertices[4], vertices[6], 11.0, graph);
-    boost::add_edge(vertices[5], vertices[7], 12.0, graph);
-    boost::add_edge(vertices[5], vertices[8], 12.0, graph);
-    boost::add_edge(vertices[6], vertices[7], 11.0, graph);
-    boost::add_edge(vertices[6], vertices[8], 10.0, graph);
-    boost::add_edge(vertices[7], vertices[9], 1.0, graph);
-    boost::add_edge(vertices[8], vertices[9], 1.0, graph);
+        boost::add_edge(vertices[0], vertices[1], 1.0, graph);
+        boost::add_edge(vertices[0], vertices[2], 1.0, graph);
+        boost::add_edge(vertices[1], vertices[3], 12.0, graph);
+        boost::add_edge(vertices[1], vertices[4], 15.0, graph);
+        boost::add_edge(vertices[2], vertices[3], 15.0, graph);
+        boost::add_edge(vertices[2], vertices[4], 10.0, graph);
+        boost::add_edge(vertices[3], vertices[5], 15.0, graph);
+        boost::add_edge(vertices[3], vertices[6], 12.0, graph);
+        boost::add_edge(vertices[4], vertices[5], 12.0, graph);
+        boost::add_edge(vertices[4], vertices[6], 11.0, graph);
+        boost::add_edge(vertices[5], vertices[7], 12.0, graph);
+        boost::add_edge(vertices[5], vertices[8], 12.0, graph);
+        boost::add_edge(vertices[6], vertices[7], 11.0, graph);
+        boost::add_edge(vertices[6], vertices[8], 10.0, graph);
+        boost::add_edge(vertices[7], vertices[9], 1.0, graph);
+        boost::add_edge(vertices[8], vertices[9], 1.0, graph);
 
-    // add a negative cycle
-//    boost::add_edge(vertices[4], vertices[6], -1.0, graph);
-//    boost::add_edge(vertices[5], vertices[4], -1.0, graph);
-//    boost::add_edge(vertices[6], vertices[5], -1.0, graph);
-
-    // add a unreachable vertex
-//    boost::add_vertex(core::ObjectDataPtr(new core::ObjectData(10)), graph);
-
-//    boost::add_edge(vertices[0], vertices[1], 0.0, graph);
-//    boost::add_edge(vertices[0], vertices[2], 0.0, graph);
-//    boost::add_edge(vertices[1], vertices[3], 12.0, graph);
-//    boost::add_edge(vertices[1], vertices[4], 15.0, graph);
-//    boost::add_edge(vertices[2], vertices[3], 15.0, graph);
-//    boost::add_edge(vertices[2], vertices[4], 10.0, graph);
-//    boost::add_edge(vertices[3], vertices[5], 12.0, graph);
-//    boost::add_edge(vertices[3], vertices[6], 12.0, graph);
-//    boost::add_edge(vertices[4], vertices[5], 11.0, graph);
-//    boost::add_edge(vertices[4], vertices[6], 10.0, graph);
-//    boost::add_edge(vertices[5], vertices[7], 15.0, graph);
-//    boost::add_edge(vertices[5], vertices[8], 12.0, graph);
-//    boost::add_edge(vertices[6], vertices[7], 12.0, graph);
-//    boost::add_edge(vertices[6], vertices[8], 11.0, graph);
-//    boost::add_edge(vertices[7], vertices[9], 0.0, graph);
-//    boost::add_edge(vertices[8], vertices[9], 0.0, graph);
+        boost::add_edge(vertices[0], vertices[10], 20.0, graph);
+        boost::add_edge(vertices[10], vertices[11], 20.0, graph);
+        boost::add_edge(vertices[10], vertices[3], 20.0, graph);
+        boost::add_edge(vertices[10], vertices[4], 20.0, graph);
+        boost::add_edge(vertices[11], vertices[12], 20.0, graph);
+        boost::add_edge(vertices[11], vertices[5], 20.0, graph);
+        boost::add_edge(vertices[12], vertices[6], 20.0, graph);
+        boost::add_edge(vertices[13], vertices[9], 20.0, graph);
+    }
 }
 
 void TestSuurballe()
@@ -879,14 +918,66 @@ void TestSuurballe()
     std::cout << "Total paths length: " << suurballe.GetTotalPathsLength() << std::endl;
 }
 
+void CreateSuurballeGraph(DirectedGraph& graph, Vertex& source, Vertex& sink, bool first)
+{
+    std::vector<Vertex> vertices;
+
+    if (first)
+    {
+        // First example graph
+        for (int i = 0; i < 7; ++i)
+        {
+            vertices.push_back(boost::add_vertex(graph));
+        }
+
+        source = vertices[0];
+        sink = vertices[6];
+
+        boost::add_edge(vertices[0], vertices[1], 5.0, graph);
+        boost::add_edge(vertices[0], vertices[4], 2.0, graph);
+        boost::add_edge(vertices[1], vertices[2], 1.0, graph);
+        boost::add_edge(vertices[1], vertices[4], 1.0, graph);
+        boost::add_edge(vertices[2], vertices[6], 1.0, graph);
+        boost::add_edge(vertices[3], vertices[2], 1.0, graph);
+        boost::add_edge(vertices[4], vertices[3], 2.0, graph);
+        boost::add_edge(vertices[4], vertices[5], 1.0, graph);
+        boost::add_edge(vertices[5], vertices[2], 1.0, graph);
+        boost::add_edge(vertices[5], vertices[6], 1.0, graph);
+    }
+    else
+    {
+        // Second example graph
+        for (int i = 0; i < 8; ++i)
+        {
+            vertices.push_back(boost::add_vertex(graph));
+        }
+        source = vertices[0];
+        sink = vertices[7];
+        boost::add_edge(vertices[0], vertices[1], 1.0, graph);
+        boost::add_edge(vertices[0], vertices[4], 8.0, graph);
+        boost::add_edge(vertices[0], vertices[5], 1.0, graph);
+        boost::add_edge(vertices[1], vertices[2], 1.0, graph);
+        boost::add_edge(vertices[1], vertices[7], 8.0, graph);
+        boost::add_edge(vertices[2], vertices[3], 1.0, graph);
+        boost::add_edge(vertices[3], vertices[4], 1.0, graph);
+        boost::add_edge(vertices[3], vertices[6], 2.0, graph);
+        boost::add_edge(vertices[4], vertices[7], 1.0, graph);
+        boost::add_edge(vertices[5], vertices[2], 2.0, graph);
+        boost::add_edge(vertices[5], vertices[6], 6.0, graph);
+        boost::add_edge(vertices[6], vertices[7], 1.0, graph);
+    }
+}
+
 void TestYAOKSP()
 {
     Vertex source, sink;
     DirectedGraph graph;
-    CreatePresentationGraph(graph, source, sink);
+//    CreatePresentationGraph(graph, source, sink, true);
+    CreateSuurballeGraph(graph, source, sink, false);
+//    CreateBerclazGraph(graph, source, sink);
     algo::KShortestPaths5 ksp(graph, source, sink);
 
-    ksp.Run(2);
+    ksp.Run(3);
 
     std::vector<std::vector<Vertex>> paths;
     ksp.GetPaths(paths);
@@ -895,7 +986,7 @@ void TestYAOKSP()
         std::cout << "path: ";
         for (auto v : path)
         {
-            std::cout << v << " ";
+            std::cout << std::setw(2) << v << " ";
         }
         std::cout << std::endl;
     }
@@ -905,7 +996,7 @@ int main(int argc, char** argv)
 {
     //TODO load with frame offset
 
-//    Run(argc, argv);
+    Run(argc, argv);
 
 //    TestTracklet();
 
@@ -939,7 +1030,7 @@ int main(int argc, char** argv)
 
 //    TestSuurballe();
 
-    TestYAOKSP();
+//    TestYAOKSP();
 
     return 0;
 }

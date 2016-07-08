@@ -8,18 +8,17 @@
 
 namespace algo
 {
-    NStage::NStage(size_t max_frame_skip,
-                       std::vector<double> penalty_value,
-                       std::vector<size_t> max_tracklet_count)
+    NStage::NStage(std::vector<size_t> max_frame_skip,
+                   std::vector<double> penalty_value,
+                   std::vector<size_t> max_tracklet_count)
     {
-        max_frame_skip_ = max_frame_skip;
+        max_frame_skips_ = max_frame_skip;
         penalty_values_ = penalty_value;
         max_tracklet_counts_ = max_tracklet_count;
         iterations_ = std::min(max_tracklet_count.size(), penalty_value.size());
     }
 
-    void NStage::CreateObjectGraph(DirectedGraph& graph,
-                                     const core::DetectionSequence& detections)
+    void NStage::CreateObjectGraph(DirectedGraph& graph, const core::DetectionSequence& detections)
     {
         util::Logger::LogInfo("Creating object graph");
 
@@ -37,8 +36,7 @@ namespace algo
 
             for (size_t j = 0; j < detections.GetObjectCount(i); ++j)
             {
-                Vertex v = boost::add_vertex(detections.GetObject(i, j),
-                                             graph);
+                Vertex v = boost::add_vertex(detections.GetObject(i, j), graph);
 
                 layer.push_back(v);
             }
@@ -61,9 +59,7 @@ namespace algo
                 Vertex u = layers[i][j];
 
                 // For each next frame/layer until maxFrameSkip or end
-                for (size_t k = 1;
-                     k != (max_frame_skip_ + 1) && i + k < layers.size();
-                     ++k)
+                for (size_t k = 1; k <= max_frame_skips_[0] && i + k < layers.size(); ++k)
                 {
                     // To every edge in the next frame/layer
                     for (size_t l = 0; l < layers[i + k].size(); ++l)
@@ -91,10 +87,8 @@ namespace algo
         util::Logger::LogDebug("edge count " + std::to_string(boost::num_edges(graph)));
     }
 
-    void NStage::CreateTrackletGraph(DirectedGraph& obj_graph,
-                                       DirectedGraph& tlt_graph,
-                                       size_t frame_count,
-                                       size_t iteration)
+    void NStage::CreateTrackletGraph(DirectedGraph& obj_graph, DirectedGraph& tlt_graph,
+                                     size_t frame_count, size_t iteration)
     {
         util::Logger::LogInfo("Creating tracklet graph");
 
@@ -115,6 +109,9 @@ namespace algo
         Vertex obj_src = obj_indices[0];
         Vertex obj_snk = obj_indices[obj_graph_size - 1];
 
+        //TODO experimental
+        EdgeWeightMap weight_map = boost::get(boost::edge_weight, obj_graph);
+
         // Iteratively run dijkstra to extract tracklets
         for (size_t i = 0; i != max_tracklet_counts_[iteration]; ++i)
         {
@@ -132,26 +129,34 @@ namespace algo
 
             // Create the tracklet
             core::TrackletPtr tracklet(new core::Tracklet);
-            for (Vertex u = obj_pred_map[obj_snk], v = obj_snk;
-                 u != v;
-                 v = u, u = obj_pred_map[v])
+            for (Vertex u = obj_pred_map[obj_snk], v = obj_snk; u != v; v = u, u = obj_pred_map[v])
             {
                 tracklet->AddPathObject(obj_values[u]);
 
                 // Leave source and sink untouched
                 if (!obj_values[u]->IsVirtual())
                 {
+                    //TODO original
                     // Remove the path by setting all used edges to a weight of
                     // infinity
-                    std::pair<DirectedGraph::out_edge_iterator,
-                              DirectedGraph::out_edge_iterator> edge_iter = boost::out_edges(u, obj_graph);
+//                    std::pair<DirectedGraph::out_edge_iterator,
+//                              DirectedGraph::out_edge_iterator> edge_iter = boost::out_edges(u, obj_graph);
+//
+//                    for (DirectedGraph::out_edge_iterator iter = edge_iter.first;
+//                         iter != edge_iter.second;
+//                         ++iter)
+//                    {
+//                        boost::get(boost::edge_weight, obj_graph, *iter)
+//                                = std::numeric_limits<double>::infinity();
+//                    }
 
-                    for (DirectedGraph::out_edge_iterator iter = edge_iter.first;
-                         iter != edge_iter.second;
-                         ++iter)
+                    //TODO experimental
+                    OutEdgeIter oei, oei_end;
+                    for (boost::tie(oei, oei_end) = boost::out_edges(u, obj_graph);
+                         oei != oei_end;
+                         ++oei)
                     {
-                        boost::get(boost::edge_weight, obj_graph, *iter)
-                                = std::numeric_limits<double>::infinity();
+                        weight_map[*oei] = std::numeric_limits<double>::infinity();
                     }
                 }
             }
@@ -162,8 +167,7 @@ namespace algo
         }
 
         // Add sink to tracklet graph
-        Vertex tlt_snk =
-                boost::add_vertex(core::ObjectDataPtr(new core::ObjectData()),
+        Vertex tlt_snk = boost::add_vertex(core::ObjectDataPtr(new core::ObjectData()),
                                   tlt_graph);
 
         util::Logger::LogDebug("adding edges");
@@ -177,8 +181,7 @@ namespace algo
         for (size_t i = 1; i < tlt_graph_size - 1; ++i)
         {
             Vertex u = tlt_indices[i];
-            core::TrackletPtr u_ptr =
-                    std::static_pointer_cast<core::Tracklet>(tlt_values[u]);
+            core::TrackletPtr u_ptr = std::static_pointer_cast<core::Tracklet>(tlt_values[u]);
             size_t u_first_frame = u_ptr->GetFirstFrameIndex();
             size_t u_last_frame = u_ptr->GetLastFrameIndex();
 
@@ -193,7 +196,8 @@ namespace algo
                     size_t v_first_frame = v_ptr->GetFirstFrameIndex();
 
                     // Link only tracklets that are in temporal order
-                    if (u_last_frame < v_first_frame)
+                    if (u_last_frame < v_first_frame &&
+                            (v_first_frame - u_last_frame < max_frame_skips_[iteration]))
                     {
                         boost::add_edge(u, v,
                                         tlt_values[u]->CompareTo(tlt_values[v]),
@@ -218,7 +222,7 @@ namespace algo
     }
 
     void NStage::ExtractTracks(DirectedGraph& tlt_graph, size_t depth,
-                                 std::vector<core::TrackletPtr>& tracks)
+                               std::vector<core::TrackletPtr>& tracks)
     {
         util::Logger::LogInfo("Extracting tracks");
 
@@ -243,7 +247,7 @@ namespace algo
     }
 
     void NStage::Run(const core::DetectionSequence& sequence,
-                       std::vector<core::TrackletPtr>& tracks)
+                     std::vector<core::TrackletPtr>& tracks)
     {
         // Running the two stage graph algorithm
         DirectedGraph obj_graph;

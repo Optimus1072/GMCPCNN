@@ -10,7 +10,7 @@
 namespace util
 {
     void Visualizer::Display(core::DetectionSequence& sequence,
-                             std::string image_folder,
+                             std::string image_folder, bool output, std::string output_path,
                              std::string title, size_t first_frame,
                              int play_fps)
     {
@@ -116,8 +116,9 @@ namespace util
     }
 
     void Visualizer::Display(std::vector<core::TrackletPtr>& tracks,
-                             std::string image_folder, std::string title,
-                             size_t first_frame, int play_fps, int grid_width, int grid_height)
+                             std::string image_folder, bool output, std::string output_path,
+                             std::string title, size_t first_frame, int play_fps, int grid_width,
+                             int grid_height)
     {
         util::Logger::LogInfo("Displaying data");
 
@@ -126,9 +127,6 @@ namespace util
         // Load images
         std::vector<std::string> image_files;
         util::FileIO::ListFiles(image_folder, image_files);
-
-        // Create window
-        cv::namedWindow(title, CV_WINDOW_AUTOSIZE);
 
         // Generate a random color for each individual track
         std::vector<cv::Scalar> colors;
@@ -147,6 +145,26 @@ namespace util
             colors.push_back(color);
         }
 
+        //TODO move to extra class
+        //TODO create necessary directories
+        if (output)
+        {
+            util::Logger::LogInfo("Start writing output images");
+            for (size_t i = 0; i < image_files.size(); ++i)
+            {
+                cv::Mat image = cv::imread(image_folder + "/" + image_files[i], 1);
+                for (size_t j = 0; j < tracks.size(); ++j)
+                {
+                    tracks[j]->Visualize(image, colors[j], i, 0, 0);
+                }
+                cv::imwrite(output_path + "/images/" + image_files[i], image);
+            }
+            util::Logger::LogInfo("Finished writing output images");
+        }
+
+        // Create window
+        cv::namedWindow(title, CV_WINDOW_AUTOSIZE);
+
         // Display frames and data
         int target_delay = 1000 / play_fps;
         int last_frame_time = GetTime();
@@ -155,11 +173,9 @@ namespace util
         while (true)
         {
             // Display image
-            cv::Mat image = cv::imread(image_folder + "/"
-                                       + image_files[current_frame],
-                                       1);
+            cv::Mat image = cv::imread(image_folder + "/" + image_files[current_frame], 1);
 
-            //TODO draw grid (experimental)
+            // Draw grid
             if (grid_width > 0 && grid_height > 0)
             {
                 cv::Scalar gridColor(255, 255, 255);
@@ -177,6 +193,7 @@ namespace util
                 }
             }
 
+            //Visualize the tracklets
             for (size_t i = 0; i < tracks.size(); ++i)
             {
                 tracks[i]->Visualize(image, colors[i], current_frame, 0, 0);

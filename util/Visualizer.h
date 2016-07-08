@@ -38,7 +38,7 @@ namespace util
          * @param play_fps The FPS to use when auto play is activated.
          */
         void Display(core::DetectionSequence& sequence,
-                     std::string image_folder,
+                     std::string image_folder, bool output, std::string output_path,
                      std::string title = "Visualizer", size_t first_frame = 0,
                      int play_fps = 24);
 
@@ -57,7 +57,7 @@ namespace util
          * @param grid_height The number of cells in a column
          */
         void Display(std::vector<core::TrackletPtr>& tracks,
-                     std::string image_folder,
+                     std::string image_folder, bool output, std::string output_path,
                      std::string title = "Visualizer", size_t first_frame = 0,
                      int play_fps = 24, int grid_width = 0, int grid_height = 0);
     };

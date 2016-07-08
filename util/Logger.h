@@ -36,6 +36,12 @@ namespace util
          * @param message The message to log
          */
         void LogMessage(const std::string& message);
+
+        /**
+         * Logs the given error message.
+         * @param message The error message to log
+         */
+        void LogErrorMessage(const std::string& message);
     public:
         /**
          * -> Singleton

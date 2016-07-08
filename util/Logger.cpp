@@ -17,17 +17,22 @@ namespace util
         std::cout << message;
     }
 
+    void Logger::LogErrorMessage(const std::string& message)
+    {
+        std::cerr << message;
+    }
+
     void Logger::LogInfo(const std::string& message)
     {
         if (Instance().info_)
         {
-            Instance().LogMessage("[Info] " + message + "\n");
+            Instance().LogMessage("[Info ] " + message + "\n");
         }
     }
 
     void Logger::LogError(const std::string& message)
     {
-        Instance().LogMessage("[Error] " + message + "\n");
+        Instance().LogErrorMessage("[Error] " + message + "\n");
     }
 
     void Logger::LogDebug(const std::string& message)

@@ -21,7 +21,7 @@ namespace algo
         /**
          * Maximum edge length to link object
          */
-        size_t max_frame_skip_;
+        std::vector<size_t> max_frame_skips_;
 
         /**
          * Edge value to link to source and sink
@@ -43,8 +43,7 @@ namespace algo
          * @param graph The graph to write into
          * @param detections The objects to use for the graph
          */
-        void CreateObjectGraph(DirectedGraph& graph,
-                               const core::DetectionSequence& detections);
+        void CreateObjectGraph(DirectedGraph& graph, const core::DetectionSequence& detections);
 
         /**
          * Reduces the object graph into linked tracklets.
@@ -53,10 +52,8 @@ namespace algo
          * @param frame_count The frame count of the object graph
          * @param iteration The current iteration
          */
-        void CreateTrackletGraph(DirectedGraph& obj_graph,
-                                 DirectedGraph& tlt_graph,
-                                 size_t frame_count,
-                                 size_t iteration);
+        void CreateTrackletGraph(DirectedGraph& obj_graph, DirectedGraph& tlt_graph,
+                                 size_t frame_count, size_t iteration);
 
         /**
          * Extracts the finished tracks from the given tracklet graph.
@@ -64,8 +61,7 @@ namespace algo
          * @param depth The depth to flatten the tracklets to
          * @param tracks The vector to write the extracted tracks in
          */
-        void ExtractTracks(DirectedGraph& tlt_graph,
-                           size_t depth,
+        void ExtractTracks(DirectedGraph& tlt_graph, size_t depth,
                            std::vector<core::TrackletPtr>& tracks);
     public:
         /**
@@ -76,8 +72,9 @@ namespace algo
          * @param penalty_value The edge value to link to source and sink
          * @param max_tracklet_count The maximum number of tracklets to create
          */
-        NStage(size_t max_frame_skip, std::vector<double> penalty_value,
-                 std::vector<size_t> max_tracklet_count);
+        NStage(std::vector<size_t> max_frame_skip,
+               std::vector<double> penalty_value,
+               std::vector<size_t> max_tracklet_count);
 
         void Run(const core::DetectionSequence& sequence,
                  std::vector<core::TrackletPtr>& tracks);
