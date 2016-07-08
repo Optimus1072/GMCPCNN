@@ -12,6 +12,10 @@
 
 namespace algo
 {
+    /**
+     * Algorithm for tracking multiple object in a frame sequence.
+     * The algorithm needs the location of detections.
+     */
     class Berclaz
     {
     private:

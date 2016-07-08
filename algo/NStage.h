@@ -76,6 +76,13 @@ namespace algo
                std::vector<double> penalty_value,
                std::vector<size_t> max_tracklet_count);
 
+        /**
+         * Runs the algorithm on the specified sequence and stores the found tracks into the
+         * specified tracks vector.
+         *
+         * @param sequence The detection values to use
+         * @param tracks A vector to store the found tracks in
+         */
         void Run(const core::DetectionSequence& sequence,
                  std::vector<core::TrackletPtr>& tracks);
     };

@@ -173,8 +173,22 @@ namespace util
         void PositionToIndex(double x, double y, double z,
                              int& xi, int& yi, int& zi) const;
 
-        //TODO comment
+        /**
+         * Performs a 2D convolution.
+         *
+         * @param vicinity The size of the mask around the center (a 3x3 mask has a vicinity of 1)
+         * @param mask The mask/kernel to use for the convolution
+         * @param multiplier The value is multiplied with the result at the end of the convolution
+         */
         void Convolve2D(int vicinity, double* mask, double multiplier);
+
+        /**
+         * Performs a 3D convolution.
+         *
+         * @param vicinity The size of the mask around the center (a 3x3 mask has a vicinity of 1)
+         * @param mask The mask/kernel to use for the convolution
+         * @param multiplier The value is multiplied with the result at the end of the convolution
+         */
         void Convolve3D(int vicinity, double* mask, double multiplier);
     };
 }

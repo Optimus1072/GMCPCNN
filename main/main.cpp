@@ -5,15 +5,11 @@
 #include "../util/FileIO.h"
 #include "../util/Parser.h"
 #include "../algo/NStage.h"
-#include "../algo/KShortestPaths.h"
 #include "../util/Visualizer.h"
 #include "../util/Logger.h"
 #include "../core/ObjectDataAngular.h"
 #include "../algo/Berclaz.h"
-#include "../algo/KShortestPaths2.h"
-#include "../algo/KShortestPaths3.h"
-#include "../algo/KShortestPaths4.h"
-#include "../algo/KShortestPaths5.h"
+#include "../algo/KShortestPaths.h"
 #include <boost/program_options.hpp>
 #include <boost/graph/named_function_params.hpp>
 #include <boost/graph/bellman_ford_shortest_paths.hpp>
@@ -26,8 +22,7 @@ struct
     std::string penalty_value;
 } n_stage_params;
 
-void RunNStage(core::DetectionSequence& sequence,
-               std::vector<core::TrackletPtr>& tracks)
+void RunNStage(core::DetectionSequence& sequence, std::vector<core::TrackletPtr>& tracks)
 {
     util::Logger::LogInfo("Running n-stage");
 
@@ -107,9 +102,7 @@ struct
     size_t max_track_count;
 } berclaz_params;
 
-
-void RunBerclaz(core::DetectionSequence& sequence,
-                std::vector<core::TrackletPtr>& tracks)
+void RunBerclaz(core::DetectionSequence& sequence, std::vector<core::TrackletPtr>& tracks)
 {
     util::Logger::LogInfo("Running berclaz");
 
@@ -135,7 +128,7 @@ void Run(int argc, char** argv)
 {
     // Algorithm independent values
     std::string input_file, output_path, images_folder, algorithm, config_path, header, input_format;
-    bool info, debug, display, output;
+    bool info, debug, display, output, output_images;
     char input_delimiter, output_delimiter;
     double temporal_weight, spatial_weight, angular_weight, image_width, image_height;
 
@@ -159,6 +152,10 @@ void Run(int argc, char** argv)
              boost::program_options::value<bool>(&output)
                      ->default_value(false),
              "if the results should be written into the specified output folder")
+            ("output-images",
+             boost::program_options::value<bool>(&output_images)
+                     ->default_value(false),
+             "if the images containing the visualized detections should be written to the output")
             ("config",
              boost::program_options::value<std::string>(&config_path),
              "the path to the config file, if no path is given the command line arguments are read")
@@ -283,7 +280,7 @@ void Run(int argc, char** argv)
     }
     else if (opt_var_map.count("input-file") == 0 ||
              opt_var_map.count("input-format") == 0 ||
-                (opt_var_map.count("output-path") == 0 && output))
+                (opt_var_map.count("output-path") == 0 && (output || output_images)))
     {
         std::cout << opts << std::endl;
         exit(0);
@@ -304,7 +301,7 @@ void Run(int argc, char** argv)
     }
 
     // Reading the input file
-    util::Logger::LogInfo("Reading input");
+    util::Logger::LogInfo("Read input");
     util::ValueMapVector values;
     try
     {
@@ -399,10 +396,10 @@ void Run(int argc, char** argv)
         util::Visualizer vis;
 
         if (algorithm == "berclaz")
-            vis.Display(tracks, images_folder, output, output_path, "Visualizer",
+            vis.Display(tracks, images_folder, output_images, output_path, "Visualizer",
                         0, 24, berclaz_params.h_res, berclaz_params.v_res);
         else
-            vis.Display(tracks, images_folder, output, output_path);
+            vis.Display(tracks, images_folder, output_images, output_path);
     }
 }
 
@@ -529,16 +526,6 @@ void CreateTestGraph(DirectedGraph& graph, Vertex& source, Vertex& sink)
 
 //    boost::add_edge(vertices[1], vertices[7], 0.0, graph);
 //    boost::add_edge(vertices[8], vertices[7], 0.0, graph);
-}
-
-void TestKSP(DirectedGraph graph, Vertex source, Vertex sink, size_t n_paths)
-{
-    util::FileIO::WriteCSVMatlab(graph, "/home/wrede/Dokumente/graph_ksp.csv");
-
-    algo::KShortestPaths2 ksp;
-    MultiPredecessorMap paths = ksp.Run(graph, source, sink, n_paths);
-
-    util::FileIO::WriteCSVMatlab(paths, source, sink, "/home/wrede/Dokumente/paths_ksp.csv");
 }
 
 void TestKBellmanFord(DirectedGraph graph, Vertex source, Vertex sink, size_t n_paths)
@@ -855,69 +842,6 @@ void CreatePresentationGraph(DirectedGraph& graph, Vertex& source, Vertex& sink,
     }
 }
 
-void TestSuurballe()
-{
-    // Create the graph
-    Vertex source, sink;
-    DirectedGraph graph;
-    std::vector<Vertex> vertices;
-
-    // First example graph
-//    for (int i = 0; i < 7; ++i)
-//    {
-//        vertices.push_back(boost::add_vertex(graph));
-//    }
-//    source = vertices[0];
-//    sink = vertices[6];
-//    boost::add_edge(vertices[0], vertices[1], 5.0, graph);
-//    boost::add_edge(vertices[0], vertices[4], 2.0, graph);
-//    boost::add_edge(vertices[1], vertices[2], 1.0, graph);
-//    boost::add_edge(vertices[1], vertices[4], 1.0, graph);
-//    boost::add_edge(vertices[2], vertices[6], 1.0, graph);
-//    boost::add_edge(vertices[3], vertices[2], 1.0, graph);
-//    boost::add_edge(vertices[4], vertices[3], 2.0, graph);
-//    boost::add_edge(vertices[4], vertices[5], 1.0, graph);
-//    boost::add_edge(vertices[5], vertices[2], 1.0, graph);
-//    boost::add_edge(vertices[5], vertices[6], 1.0, graph);
-
-    // Second example graph
-    for (int i = 0; i < 8; ++i)
-    {
-        vertices.push_back(boost::add_vertex(graph));
-    }
-    source = vertices[0];
-    sink = vertices[7];
-    boost::add_edge(vertices[0], vertices[1], 1.0, graph);
-    boost::add_edge(vertices[0], vertices[4], 8.0, graph);
-    boost::add_edge(vertices[0], vertices[5], 1.0, graph);
-    boost::add_edge(vertices[1], vertices[2], 1.0, graph);
-    boost::add_edge(vertices[1], vertices[7], 8.0, graph);
-    boost::add_edge(vertices[2], vertices[3], 1.0, graph);
-    boost::add_edge(vertices[3], vertices[4], 1.0, graph);
-    boost::add_edge(vertices[3], vertices[6], 2.0, graph);
-    boost::add_edge(vertices[4], vertices[7], 1.0, graph);
-    boost::add_edge(vertices[5], vertices[2], 2.0, graph);
-    boost::add_edge(vertices[5], vertices[6], 6.0, graph);
-    boost::add_edge(vertices[6], vertices[7], 1.0, graph);
-
-    algo::KShortestPaths4 suurballe(graph, source, sink, 3);
-    suurballe.Run();
-
-    size_t i = 0;
-    for (std::vector<Vertex> path : suurballe.GetPaths())
-    {
-        i++;
-        std::cout << "P" << i << "{";
-        for (Vertex v : path)
-        {
-            std::cout << v;
-        }
-        std::cout << "}\n";
-    }
-
-    std::cout << "Total paths length: " << suurballe.GetTotalPathsLength() << std::endl;
-}
-
 void CreateSuurballeGraph(DirectedGraph& graph, Vertex& source, Vertex& sink, bool first)
 {
     std::vector<Vertex> vertices;
@@ -975,7 +899,7 @@ void TestYAOKSP()
 //    CreatePresentationGraph(graph, source, sink, true);
     CreateSuurballeGraph(graph, source, sink, false);
 //    CreateBerclazGraph(graph, source, sink);
-    algo::KShortestPaths5 ksp(graph, source, sink);
+    algo::KShortestPaths ksp(graph, source, sink);
 
     ksp.Run(3);
 
@@ -997,40 +921,6 @@ int main(int argc, char** argv)
     //TODO load with frame offset
 
     Run(argc, argv);
-
-//    TestTracklet();
-
-//    DirectedGraph graph;
-//    Vertex source, sink;
-//    CreatePresentationGraph(graph, source, sink);
-//
-//    algo::KShortestPaths4 suurballe(graph, source, sink, 2);
-//    suurballe.Run();
-//
-//    size_t i = 0;
-//    for (std::vector<Vertex> path : suurballe.GetPaths())
-//    {
-//        i++;
-//        std::cout << "P" << i << "{";
-//        for (Vertex v : path)
-//        {
-//            std::cout << v;
-//        }
-//        std::cout << "}\n";
-//    }
-//
-//    std::cout << "Total paths length: " << suurballe.GetTotalPathsLength() << std::endl;
-//
-//    util::FileIO::WriteCSVMatlab(graph, "/home/wrede/Dokumente/graph.csv");
-//
-//    TestKBellmanFord(graph, source, sink, 2);
-//    TestKSP(graph, source, sink, 3);
-
-//    TestGrid();
-
-//    TestSuurballe();
-
-//    TestYAOKSP();
 
     return 0;
 }

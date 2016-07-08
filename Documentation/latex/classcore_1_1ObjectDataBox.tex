@@ -1,5 +1,9 @@
 \hypertarget{classcore_1_1ObjectDataBox}{}\section{core\+:\+:Object\+Data\+Box Class Reference}
 \label{classcore_1_1ObjectDataBox}\index{core\+::\+Object\+Data\+Box@{core\+::\+Object\+Data\+Box}}
+
+
+{\ttfamily \#include $<$Object\+Data\+Box.\+h$>$}
+
 Inheritance diagram for core\+:\+:Object\+Data\+Box\+:\begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -9,11 +13,9 @@ Inheritance diagram for core\+:\+:Object\+Data\+Box\+:\begin{figure}[H]
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-{\bfseries Object\+Data\+Box} (size\+\_\+t frame\+\_\+index, cv\+::\+Point2d anchor, cv\+::\+Point2d size)\hypertarget{classcore_1_1ObjectDataBox_a9a1ee3e1e603c1e55adc58a1a58efad2}{}\label{classcore_1_1ObjectDataBox_a9a1ee3e1e603c1e55adc58a1a58efad2}
-
+\hyperlink{classcore_1_1ObjectDataBox_a9a1ee3e1e603c1e55adc58a1a58efad2}{Object\+Data\+Box} (size\+\_\+t frame\+\_\+index, cv\+::\+Point2d anchor, cv\+::\+Point2d size)
 \item 
-cv\+::\+Point2d {\bfseries Get\+Size} () const \hypertarget{classcore_1_1ObjectDataBox_a8134ea14198f45181014d93b27e13b6b}{}\label{classcore_1_1ObjectDataBox_a8134ea14198f45181014d93b27e13b6b}
-
+cv\+::\+Point2d \hyperlink{classcore_1_1ObjectDataBox_a76e9f48dfb685d16de868a129c1f3918}{Get\+Size} () const
 \item 
 virtual double \hyperlink{classcore_1_1ObjectDataBox_a163c57338778f957ce514611c509558a}{Compare\+To} (Object\+Data\+Ptr obj) const override
 \item 
@@ -21,6 +23,32 @@ virtual Object\+Data\+Ptr \hyperlink{classcore_1_1ObjectDataBox_ab2816bceb771dd7
 \item 
 virtual void \hyperlink{classcore_1_1ObjectDataBox_ab29bacb20c258ba572d0372469ec5523}{Visualize} (cv\+::\+Mat \&image, cv\+::\+Scalar \&color) const override
 \end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Class for storing an object detection with an bounding box. 
+
+\subsection{Constructor \& Destructor Documentation}
+\index{core\+::\+Object\+Data\+Box@{core\+::\+Object\+Data\+Box}!Object\+Data\+Box@{Object\+Data\+Box}}
+\index{Object\+Data\+Box@{Object\+Data\+Box}!core\+::\+Object\+Data\+Box@{core\+::\+Object\+Data\+Box}}
+\subsubsection[{\texorpdfstring{Object\+Data\+Box(size\+\_\+t frame\+\_\+index, cv\+::\+Point2d anchor, cv\+::\+Point2d size)}{ObjectDataBox(size\_t frame\_index, cv::Point2d anchor, cv::Point2d size)}}]{\setlength{\rightskip}{0pt plus 5cm}core\+::\+Object\+Data\+Box\+::\+Object\+Data\+Box (
+\begin{DoxyParamCaption}
+\item[{size\+\_\+t}]{frame\+\_\+index, }
+\item[{cv\+::\+Point2d}]{anchor, }
+\item[{cv\+::\+Point2d}]{size}
+\end{DoxyParamCaption}
+)}\hypertarget{classcore_1_1ObjectDataBox_a9a1ee3e1e603c1e55adc58a1a58efad2}{}\label{classcore_1_1ObjectDataBox_a9a1ee3e1e603c1e55adc58a1a58efad2}
+Creates a new detection with an bounding box of the given size.
+
+
+\begin{DoxyParams}{Parameters}
+{\em frame\+\_\+index} & The frame index of the detection \\
+\hline
+{\em anchor} & The top left corner of the bounding box \\
+\hline
+{\em size} & The size of the bounding box \\
+\hline
+\end{DoxyParams}
 
 
 \subsection{Member Function Documentation}
@@ -43,6 +71,18 @@ A double value indicating the comparison result
 
 Reimplemented from \hyperlink{classcore_1_1ObjectData2D_a68d56bd5f26a41830a87ae32eabf9126}{core\+::\+Object\+Data2D}.
 
+\index{core\+::\+Object\+Data\+Box@{core\+::\+Object\+Data\+Box}!Get\+Size@{Get\+Size}}
+\index{Get\+Size@{Get\+Size}!core\+::\+Object\+Data\+Box@{core\+::\+Object\+Data\+Box}}
+\subsubsection[{\texorpdfstring{Get\+Size() const}{GetSize() const}}]{\setlength{\rightskip}{0pt plus 5cm}cv\+::\+Point2d core\+::\+Object\+Data\+Box\+::\+Get\+Size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{classcore_1_1ObjectDataBox_a76e9f48dfb685d16de868a129c1f3918}{}\label{classcore_1_1ObjectDataBox_a76e9f48dfb685d16de868a129c1f3918}
+Gets the size of the bounding box.
+
+\begin{DoxyReturn}{Returns}
+The size of the bounding box 
+\end{DoxyReturn}
 \index{core\+::\+Object\+Data\+Box@{core\+::\+Object\+Data\+Box}!Interpolate@{Interpolate}}
 \index{Interpolate@{Interpolate}!core\+::\+Object\+Data\+Box@{core\+::\+Object\+Data\+Box}}
 \subsubsection[{\texorpdfstring{Interpolate(\+Object\+Data\+Ptr obj, double fraction) const override}{Interpolate(ObjectDataPtr obj, double fraction) const override}}]{\setlength{\rightskip}{0pt plus 5cm}Object\+Data\+Ptr core\+::\+Object\+Data\+Box\+::\+Interpolate (
@@ -67,7 +107,7 @@ Reimplemented from \hyperlink{classcore_1_1ObjectData2D_a59b974e09f74f0a2640e315
 
 \index{core\+::\+Object\+Data\+Box@{core\+::\+Object\+Data\+Box}!Visualize@{Visualize}}
 \index{Visualize@{Visualize}!core\+::\+Object\+Data\+Box@{core\+::\+Object\+Data\+Box}}
-\subsubsection[{\texorpdfstring{Visualize(cv\+::\+Mat \&image, cv\+::\+Scalar \&color) const override}{Visualize(cv::Mat &image, cv::Scalar &color) const override}}]{\setlength{\rightskip}{0pt plus 5cm}void core\+::\+Object\+Data\+Box\+::\+Visualize (
+\subsubsection[{\texorpdfstring{Visualize(cv\+::\+Mat \&image, cv\+::\+Scalar \&color) const override}{Visualize(cv::Mat \&image, cv::Scalar \&color) const override}}]{\setlength{\rightskip}{0pt plus 5cm}void core\+::\+Object\+Data\+Box\+::\+Visualize (
 \begin{DoxyParamCaption}
 \item[{cv\+::\+Mat \&}]{image, }
 \item[{cv\+::\+Scalar \&}]{color}

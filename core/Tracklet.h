@@ -113,8 +113,19 @@ namespace core
          */
         void Flatten();
 
+        /**
+         * Copies all detections from the specified tracklet to this tracklet
+         *
+         * @param other The tracklet to copy the detections from
+         */
         void Combine(TrackletPtr other);
 
+        /**
+         * Gets the detected object at the given frame index or a nullptr if there is not detection.
+         *
+         * @param frame_index The index of the frame to take the detection from
+         * @return A pointer to the detection in the given frame
+         */
         ObjectDataPtr GetFrameObject(size_t frame_index);
     };
 }

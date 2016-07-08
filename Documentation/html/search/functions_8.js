@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['kshortestpaths',['KShortestPaths',['../classalgo_1_1KShortestPaths.html#a2805f56b9abb112f10c752d125d623d8',1,'algo::KShortestPaths']]]
+  ['kshortestpaths',['KShortestPaths',['../classalgo_1_1KShortestPaths.html#ad8654c43c8354f734870ec98783f9756',1,'algo::KShortestPaths']]]
 ];

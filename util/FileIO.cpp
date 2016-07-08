@@ -10,11 +10,9 @@
 
 namespace util
 {
-    void FileIO::ReadCSV(Vector3d& values,
-                         const std::string& file_name,
-                         char delimiter)
+    void FileIO::ReadCSV(Vector3d& values, const std::string& file_name, char delimiter)
     {
-        Logger::LogInfo("Reading CSV file");
+        Logger::LogInfo("Read CSV file");
 
         std::ifstream in(file_name, std::ifstream::in);
         std::string line;
@@ -68,11 +66,9 @@ namespace util
         Logger::LogDebug("frame count " + std::to_string(values.size()));
     }
 
-    void FileIO::ReadCSV(Vector2d& values,
-                         const std::string& file_name,
-                         char delimiter)
+    void FileIO::ReadCSV(Vector2d& values, const std::string& file_name, char delimiter)
     {
-        Logger::LogInfo("Reading CSV file");
+        Logger::LogInfo("Read CSV file");
 
         std::ifstream in(file_name, std::ifstream::in);
         std::string line;
@@ -114,11 +110,10 @@ namespace util
         Logger::LogDebug("line count " + std::to_string(values.size()));
     }
 
-    void FileIO::ListFiles(const std::string& folder,
-                           std::vector<std::string>& file_names,
+    void FileIO::ListFiles(const std::string& folder, std::vector<std::string>& file_names,
                            bool sort)
     {
-        Logger::LogInfo("Listing files in folder");
+        Logger::LogInfo("List files in folder");
 
         DIR* dir;
         struct dirent *ent;
@@ -148,8 +143,7 @@ namespace util
         }
     }
 
-    void FileIO::WriteCSVMatlab(DirectedGraph& graph,
-                                const std::string& file_name)
+    void FileIO::WriteCSVMatlab(DirectedGraph& graph, const std::string& file_name)
     {
         char delimiter = ',';
 
@@ -177,8 +171,7 @@ namespace util
         out.close();
     }
 
-    void FileIO::WriteCSVMatlab(MultiPredecessorMap& map,
-                                Vertex& source, Vertex& sink,
+    void FileIO::WriteCSVMatlab(MultiPredecessorMap& map, Vertex& source, Vertex& sink,
                                 const std::string& file_name)
     {
         char delimiter = ',';
@@ -203,9 +196,7 @@ namespace util
         out.close();
     }
 
-    void FileIO::ReadCSV(ValueMapVector& values,
-                         const std::string& file_name,
-                         char delimiter)
+    void FileIO::ReadCSV(ValueMapVector& values, const std::string& file_name, char delimiter)
     {
         // Read the file
         std::ifstream in(file_name, std::ifstream::in);
@@ -234,7 +225,7 @@ namespace util
     void FileIO::ReadCSV(ValueMapVector& values, const std::string& header,
                          const std::string& file_name, char delimiter)
     {
-        Logger::LogInfo("Reading CSV file");
+        Logger::LogInfo("Read CSV file");
 
         // Read the file
         std::ifstream in(file_name, std::ifstream::in);
@@ -424,7 +415,5 @@ namespace util
         }
         return output;
     }
-
-
 }
 

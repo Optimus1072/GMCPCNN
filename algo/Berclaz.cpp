@@ -3,14 +3,9 @@
 //
 
 #include "Berclaz.h"
-#include "KShortestPaths.h"
 #include "../util/Parser.h"
 #include "../util/Logger.h"
-#include "../util/FileIO.h"
-#include "KShortestPaths2.h"
-#include "KShortestPaths3.h"
-#include "KShortestPaths4.h"
-#include "KShortestPaths5.h"
+#include "KShortestPaths.h"
 
 namespace algo
 {
@@ -161,7 +156,7 @@ namespace algo
             CreateGraph(graph, source, sink, grid);
 
             util::Logger::LogDebug("run ksp");
-            KShortestPaths5 ksp(graph, source, sink);
+            KShortestPaths ksp(graph, source, sink);
             ksp.Run(max_track_count);
 
             util::Logger::LogDebug("get paths");

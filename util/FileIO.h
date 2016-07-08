@@ -104,13 +104,34 @@ namespace util
         static void ReadCSV(ValueMapVector& values, const std::string& header,
                             const std::string& file_name, char delimiter);
 
-        //TODO comment
+        /**
+         * Writes the given tracks to the given file.
+         *
+         * @param tracks The tracks to store
+         * @param file_name The path to the file to store the tracks in
+         * @param delimiter The delimiter used to separate values
+         */
         static void WriteTracks(std::vector<core::TrackletPtr>& tracks, const std::string& file_name,
                                 char delimiter);
 
+        /**
+         * Reads the tracks from the specified file.
+         *
+         * @param tracks A vector for storing the read tracks
+         * @param file_name The path of the file to read from
+         * @param delimiter The delimiter used to separate values
+         */
         static void ReadTracks(std::vector<core::TrackletPtr>& tracks, const std::string& file_name,
                                char delimiter);
 
+        /**
+         * Splits the input string at the delimiter and store each part into the return vector.
+         * If there is nothing between two delimiters the part will be an empty string.
+         *
+         * @param input The string to split
+         * @param delimiter The delimiter used to split, the delimiter will not be stored
+         * @return A vector of parts like (for string of length n: [0,d)...(d,d)...(d,n))
+         */
         static std::vector<std::string> split(const std::string& input, char delimiter);
     };
 }
