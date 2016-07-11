@@ -7,6 +7,7 @@
 
 #include <vector>
 #include "../core/ObjectData.h"
+#include "Filter2D.h"
 
 namespace util
 {
@@ -104,8 +105,7 @@ namespace util
          * @param y The y axis value
          * @param z The z axis value
          */
-        void SetValue(core::ObjectDataPtr value,
-                      double x, double y, double z = 0);
+        void SetValue(core::ObjectDataPtr value, double x, double y, double z = 0);
 
         /**
          * Gets the value in the grid cell with the given index.
@@ -170,8 +170,7 @@ namespace util
          * @param yi The y axis index
          * @param zi The z axis index
          */
-        void PositionToIndex(double x, double y, double z,
-                             int& xi, int& yi, int& zi) const;
+        void PositionToIndex(double x, double y, double z, int& xi, int& yi, int& zi) const;
 
         /**
          * Performs a 2D convolution.
@@ -181,6 +180,13 @@ namespace util
          * @param multiplier The value is multiplied with the result at the end of the convolution
          */
         void Convolve2D(int vicinity, double* mask, double multiplier);
+
+        /**
+         * Performs a 2D convolution.
+         *
+         * @param filter The 2D filter to use
+         */
+        void Convolve2D(util::Filter2D & filter);
 
         /**
          * Performs a 3D convolution.

@@ -43,12 +43,12 @@ namespace util
     void Grid::PositionToIndex(double x, double y, double z,
                                int& xi, int& yi, int& zi) const
     {
-        xi = (int) (x / cell_width_);
-        yi = (int) (y / cell_height_);
+        xi = static_cast<int>(x / cell_width_);
+        yi = static_cast<int>(y / cell_height_);
 
         if (depth_count_ > 1)
         {
-            zi = (int) (z / cell_depth_);
+            zi = static_cast<int>(z / cell_depth_);
         }
         else
         {
@@ -202,6 +202,49 @@ namespace util
                     }
 
                     GetValue(x, y, z)->SetDetectionScore(score * multiplier);
+                }
+            }
+        }
+    }
+
+    void Grid::Convolve2D(util::Filter2D & filter)
+    {
+        // [x,y,z]    position in grid
+        // [vx,vy,vz] position in vicinity
+        // [nx,ny,nz] position in grid
+        // [mx,my,mz] position in mask
+        // [mi]       index in mask
+
+        int vicinity = filter.GetVicinity();
+        for (int z = 0; z < depth_count_; ++z)
+        {
+            for (int y = 0; y < height_count_; ++y)
+            {
+                for (int x = 0; x < width_count_; ++x)
+                {
+                    double score = 0.0;
+
+                    for (int vy = -vicinity; vy <= vicinity; ++vy)
+                    {
+                        int ny = y + vy;
+
+                        if (ny < 0 || ny >= height_count_) continue;
+
+                        int my = vy + vicinity;
+
+                        for (int vx = -vicinity; vx <= vicinity; ++vx)
+                        {
+                            int nx = x + vx;
+
+                            if (nx < 0 || nx >= width_count_) continue;
+
+                            int mx = vx + vicinity;
+
+                            score += GetValue(nx, ny, z)->GetDetectionScore() * filter.Get(mx, my);
+                        }
+                    }
+
+                    GetValue(x, y, z)->SetDetectionScore(score * filter.GetMultiplier());
                 }
             }
         }

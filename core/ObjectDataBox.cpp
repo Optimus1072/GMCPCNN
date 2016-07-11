@@ -8,9 +8,9 @@
 
 namespace core
 {
-    ObjectDataBox::ObjectDataBox(size_t frame_index, cv::Point2d anchor,
+    ObjectDataBox::ObjectDataBox(size_t frame_index, cv::Point2d center,
                                  cv::Point2d size)
-            : ObjectData2D(frame_index, anchor),
+            : ObjectData2D(frame_index, center),
               size_(size)
     {
     }
@@ -33,8 +33,7 @@ namespace core
         cv::Point2d other_center = other->GetPosition() + other->size_ * 0.5;
 
         double d_temp = other->GetFrameIndex() - GetFrameIndex();
-        double d_spat = util::MyMath::EuclideanDistance(this_center,
-                                                        other_center);
+        double d_spat = util::MyMath::EuclideanDistance(this_center, other_center);
 
         return d_temp * GetTemporalWeight() + d_spat * GetSpatialWeight();
     }
@@ -47,10 +46,9 @@ namespace core
         size_t frame = (size_t) fabs(util::MyMath::Lerp(GetFrameIndex(),
                                                         other->GetFrameIndex(),
                                                         fraction));
-        double x = util::MyMath::Lerp(GetPosition().x, other->GetPosition().x,
-                                      fraction);
-        double y = util::MyMath::Lerp(GetPosition().y, other->GetPosition().y,
-                                      fraction);
+
+        double x = util::MyMath::Lerp(GetPosition().x, other->GetPosition().x, fraction);
+        double y = util::MyMath::Lerp(GetPosition().y, other->GetPosition().y, fraction);
         double w = util::MyMath::Lerp(size_.x, other->size_.x, fraction);
         double h = util::MyMath::Lerp(size_.y, other->size_.y, fraction);
 
@@ -62,11 +60,11 @@ namespace core
 
     void ObjectDataBox::Visualize(cv::Mat& image, cv::Scalar& color) const
     {
-        cv::Point2d position(GetPosition().x * image.cols,
-                             GetPosition().y * image.rows);
+        cv::Point2d center(GetPosition().x * image.cols, GetPosition().y * image.rows);
         cv::Point2d size(size_.x * image.cols, size_.y * image.rows);
+        cv::Point2d top_left = center - size * 0.5;
 
-        cv::rectangle(image, position, position + size, color);
+        cv::rectangle(image, top_left, top_left + size, color);
     }
 
     cv::Point2d ObjectDataBox::GetSize() const

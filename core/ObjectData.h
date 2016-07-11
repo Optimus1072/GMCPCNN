@@ -17,7 +17,6 @@ namespace core
     class ObjectData;
     typedef std::shared_ptr<ObjectData> ObjectDataPtr;
 
-    //TODO RENAME ObjectDataBase / ObjectBase / DataBase / AObject / DetectionBase ...
     /**
      * Base class for all detected objects.
      * Stores the corresponding frame index.
@@ -88,7 +87,6 @@ namespace core
          */
         bool IsVirtual() const;
 
-        //TODO RENAME ObjectDataComparable / IComparable ...
         /**
          * Compares this object with the given object.
          * @param obj A pointer to the object to compare this object to

@@ -10,6 +10,7 @@
 
 namespace util
 {
+    //TODO rename if necessary
     const std::string Parser::KEY_FRAME = "frame";
     const std::string Parser::KEY_ID = "id";
     const std::string Parser::KEY_SCORE = "score";
@@ -248,27 +249,6 @@ namespace util
                 }
             }
         }
-
-        // Convolve with linear filter
-//        int vicinity = 1;
-//        double multiplier = 0.25;
-//        double* linear_filter = new double[9] {
-//                0.25, 0.50, 0.25,
-//                0.50, 1.00, 0.50,
-//                0.25, 0.50, 0.25
-//        };
-//        grid.Convolve2D(vicinity, linear_filter, multiplier);
-//        delete[] linear_filter;
-
-        // Convolve with gaussian filter
-        int vicinity = 1;
-        double* gaussian_filter = new double[9] {
-                0.002284, 0.043222, 0.002284,
-                0.043222, 0.817976, 0.043222,
-                0.002284, 0.043222, 0.002284
-        };
-        grid.Convolve2D(vicinity, gaussian_filter, 1.0);
-        delete[] gaussian_filter;
 
         return grid;
     }

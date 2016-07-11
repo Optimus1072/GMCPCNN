@@ -100,6 +100,7 @@ struct
     int vicinity_size;
     size_t batch_size;
     size_t max_track_count;
+    util::Filter2D filter;
 } berclaz_params;
 
 void RunBerclaz(core::DetectionSequence& sequence, std::vector<core::TrackletPtr>& tracks)
@@ -110,8 +111,11 @@ void RunBerclaz(core::DetectionSequence& sequence, std::vector<core::TrackletPtr
     algo::Berclaz berclaz(berclaz_params.h_res,
                           berclaz_params.v_res,
                           berclaz_params.vicinity_size);
-    berclaz.Run(sequence, berclaz_params.batch_size,
-                berclaz_params.max_track_count, tracks);
+    berclaz.Run(sequence,
+                berclaz_params.batch_size,
+                berclaz_params.max_track_count,
+                tracks,
+                berclaz_params.filter);
 
     util::Logger::LogInfo("Interpolate tracks");
 
@@ -124,10 +128,11 @@ void RunBerclaz(core::DetectionSequence& sequence, std::vector<core::TrackletPtr
     util::Logger::LogInfo("Finished");
 }
 
-void Run(int argc, char** argv)
+void Run(int argc, char const * const * argv)
 {
     // Algorithm independent values
-    std::string input_file, output_path, images_folder, algorithm, config_path, header, input_format;
+    std::string input_file, output_path, images_folder, algorithm, config_path, header;
+    std::string input_format, berclaz_filter;
     bool info, debug, display, output, output_images;
     char input_delimiter, output_delimiter;
     double temporal_weight, spatial_weight, angular_weight, image_width, image_height;
@@ -196,59 +201,61 @@ void Run(int argc, char** argv)
             ("algorithm",
              boost::program_options::value<std::string>(&algorithm),
              "set the algorithm to use, current viable options: n-stage berclaz")
-            ("max-frame-skip",
+            ("n-stage.max-frame-skip",
              boost::program_options::value<std::string>(&n_stage_params.max_frame_skip)
                      ->default_value("1,1"),
-             "(n stage) set the maximum number of frames a track can skip between two detections,"
+             "(n-stage) set the maximum number of frames a track can skip between two detections,"
                      " if set to less or equal than zero all frames are linked")
-            ("max-tracklet-count",
+            ("n-stage.max-tracklet-count",
              boost::program_options::value<std::string>(&n_stage_params.max_tracklet_count)
                      ->default_value("-1,1"),
-             "(n stage) set the maximum number of tracklets to be extracted")
-            ("penalty-value",
+             "(n-stage) set the maximum number of tracklets to be extracted")
+            ("n-stage.penalty-value",
              boost::program_options::value<std::string>(&n_stage_params.penalty_value)
                      ->default_value("0,0"),
-             "(n stage) set the penalty value for edges from and to source and sink")
-            ("temporal-weight",
+             "(n-stage) set the penalty value for edges from and to source and sink")
+            ("n-stage.temporal-weight",
              boost::program_options::value<double>(&temporal_weight)
                      ->default_value(1.0),
-             "(n stage) temporal weight for difference calculations between two detections")
-            ("spatial-weight",
+             "(n-stage) temporal weight for difference calculations between two detections")
+            ("n-stage.spatial-weight",
              boost::program_options::value<double>(&spatial_weight)
                      ->default_value(1.0),
-             "(n stage) spatial weight for difference calculations between two detections")
-            ("angular-weight",
+             "(n-stage) spatial weight for difference calculations between two detections")
+            ("n-stage.angular-weight",
              boost::program_options::value<double>(&angular_weight)
                      ->default_value(1.0),
-             "(n stage) angular weight for difference calculations between two detections")
-            ("horizontal-resolution",
+             "(n-stage) angular weight for difference calculations between two detections")
+            ("berclaz.horizontal-resolution",
              boost::program_options::value<int>(&berclaz_params.h_res)
                      ->default_value(10),
              "(berclaz) the number of horizontal grid cells")
-            ("vertical-resolution",
+            ("berclaz.vertical-resolution",
              boost::program_options::value<int>(&berclaz_params.v_res)
                      ->default_value(10),
              "(berclaz) the number of vertical grid cells")
-            ("vicinity-size",
+            ("berclaz.vicinity-size",
              boost::program_options::value<int>(&berclaz_params.vicinity_size)
                      ->default_value(1),
              "(berclaz) the vicinity size, the number of cells a detection can travel between two frames")
-            ("max-track-count",
+            ("berclaz.max-track-count",
              boost::program_options::value<size_t>(&berclaz_params.max_track_count)
                      ->default_value(1),
              "(berclaz) the maximal number of tracks to extract")
-            ("batch-size",
+            ("berclaz.batch-size",
              boost::program_options::value<size_t>(&berclaz_params.batch_size)
                      ->default_value(100),
-             "(berclaz) the size of one processing batch");
+             "(berclaz) the size of one processing batch")
+            ("berclaz.filter",
+             boost::program_options::value<std::string>(&berclaz_filter)
+                     ->default_value(""),
+             "(berclaz) the filter used in the berclaz grid (comma separated),"
+                     " e.g. multiplier, m01, m02,...,mnn");
 
     boost::program_options::variables_map opt_var_map;
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wincompatible-pointer-types-discards-qualifiers"
     boost::program_options::store(
             boost::program_options::parse_command_line(argc, argv, opts),
             opt_var_map);
-#pragma clang diagnostic pop
     boost::program_options::notify(opt_var_map);
 
     // Display help
@@ -369,6 +376,7 @@ void Run(int argc, char** argv)
     }
     else if (algorithm == "berclaz")
     {
+        berclaz_params.filter = util::Filter2D(berclaz_filter, ',');
         RunBerclaz(sequence, tracks);
     }
     else
@@ -916,9 +924,10 @@ void TestYAOKSP()
     }
 }
 
-int main(int argc, char** argv)
+int main(int argc, char const * const * argv)
 {
     //TODO load with frame offset
+    //TODO check visualizer for offset errors
 
     Run(argc, argv);
 

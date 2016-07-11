@@ -59,10 +59,10 @@ namespace algo
          */
         void ExtractTracks(DirectedGraph& graph,
                            MultiPredecessorMap& map, Vertex origin,
-                           std::vector<core::TrackletPtr>& tracks);
+                           std::vector<core::TrackletPtr> & tracks);
 
         //TODO comment
-        void ConnectTracks(std::vector<core::TrackletPtr>& tracks);
+        void ConnectTracks(std::vector<core::TrackletPtr> & tracks);
     public:
         /**
          * Instantiate with the given parameters.
@@ -83,8 +83,9 @@ namespace algo
          * @param max_track_count The maximum number of tracks to extract
          * @param tracks The vector to store the found tracks into
          */
-        void Run(core::DetectionSequence& sequence, size_t batch_size,
-                 size_t max_track_count, std::vector<core::TrackletPtr>& tracks);
+        void Run(core::DetectionSequence & sequence, size_t batch_size,
+                 size_t max_track_count, std::vector<core::TrackletPtr> & tracks,
+                 util::Filter2D & filter);
     };
 }
 

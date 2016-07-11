@@ -132,7 +132,7 @@ namespace util
          * @param delimiter The delimiter used to split, the delimiter will not be stored
          * @return A vector of parts like (for string of length n: [0,d)...(d,d)...(d,n))
          */
-        static std::vector<std::string> split(const std::string& input, char delimiter);
+        static std::vector<std::string> Split(const std::string& input, char delimiter);
     };
 }
 

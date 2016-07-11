@@ -380,7 +380,7 @@ namespace util
 
             if (line.size() == 0) continue;
 
-            std::vector<std::string> parts = split(line, delimiter);
+            std::vector<std::string> parts = Split(line, delimiter);
 
             while (tracks.size() < (parts.size() / 2))
             {
@@ -404,7 +404,7 @@ namespace util
         in.close();
     }
 
-    std::vector<std::string> FileIO::split(const std::string& input, char delimiter)
+    std::vector<std::string> FileIO::Split(const std::string& input, char delimiter)
     {
         std::vector<std::string> output;
         std::stringstream ss(input);

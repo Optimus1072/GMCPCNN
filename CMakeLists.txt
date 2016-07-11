@@ -23,7 +23,7 @@ set(SOURCE_FILES
         algo/Berclaz.cpp algo/Berclaz.h
         util/Grid.cpp util/Grid.h
         core/ObjectDataBox.cpp core/ObjectDataBox.h
-        algo/KShortestPaths.cpp algo/KShortestPaths.h)
+        algo/KShortestPaths.cpp algo/KShortestPaths.h util/Filter2D.cpp util/Filter2D.h)
 
 find_package(Doxygen)
 

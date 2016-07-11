@@ -36,8 +36,6 @@ namespace algo
         source = boost::add_vertex(core::ObjectDataPtr(new core::ObjectData()), graph);
         sink = boost::add_vertex(core::ObjectDataPtr(new core::ObjectData()), graph);
 
-//        util::Logger::LogDebug("source index: " + std::to_string(source));
-//        util::Logger::LogDebug("sink index: " + std::to_string(sink));
         util::Logger::LogDebug("add edges");
 
         // Iterate all vertices but source and sink
@@ -102,19 +100,7 @@ namespace algo
         }
 
         util::Logger::LogDebug("vertex count " + std::to_string(boost::num_vertices(graph)));
-//        util::Logger::LogDebug("calculated vertex count " + std::to_string(
-//           grid.GetWidthCount() * grid.GetHeightCount() * grid.GetDepthCount() + 2
-//        ));
         util::Logger::LogDebug("edge count " + std::to_string(boost::num_edges(graph)));
-//        util::Logger::LogDebug("width count " + std::to_string(grid.GetWidthCount()));
-//        util::Logger::LogDebug("height count " + std::to_string(grid.GetHeightCount()));
-//        util::Logger::LogDebug("depth count " + std::to_string(grid.GetDepthCount()));
-//        util::Logger::LogDebug("calculated edge count " + std::to_string(
-//           grid.GetWidthCount() * grid.GetHeightCount() * (grid.GetDepthCount() - 1) * 11 +
-//           grid.GetWidthCount() * grid.GetHeightCount() * 2 -
-//           (grid.GetWidthCount() + grid.GetHeightCount()) * 2 * 3 * (grid.GetDepthCount() - 1) +
-//           4 * (grid.GetDepthCount() - 1)
-//        ));
     }
 
     void Berclaz::ExtractTracks(DirectedGraph& graph, MultiPredecessorMap& map, Vertex origin,
@@ -141,7 +127,7 @@ namespace algo
 
     void Berclaz::Run(core::DetectionSequence& sequence,
                       size_t batch_size, size_t max_track_count,
-                      std::vector<core::TrackletPtr>& tracks)
+                      std::vector<core::TrackletPtr> & tracks, util::Filter2D & filter)
     {
         for (size_t i = 0; i < sequence.GetFrameCount(); i += batch_size)
         {
@@ -149,6 +135,28 @@ namespace algo
 
             util::Grid grid = util::Parser::ParseGrid(sequence, i, i + batch_size,
                                                       0.0, 1.0, h_res_, 0.0, 1.0, v_res_);
+
+            // Convolve with linear filter
+//            int vicinity = 1;
+//            double multiplier = 0.25;
+//            double* linear_filter = new double[9] {
+//                    0.25, 0.50, 0.25,
+//                    0.50, 1.00, 0.50,
+//                    0.25, 0.50, 0.25
+//            };
+//            grid.Convolve2D(vicinity, linear_filter, multiplier);
+//            delete[] linear_filter;
+
+            // Convolve with gaussian filter
+//            int vicinity = 1;
+//            double* gaussian_filter = new double[9] {
+//                    0.002284, 0.043222, 0.002284,
+//                    0.043222, 0.817976, 0.043222,
+//                    0.002284, 0.043222, 0.002284
+//            };
+//            grid.Convolve2D(vicinity, gaussian_filter, 1.0);
+//            delete[] gaussian_filter;
+            grid.Convolve2D(filter);
 
             util::Logger::LogDebug("create graph");
             DirectedGraph graph;
