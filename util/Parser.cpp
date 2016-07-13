@@ -10,12 +10,14 @@
 
 namespace util
 {
+    //TODO sigmoid function for detection score smoothing
+
     //TODO rename if necessary
     const std::string Parser::KEY_FRAME = "frame";
     const std::string Parser::KEY_ID = "id";
     const std::string Parser::KEY_SCORE = "score";
-    const std::string Parser::KEY_X = "x";
-    const std::string Parser::KEY_Y = "y";
+    const std::string Parser::KEY_X = "xc";
+    const std::string Parser::KEY_Y = "yc";
     const std::string Parser::KEY_WIDTH = "width";
     const std::string Parser::KEY_HEIGHT = "height";
     const std::string Parser::KEY_ANGLE = "angle";
@@ -72,6 +74,7 @@ namespace util
         }
 
         util::Logger::LogDebug("objects parsed " + std::to_string(obj_count));
+        util::Logger::LogDebug("frame offset " + std::to_string(sequence.GetFrameOffset()));
         util::Logger::LogDebug("frame count " + std::to_string(sequence.GetFrameCount()));
     }
 
@@ -138,6 +141,7 @@ namespace util
         }
 
         util::Logger::LogDebug("objects parsed " + std::to_string(obj_count));
+        util::Logger::LogDebug("frame offset " + std::to_string(sequence.GetFrameOffset()));
         util::Logger::LogDebug("frame count " + std::to_string(sequence.GetFrameCount()));
     }
 
@@ -183,13 +187,11 @@ namespace util
             cv::Point2d point(x, y);
             cv::Point2d size(width, height);
 
-            core::ObjectDataBoxPtr object(
-                    new core::ObjectDataBox(frame, point, size));
+            core::ObjectDataBoxPtr object(new core::ObjectDataBox(frame, point, size));
 
             object->SetTemporalWeight(temporal_weight);
             object->SetSpatialWeight(spatial_weight);
-            object->SetDetectionScore(
-                    util::MyMath::InverseLerp(min_score, max_score, score));
+            object->SetDetectionScore(util::MyMath::InverseLerp(min_score, max_score, score));
 
             sequence.AddObject(object);
 
@@ -197,6 +199,7 @@ namespace util
         }
 
         util::Logger::LogDebug("objects parsed " + std::to_string(obj_count));
+        util::Logger::LogDebug("frame offset " + std::to_string(sequence.GetFrameOffset()));
         util::Logger::LogDebug("frame count " + std::to_string(sequence.GetFrameCount()));
     }
 

@@ -76,10 +76,16 @@ namespace core
 
     void ObjectData2D::Visualize(cv::Mat& image, cv::Scalar& color) const
     {
-        double x = position_.x * image.cols;
-        double y = position_.y * image.rows;
+        double x = position_.x;
+        double y = position_.y;
         int r = (int) (0.005 * (image.rows + image.cols) * 0.5);
 
         cv::circle(image, cv::Point2d(x, y), r, color);
+    }
+
+    std::string ObjectData2D::ToString(char delimiter) const
+    {
+        return ObjectData::ToString(delimiter) + delimiter +
+                std::to_string(position_.x) + delimiter + std::to_string(position_.y);
     }
 }

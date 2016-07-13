@@ -48,6 +48,9 @@ namespace core
                      iter != path_objects_.end() && !inserted;
                      ++iter)
                 {
+                    // If the frame index is the same, either overwrite the value or do nothing
+                    // If the frame index is smaller than the stored, the new object should be
+                    // inserted here to accomplish a frame index order
                     if ((*iter)->GetFrameIndex() == obj->GetFrameIndex())
                     {
                         if (overwrite)
@@ -65,11 +68,14 @@ namespace core
                 }
             }
 
+            // If the frame index is higher than all already stored object, the new object is
+            // simple added at the end to preserve the ascending frame index order
             if (!inserted)
             {
                 path_objects_.push_back(obj);
             }
 
+            // Update the lowest and highest frame index fields
             SetFrameIndex(path_objects_.front()->GetFrameIndex());
             last_frame_index_ = path_objects_.back()->GetFrameIndex();
         }
@@ -121,6 +127,7 @@ namespace core
         }
     }
 
+    //TODO find a better method than linear interpolation
     void Tracklet::InterpolateMissingFrames()
     {
         for (size_t i = 1; i < path_objects_.size(); ++i)

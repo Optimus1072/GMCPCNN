@@ -15,10 +15,10 @@ namespace util
                 std::chrono::system_clock::now().time_since_epoch()).count();
     }
 
-    void Visualizer::Display(std::vector<core::TrackletPtr>& tracks,
+    void Visualizer::Display(std::vector<core::TrackletPtr> & tracks, size_t frame_offset,
                              std::string image_folder, bool output,
                              std::string output_path, std::string title, size_t first_frame,
-                             int play_fps, int grid_width, int grid_height)
+                             int play_fps, bool show_grid, int grid_width, int grid_height)
     {
         util::Logger::LogInfo("Displaying data");
 
@@ -32,6 +32,7 @@ namespace util
         std::vector<cv::Scalar> colors;
         std::random_device rd;
         std::mt19937 gen(rd());
+        //TODO find better colors (more colors)
         colors.push_back(cv::Scalar(0, 255, 0));
         colors.push_back(cv::Scalar(0, 0, 255));
         colors.push_back(cv::Scalar(0, 255, 255));
@@ -75,8 +76,8 @@ namespace util
             // Display image
             cv::Mat image = cv::imread(image_folder + "/" + image_files[current_frame], 1);
 
-            // Draw grid
-            if (grid_width > 0 && grid_height > 0)
+            // Draw grid if resolution is specified
+            if (show_grid && grid_width > 0 && grid_height > 0)
             {
                 cv::Scalar gridColor(255, 255, 255);
                 double cellWidth = image.cols / grid_width;
@@ -93,10 +94,10 @@ namespace util
                 }
             }
 
-            //Visualize the tracklets
+            // Visualize the tracklets
             for (size_t i = 0; i < tracks.size(); ++i)
             {
-                tracks[i]->Visualize(image, colors[i], current_frame, 0, 0);
+                tracks[i]->Visualize(image, colors[i], current_frame + frame_offset, 0, 0);
             }
 
             cv::imshow(title, image);

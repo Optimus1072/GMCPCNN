@@ -220,6 +220,8 @@ namespace util
         in.close();
 
         ReadCSV(values, line, file_name, delimiter);
+
+        //TODO do not read the first line
     }
 
     void FileIO::ReadCSV(ValueMapVector& values, const std::string& header,
@@ -310,8 +312,8 @@ namespace util
         in.close();
     }
 
-    void FileIO::WriteTracks(std::vector<core::TrackletPtr>& tracks, const std::string& file_name,
-                             char delimiter)
+    void FileIO::WriteTracks(std::vector<core::TrackletPtr> & tracks,
+                             std::string const & file_name, char delimiter)
     {
         // Get the frame range
         size_t first_frame = tracks[0]->GetFirstFrameIndex();
@@ -326,82 +328,38 @@ namespace util
 
         std::ofstream out(file_name, std::ios::out);
 
+        // Check if the file is open
         if (!out.is_open())
         {
             util::Logger::LogError("Unable to open file: " + file_name);
             return;
         }
 
+        // Print every track, one detection per line, sorted by frame
         for (size_t frame = first_frame; frame <= last_frame; ++frame)
         {
             for (size_t i = 0; i < tracks.size(); ++i)
             {
-                core::ObjectData2DPtr obj =
-                        std::static_pointer_cast<core::ObjectData2D>(tracks[i]->GetFrameObject(frame));
+                core::ObjectDataPtr obj = tracks[i]->GetFrameObject(frame);
 
                 if (obj != nullptr)
                 {
-                    out << obj->GetPosition().x << delimiter;
-                    out << obj->GetPosition().y;
-                }
-                else
-                {
-                    out << delimiter;
-                }
+                    std::string str = obj->ToString(delimiter);
+                    std::vector<std::string> parts = Split(str, delimiter);
+                    parts.insert(parts.begin() + 1, std::to_string(i + 1));
 
-                if (i < (tracks.size() - 1))
-                {
-                    out << delimiter;
+                    out << parts[0];
+                    for (size_t j = 1; j < parts.size(); ++j)
+                    {
+                        out << delimiter << parts[j];
+                    }
+
+                    out << std::endl;
                 }
             }
-
-            out << std::endl;
         }
 
         out.close();
-    }
-
-    void FileIO::ReadTracks(std::vector<core::TrackletPtr>& tracks, const std::string& file_name,
-                            char delimiter)
-    {
-        std::ifstream in(file_name, std::ios::in);
-
-        if (!in.is_open())
-        {
-            util::Logger::LogError("Unable to open file: " + file_name);
-            return;
-        }
-
-        std::string line;
-        size_t line_index = 0;
-        while (in.good() && !in.eof())
-        {
-            getline(in, line);
-
-            if (line.size() == 0) continue;
-
-            std::vector<std::string> parts = Split(line, delimiter);
-
-            while (tracks.size() < (parts.size() / 2))
-            {
-                tracks.push_back(core::TrackletPtr(new core::Tracklet()));
-            }
-
-            for (size_t i = 1; i < parts.size(); i += 2)
-            {
-                if (!parts[i - 1].empty() && !parts[i].empty())
-                {
-                    cv::Point2d point(std::stod(parts[i - 1]), std::stod(parts[i]));
-
-                    tracks[(i - 1) / 2]->AddPathObject(
-                            core::ObjectData2DPtr(new core::ObjectData2D(line_index, point)));
-                }
-            }
-
-            line_index++;
-        }
-
-        in.close();
     }
 
     std::vector<std::string> FileIO::Split(const std::string& input, char delimiter)

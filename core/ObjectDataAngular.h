@@ -75,6 +75,7 @@ namespace core
         virtual double CompareTo(ObjectDataPtr obj) const override;
         virtual ObjectDataPtr Interpolate(ObjectDataPtr obj, double fraction) const override;
         virtual void Visualize(cv::Mat& image, cv::Scalar& color) const override;
+        virtual std::string ToString(char delimiter) const override;
     };
 }
 

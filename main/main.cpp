@@ -20,6 +20,7 @@ struct
     std::string max_frame_skip;
     std::string max_tracklet_count;
     std::string penalty_value;
+    double edge_weight_threshold;
 } n_stage_params;
 
 void RunNStage(core::DetectionSequence& sequence, std::vector<core::TrackletPtr>& tracks)
@@ -79,8 +80,9 @@ void RunNStage(core::DetectionSequence& sequence, std::vector<core::TrackletPtr>
     }
     while (d_index != std::string::npos);
 
-    // Init n stage
-    algo::NStage n_stage(max_frame_skips, penalty_values, max_tracklet_counts);
+    // Init n-stage
+    algo::NStage n_stage(max_frame_skips, penalty_values, max_tracklet_counts,
+                         n_stage_params.edge_weight_threshold);
 
     n_stage.Run(sequence, tracks);
 
@@ -103,7 +105,7 @@ struct
     util::Filter2D filter;
 } berclaz_params;
 
-void RunBerclaz(core::DetectionSequence& sequence, std::vector<core::TrackletPtr>& tracks)
+void RunBerclaz(core::DetectionSequence & sequence, std::vector<core::TrackletPtr> & tracks)
 {
     util::Logger::LogInfo("Running berclaz");
 
@@ -133,7 +135,7 @@ void Run(int argc, char const * const * argv)
     // Algorithm independent values
     std::string input_file, output_path, images_folder, algorithm, config_path, header;
     std::string input_format, berclaz_filter;
-    bool info, debug, display, output, output_images;
+    bool info, debug, display, output, output_images, show_grid;
     char input_delimiter, output_delimiter;
     double temporal_weight, spatial_weight, angular_weight, image_width, image_height;
 
@@ -149,54 +151,58 @@ void Run(int argc, char const * const * argv)
              boost::program_options::value<bool>(&debug)
                      ->default_value(false),
              "if the program should show debug messages")
-            ("display",
+            ("display.enabled",
              boost::program_options::value<bool>(&display)
                      ->default_value(false),
              "if a window with the images and the detected tracks should be opened")
-            ("output",
-             boost::program_options::value<bool>(&output)
+            ("display.show-grid",
+             boost::program_options::value<bool>(&show_grid)
                      ->default_value(false),
-             "if the results should be written into the specified output folder")
-            ("output-images",
-             boost::program_options::value<bool>(&output_images)
-                     ->default_value(false),
-             "if the images containing the visualized detections should be written to the output")
+             "if a grid should be shown in the visualized tracks (will only be shown if a resolution is given)")
             ("config",
              boost::program_options::value<std::string>(&config_path),
              "the path to the config file, if no path is given the command line arguments are read")
-            ("input-file",
+            ("input.file",
              boost::program_options::value<std::string>(&input_file),
              "set detections file path")
-            ("output-path",
+            ("output.enabled",
+             boost::program_options::value<bool>(&output)
+                     ->default_value(false),
+             "if the results should be written into the specified output folder")
+            ("output.images",
+             boost::program_options::value<bool>(&output_images)
+                     ->default_value(false),
+             "if the images containing the visualized detections should be written to the output")
+            ("output.path",
              boost::program_options::value<std::string>(&output_path),
              "set the output file path")
-            ("output-delimiter",
+            ("output.delimiter",
              boost::program_options::value<char>(&output_delimiter)
                     ->default_value(';'),
              "the delimiter used to separate values in the specified output file")
-            ("images-folder",
+            ("input.images-folder",
              boost::program_options::value<std::string>(&images_folder),
              "set images folder path")
-            ("input-header",
+            ("input.header",
              boost::program_options::value<std::string>(&header),
              "sets the input header, this value is optional if the input file has a header labeling the values,"
                      "the delimiter used for the header needs to be the same as for the rest of the file")
-            ("input-format",
+            ("input.format",
              boost::program_options::value<std::string>(&input_format)
                      ->default_value("ObjectData"),
              "the format the input should be parsed into, valid formats are: "
                      "2D, Box, Angular")
-            ("input-delimiter",
+            ("input.delimiter",
              boost::program_options::value<char>(&input_delimiter)
                      ->default_value(';'),
              "the delimiter used to separate values in the specified input file")
-            ("image-width",
+            ("input.image-width",
              boost::program_options::value<double>(&image_width)
-                     ->default_value(1),
+                     ->default_value(1.0),
              "the width of the image")
-            ("image-height",
+            ("input.image-height",
              boost::program_options::value<double>(&image_height)
-                     ->default_value(1),
+                     ->default_value(1.0),
              "the height of the image")
             ("algorithm",
              boost::program_options::value<std::string>(&algorithm),
@@ -226,11 +232,16 @@ void Run(int argc, char const * const * argv)
              boost::program_options::value<double>(&angular_weight)
                      ->default_value(1.0),
              "(n-stage) angular weight for difference calculations between two detections")
-            ("berclaz.horizontal-resolution",
+            ("n-stage.edge-weight-threshold",
+             boost::program_options::value<double>(&n_stage_params.edge_weight_threshold)
+                     ->default_value(1.0),
+             "(n-stage) the maximum weight an edge can have in the initial graph, edges with"
+                     "higher edge weights are discarded")
+            ("berclaz.h-res",
              boost::program_options::value<int>(&berclaz_params.h_res)
                      ->default_value(10),
              "(berclaz) the number of horizontal grid cells")
-            ("berclaz.vertical-resolution",
+            ("berclaz.v-res",
              boost::program_options::value<int>(&berclaz_params.v_res)
                      ->default_value(10),
              "(berclaz) the number of vertical grid cells")
@@ -314,10 +325,12 @@ void Run(int argc, char const * const * argv)
     {
         if (header.size() > 0)
         {
+            util::Logger::LogDebug("header specified");
             util::FileIO::ReadCSV(values, header, input_file, input_delimiter);
         }
         else
         {
+            util::Logger::LogDebug("read header from file");
             util::FileIO::ReadCSV(values, input_file, input_delimiter);
         }
     }
@@ -368,14 +381,23 @@ void Run(int argc, char const * const * argv)
     // Running the specified algorithm
     std::vector<core::TrackletPtr> tracks;
     time_t begin_time, end_time;
+    std::string output_file_name = algorithm + "_";
     util::Logger::LogInfo("Start time measurement");
     begin_time = time(0);
     if (algorithm == "n-stage")
     {
+        //TODO set the output file name
+
         RunNStage(sequence, tracks);
     }
     else if (algorithm == "berclaz")
     {
+        output_file_name += std::to_string(berclaz_params.h_res) + "x"
+                            + std::to_string(berclaz_params.v_res) + "_"
+                            + std::to_string(berclaz_params.vicinity_size) + "_"
+                            + std::to_string(berclaz_params.max_track_count) + "_"
+                            + std::to_string(berclaz_params.batch_size);
+
         berclaz_params.filter = util::Filter2D(berclaz_filter, ',');
         RunBerclaz(sequence, tracks);
     }
@@ -385,6 +407,7 @@ void Run(int argc, char const * const * argv)
         std::cout << opts << std::endl;
         exit(0);
     }
+    output_file_name += ".csv";
 
     end_time = time(0);
     util::Logger::LogInfo("Time measurement stopped");
@@ -395,7 +418,7 @@ void Run(int argc, char const * const * argv)
     // Write the output file
     if (output)
     {
-        util::FileIO::WriteTracks(tracks, output_path + "/tracks.csv", output_delimiter);
+        util::FileIO::WriteTracks(tracks, output_path + "/" + output_file_name, output_delimiter);
     }
 
     // Display the tracking data
@@ -404,10 +427,12 @@ void Run(int argc, char const * const * argv)
         util::Visualizer vis;
 
         if (algorithm == "berclaz")
-            vis.Display(tracks, images_folder, output_images, output_path, "Visualizer",
-                        0, 24, berclaz_params.h_res, berclaz_params.v_res);
+            vis.Display(tracks, sequence.GetFrameOffset(),
+                        images_folder, output_images, output_path, "Visualizer",
+                        0, 24, show_grid, berclaz_params.h_res, berclaz_params.v_res);
         else
-            vis.Display(tracks, images_folder, output_images, output_path);
+            vis.Display(tracks, sequence.GetFrameOffset(),
+                        images_folder, output_images, output_path);
     }
 }
 
@@ -928,6 +953,7 @@ int main(int argc, char const * const * argv)
 {
     //TODO load with frame offset
     //TODO check visualizer for offset errors
+    //TODO check why SEGFAULT is caused by some berclaz resolutions
 
     Run(argc, argv);
 

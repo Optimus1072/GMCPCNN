@@ -10,16 +10,19 @@ namespace algo
 {
     NStage::NStage(std::vector<size_t> max_frame_skip,
                    std::vector<double> penalty_value,
-                   std::vector<size_t> max_tracklet_count)
+                   std::vector<size_t> max_tracklet_count,
+                   double edge_weight_threshold)
     {
         max_frame_skips_ = max_frame_skip;
         penalty_values_ = penalty_value;
         max_tracklet_counts_ = max_tracklet_count;
         iterations_ = std::min(max_tracklet_count.size(), penalty_value.size());
+        edge_weight_threshold_ = edge_weight_threshold;
     }
 
-    void NStage::CreateObjectGraph(DirectedGraph& graph, const core::DetectionSequence& detections)
+    void NStage::CreateObjectGraph(DirectedGraph & graph, core::DetectionSequence & detections)
     {
+        //TODO constraints to only create necessary
         util::Logger::LogInfo("Creating object graph");
 
         std::vector<std::vector<Vertex>> layers;
@@ -66,9 +69,9 @@ namespace algo
                     {
                         Vertex v = layers[i + k][l];
 
-                        boost::add_edge(u, v,
-                                        values[u]->CompareTo(values[v]),
-                                        graph);
+                        double weight = values[u]->CompareTo(values[v]);
+                        if (weight < edge_weight_threshold_)
+                            boost::add_edge(u, v, weight, graph);
                     }
                 }
 
@@ -246,7 +249,7 @@ namespace algo
         util::Logger::LogDebug("track count " + std::to_string(tracks.size()));
     }
 
-    void NStage::Run(const core::DetectionSequence& sequence,
+    void NStage::Run(core::DetectionSequence & sequence,
                      std::vector<core::TrackletPtr>& tracks)
     {
         // Running the two stage graph algorithm

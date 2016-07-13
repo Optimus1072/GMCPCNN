@@ -122,6 +122,14 @@ namespace core
          * @return The stream written to
          */
         friend std::ostream& operator<<(std::ostream& os, const ObjectData& obj);
+
+        /**
+         * Returns a string representing the values of this object data.
+         *
+         * @param delimiter The delimiter used to separate values
+         * @return The string containing the values
+         */
+        virtual std::string ToString(char delimiter) const;
     };
 }
 

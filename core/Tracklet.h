@@ -82,13 +82,6 @@ namespace core
          */
         void InterpolateMissingFrames();
 
-        virtual double CompareTo(ObjectDataPtr obj) const override;
-
-        virtual ObjectDataPtr Interpolate(ObjectDataPtr obj,
-                                          double fraction) const override;
-
-        virtual void Visualize(cv::Mat& image, cv::Scalar& color) const override;
-
         /**
          * Visualizes the tracklet by visualizing the path object in the given
          * frame and the number of path objects in the given range before and
@@ -127,6 +120,10 @@ namespace core
          * @return A pointer to the detection in the given frame
          */
         ObjectDataPtr GetFrameObject(size_t frame_index);
+
+        virtual double CompareTo(ObjectDataPtr obj) const override;
+        virtual ObjectDataPtr Interpolate(ObjectDataPtr obj, double fraction) const override;
+        virtual void Visualize(cv::Mat& image, cv::Scalar& color) const override;
     };
 }
 

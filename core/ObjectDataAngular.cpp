@@ -94,4 +94,9 @@ namespace core
         << "y:" << GetPosition().y << ", "
         << "a:" << GetAngle() << "}";
     }
+
+    std::string ObjectDataAngular::ToString(char delimiter) const
+    {
+        return ObjectData2D::ToString(delimiter) + delimiter + std::to_string(angle_);
+    }
 }

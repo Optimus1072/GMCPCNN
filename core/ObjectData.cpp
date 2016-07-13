@@ -81,6 +81,11 @@ namespace core
     {
         return detection_score_;
     }
+
+    std::string ObjectData::ToString(char delimiter) const
+    {
+        return std::to_string(frame_index_);
+    }
 }
 
 

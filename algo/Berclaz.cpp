@@ -129,33 +129,14 @@ namespace algo
                       size_t batch_size, size_t max_track_count,
                       std::vector<core::TrackletPtr> & tracks, util::Filter2D & filter)
     {
-        for (size_t i = 0; i < sequence.GetFrameCount(); i += batch_size)
+        size_t batch_count = 0;
+        for (size_t i = sequence.GetFrameOffset(); i < sequence.GetFrameCount(); i += batch_size)
         {
             util::Logger::LogDebug("batch offset: " + std::to_string(i));
 
             util::Grid grid = util::Parser::ParseGrid(sequence, i, i + batch_size,
                                                       0.0, 1.0, h_res_, 0.0, 1.0, v_res_);
 
-            // Convolve with linear filter
-//            int vicinity = 1;
-//            double multiplier = 0.25;
-//            double* linear_filter = new double[9] {
-//                    0.25, 0.50, 0.25,
-//                    0.50, 1.00, 0.50,
-//                    0.25, 0.50, 0.25
-//            };
-//            grid.Convolve2D(vicinity, linear_filter, multiplier);
-//            delete[] linear_filter;
-
-            // Convolve with gaussian filter
-//            int vicinity = 1;
-//            double* gaussian_filter = new double[9] {
-//                    0.002284, 0.043222, 0.002284,
-//                    0.043222, 0.817976, 0.043222,
-//                    0.002284, 0.043222, 0.002284
-//            };
-//            grid.Convolve2D(vicinity, gaussian_filter, 1.0);
-//            delete[] gaussian_filter;
             grid.Convolve2D(filter);
 
             util::Logger::LogDebug("create graph");
@@ -173,19 +154,27 @@ namespace algo
 
             util::Logger::LogDebug("extract tracks");
             VertexValueMap values = boost::get(boost::vertex_name, graph);
-            for (auto path : paths)
+
+            util::Logger::LogDebug("");
+            for (auto p : paths)
             {
+                std::string path_string = "";
                 core::TrackletPtr tlt(new core::Tracklet());
-                for (auto v : path)
+                for (auto v : p)
                 {
+                    path_string += std::to_string(v) + " ";
                     tlt->AddPathObject(values[v]);
                 }
                 tracks.push_back(tlt);
+                util::Logger::LogDebug(path_string);
             }
+            util::Logger::LogDebug("");
+
+            batch_count++;
         }
 
         // Only connect tracks if the sequence was split
-        if (batch_size < sequence.GetFrameCount())
+        if (batch_count > 1)
         {
             //TODO find a better way to connect tracks (n-stage)
             util::Logger::LogDebug("connect tracks");

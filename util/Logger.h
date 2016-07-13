@@ -35,29 +35,29 @@ namespace util
          * Logs the given message.
          * @param message The message to log
          */
-        void LogMessage(const std::string& message);
+        void LogMessage(std::string const & message);
 
         /**
          * Logs the given error message.
          * @param message The error message to log
          */
-        void LogErrorMessage(const std::string& message);
+        void LogErrorMessage(std::string const & message);
     public:
         /**
          * -> Singleton
          */
-        Logger(Logger const&) = delete;
+        Logger(Logger const &) = delete;
 
         /**
          * -> Singleton
          */
-        void operator=(Logger const&) = delete;
+        void operator=(Logger const &) = delete;
 
         /**
          * Gets THE instance of this singleton.
          * Creates a new instance if not already created.
          */
-        static Logger& Instance()
+        static Logger & Instance()
         {
             static Logger instance;
             return instance;
@@ -91,19 +91,19 @@ namespace util
          * Logs the given message as an info message.
          * @param message The info message to log
          */
-        static void LogInfo(const std::string& message);
+        static void LogInfo(std::string const & message);
 
         /**
          * Logs the given message as an error message.
          * @param message The error message to log
          */
-        static void LogError(const std::string& message);
+        static void LogError(std::string const & message);
 
         /**
          * Logs the given message as an debug message.
          * @param message The debug message to log
          */
-        static void LogDebug(const std::string& message);
+        static void LogDebug(std::string const & message);
     };
 }
 

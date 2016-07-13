@@ -367,6 +367,8 @@ namespace algo
         // All found paths
         MultiPredecessorMap k_orig_paths;
 
+        util::Logger::LogDebug("find the 1. path (in the original graph)");
+
         // Find the first path (only path found in the original graph)
         VertexDistanceMap orig_distances;
         VertexPredecessorMap orig_first_path;
@@ -481,7 +483,8 @@ namespace algo
                 boost::add_edge(source, target, weight, trans_graph);
             }
 
-            util::Logger::LogDebug("find the second path (in the copied and transformed graph)");
+            util::Logger::LogDebug("find the " + std::to_string(i + 1) +
+                                           ". path (in the copied and transformed graph)");
 
             // Find the next path in the transformed graph
             VertexPredecessorMap trans_next_path;

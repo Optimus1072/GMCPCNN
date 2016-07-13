@@ -71,4 +71,10 @@ namespace core
     {
         return size_;
     }
+
+    std::string ObjectDataBox::ToString(char delimiter) const
+    {
+        return ObjectData2D::ToString(delimiter) + delimiter +
+                std::to_string(size_.x) + delimiter + std::to_string(size_.y);
+    }
 }

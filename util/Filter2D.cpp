@@ -51,7 +51,7 @@ namespace util
 
     int Filter2D::Index(int x, int y) const
     {
-        return static_cast<int>(y * mask_.size() + x);
+        return y * dimension_ + x;
     }
 
     int Filter2D::Vicinity(int count) const
