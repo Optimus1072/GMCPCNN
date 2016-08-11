@@ -18,6 +18,9 @@ namespace core
     class ObjectDataBox : public ObjectData2D
     {
     private:
+        static const std::string CONSTRAINT_WIDTH_DIFFERENCE;
+        static const std::string CONSTRAINT_HEIGHT_DIFFERENCE;
+
         /**
          * The size of the bounding box
          */
@@ -42,6 +45,9 @@ namespace core
         cv::Point2d GetSize() const;
 
         virtual double CompareTo(ObjectDataPtr obj) const override;
+        virtual bool IsWithinConstraints(ObjectDataPtr obj,
+                                         std::unordered_map<std::string, double> & constraints)
+                const override;
         virtual ObjectDataPtr Interpolate(ObjectDataPtr obj, double fraction) const override;
         virtual void Visualize(cv::Mat& image, cv::Scalar& color) const override;
         virtual std::string ToString(char delimiter) const override;

@@ -8,6 +8,8 @@
 
 namespace core
 {
+    const std::string ObjectDataAngular::CONSTRAINT_ANGULAR_DIFFERENCE = "angular_difference";
+
     ObjectDataAngular::ObjectDataAngular(size_t frame_index,
                                          const cv::Point2d& position,
                                          double angle)
@@ -53,6 +55,26 @@ namespace core
         double d_ang = std::abs(obj_ang->angle_ - angle_);
 
         return ObjectData2D::CompareTo(obj) + d_ang * angular_weight_;
+    }
+
+    bool ObjectDataAngular::IsWithinConstraints(ObjectDataPtr obj,
+                                                std::unordered_map<std::string, double> & constraints) const
+    {
+        if (!ObjectData2D::IsWithinConstraints(obj, constraints))
+            return false;
+
+        ObjectDataAngularPtr obj_ang =
+                std::static_pointer_cast<ObjectDataAngular>(obj);
+
+        if (constraints.count(CONSTRAINT_ANGULAR_DIFFERENCE) > 0) {
+            double angular_difference = fabs(angle_ - obj_ang->angle_);
+
+            if (angular_difference > constraints[CONSTRAINT_ANGULAR_DIFFERENCE]) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     ObjectDataPtr ObjectDataAngular::Interpolate(ObjectDataPtr obj,

@@ -12,14 +12,15 @@ namespace util
 {
     //TODO sigmoid function for detection score smoothing
 
-    //TODO rename if necessary
     const std::string Parser::KEY_FRAME = "frame";
     const std::string Parser::KEY_ID = "id";
     const std::string Parser::KEY_SCORE = "score";
     const std::string Parser::KEY_X = "xc";
     const std::string Parser::KEY_Y = "yc";
+    const std::string Parser::KEY_Z = "zc";
     const std::string Parser::KEY_WIDTH = "width";
     const std::string Parser::KEY_HEIGHT = "height";
+    const std::string Parser::KEY_DEPTH = "depth";
     const std::string Parser::KEY_ANGLE = "angle";
 
     void Parser::ParseObjectData2D(ValueMapVector& values,

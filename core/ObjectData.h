@@ -2,8 +2,8 @@
 // Created by wrede on 19.04.16.
 //
 
-#ifndef GBMOT_NODEDATA_H
-#define GBMOT_NODEDATA_H
+#ifndef GBMOT_OBJECTDATA_H
+#define GBMOT_OBJECTDATA_H
 
 
 #include <string>
@@ -24,6 +24,9 @@ namespace core
     class ObjectData
     {
     private:
+        static const std::string CONSTRAINT_FRAME_DIFFERENCE;
+        static const std::string CONSTRAINT_SCORE_DIFFERENCE;
+
         /**
          * If this node is considered virtual
          */
@@ -95,6 +98,17 @@ namespace core
         virtual double CompareTo(ObjectDataPtr obj) const;
 
         /**
+         * Checks if the difference between this object and the specified object is within the
+         * constraints specified. The difference is calculated for each constraint separately.
+         *
+         * @param obj The object to get the difference to
+         * @param constraints The constraints to assure
+         */
+        virtual bool IsWithinConstraints(ObjectDataPtr obj,
+                                         std::unordered_map<std::string, double> & constraints)
+                const;
+
+        /**
          * Linearly interpolates between this and the given object.
          * Creates a new object to fit between the two objects.
          * @param obj A pointer to the target object
@@ -134,4 +148,4 @@ namespace core
 }
 
 
-#endif //GBMOT_NODEDATA_H
+#endif //GBMOT_OBJECTDATA_H

@@ -44,10 +44,16 @@ namespace algo
         double edge_weight_threshold_;
 
         /**
+         * The constraints to ensure when creating edges
+         */
+        std::unordered_map<std::string, double> constraints_;
+
+        /**
          * Creates a graph with vertices for every detected object
          *
          * @param graph The graph to write into
          * @param detections The objects to use for the graph
+         * @param constraints The constraints to assure when creating edges
          */
         void CreateObjectGraph(DirectedGraph & graph, core::DetectionSequence & detections);
 
@@ -82,11 +88,13 @@ namespace algo
          * @param max_tracklet_count The maximum number of tracklets to create
          * @param edge_weight_threshold The maximum weight an edge can have in the initial graph,
          *                              edges with higher weights are discarded
+         * @param constraints The constraints to ensure when creating edges
          */
         NStage(std::vector<size_t> max_frame_skip,
                std::vector<double> penalty_value,
                std::vector<size_t> max_tracklet_count,
-               double edge_weight_threshold);
+               double edge_weight_threshold,
+               std::unordered_map<std::string, double> constraints);
 
         /**
          * Runs the algorithm on the specified sequence and stores the found tracks into the

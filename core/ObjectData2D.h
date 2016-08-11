@@ -18,6 +18,8 @@ namespace core
     class ObjectData2D : public ObjectData
     {
     private:
+        static const std::string CONSTRAINT_DISTANCE_EUCLID;
+
         /**
          * The position in the two dimensional space
          */
@@ -75,6 +77,9 @@ namespace core
         double GetSpatialWeight() const;
 
         virtual double CompareTo(ObjectDataPtr obj) const override;
+        virtual bool IsWithinConstraints(ObjectDataPtr obj,
+                                         std::unordered_map<std::string, double> & constraints)
+                const override;
         virtual ObjectDataPtr Interpolate(ObjectDataPtr obj, double fraction) const override;
         virtual void Visualize(cv::Mat& image, cv::Scalar& color) const override;
         virtual std::string ToString(char delimiter) const override;

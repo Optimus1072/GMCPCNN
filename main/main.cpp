@@ -21,6 +21,7 @@ struct
     std::string max_tracklet_count;
     std::string penalty_value;
     double edge_weight_threshold;
+    std::unordered_map<std::string, double> constraints;
 } n_stage_params;
 
 void RunNStage(core::DetectionSequence& sequence, std::vector<core::TrackletPtr>& tracks)
@@ -82,7 +83,7 @@ void RunNStage(core::DetectionSequence& sequence, std::vector<core::TrackletPtr>
 
     // Init n-stage
     algo::NStage n_stage(max_frame_skips, penalty_values, max_tracklet_counts,
-                         n_stage_params.edge_weight_threshold);
+                         n_stage_params.edge_weight_threshold, n_stage_params.constraints);
 
     n_stage.Run(sequence, tracks);
 
@@ -132,9 +133,11 @@ void RunBerclaz(core::DetectionSequence & sequence, std::vector<core::TrackletPt
 
 void Run(int argc, char const * const * argv)
 {
+    //TODO output info for all possible constraints
+
     // Algorithm independent values
     std::string input_file, output_path, images_folder, algorithm, config_path, header;
-    std::string input_format, berclaz_filter;
+    std::string input_format, berclaz_filter, n_stage_constraints;
     bool info, debug, display, output, output_images, show_grid;
     char input_delimiter, output_delimiter;
     double temporal_weight, spatial_weight, angular_weight, image_width, image_height;
@@ -237,6 +240,12 @@ void Run(int argc, char const * const * argv)
                      ->default_value(1.0),
              "(n-stage) the maximum weight an edge can have in the initial graph, edges with"
                      "higher edge weights are discarded")
+            ("n-stage.constraints",
+             boost::program_options::value<std::string>(&n_stage_constraints)
+                     ->default_value(""),
+             "(n-stage) the constraints to ensure when creating the object graph,"
+                     " values and keys are separated by commas,"
+                     " for example: key0,value0,key1,value1")
             ("berclaz.h-res",
              boost::program_options::value<int>(&berclaz_params.h_res)
                      ->default_value(10),
@@ -386,6 +395,12 @@ void Run(int argc, char const * const * argv)
     begin_time = time(0);
     if (algorithm == "n-stage")
     {
+        // Parse the constraints
+        std::vector<std::string> pairs = util::FileIO::Split(n_stage_constraints, ',');
+        for (size_t i = 0; i < pairs.size(); ++i) {
+            n_stage_params.constraints[pairs[i]] = stod(pairs[i + 1]);
+        }
+
         //TODO set the output file name
 
         RunNStage(sequence, tracks);

@@ -7,6 +7,8 @@
 
 namespace core
 {
+    const std::string ObjectData2D::CONSTRAINT_DISTANCE_EUCLID = "distance_euclid";
+
     ObjectData2D::ObjectData2D(size_t frame_index, cv::Point2d position)
             : ObjectData(frame_index),
               position_(position),
@@ -48,6 +50,25 @@ namespace core
         double d_spat = util::MyMath::EuclideanDistance(position_, obj_2d->position_);
 
         return d_temp * temporal_weight_ + d_spat * spatial_weight_;
+    }
+
+    bool ObjectData2D::IsWithinConstraints(ObjectDataPtr obj,
+                                           std::unordered_map<std::string, double> & constraints)
+    const
+    {
+        if (!ObjectData::IsWithinConstraints(obj, constraints))
+            return false;
+
+        ObjectData2DPtr obj_2d = std::static_pointer_cast<ObjectData2D>(obj);
+
+        if (constraints.count(CONSTRAINT_DISTANCE_EUCLID) > 0) {
+            double distance_euclid = util::MyMath::EuclideanDistance(position_, obj_2d->position_);
+
+            if (distance_euclid > constraints[CONSTRAINT_DISTANCE_EUCLID])
+                return false;
+        }
+
+        return true;
     }
 
     ObjectDataPtr ObjectData2D::Interpolate(ObjectDataPtr obj,

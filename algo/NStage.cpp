@@ -11,18 +11,20 @@ namespace algo
     NStage::NStage(std::vector<size_t> max_frame_skip,
                    std::vector<double> penalty_value,
                    std::vector<size_t> max_tracklet_count,
-                   double edge_weight_threshold)
+                   double edge_weight_threshold,
+                   std::unordered_map<std::string, double> constraints)
     {
         max_frame_skips_ = max_frame_skip;
         penalty_values_ = penalty_value;
         max_tracklet_counts_ = max_tracklet_count;
         iterations_ = std::min(max_tracklet_count.size(), penalty_value.size());
         edge_weight_threshold_ = edge_weight_threshold;
+        constraints_ = constraints;
     }
 
-    void NStage::CreateObjectGraph(DirectedGraph & graph, core::DetectionSequence & detections)
+    void NStage::CreateObjectGraph(DirectedGraph & graph,
+                                   core::DetectionSequence & detections)
     {
-        //TODO constraints to only create necessary
         util::Logger::LogInfo("Creating object graph");
 
         std::vector<std::vector<Vertex>> layers;
@@ -69,9 +71,16 @@ namespace algo
                     {
                         Vertex v = layers[i + k][l];
 
-                        double weight = values[u]->CompareTo(values[v]);
-                        if (weight < edge_weight_threshold_)
-                            boost::add_edge(u, v, weight, graph);
+                        // Only create the edge if the constraints are assured
+                        if (values[u]->IsWithinConstraints(values[v], constraints_))
+                        {
+                            double weight = values[u]->CompareTo(values[v]);
+
+                            if (weight < edge_weight_threshold_)
+                            {
+                                boost::add_edge(u, v, weight, graph);
+                            }
+                        }
                     }
                 }
 

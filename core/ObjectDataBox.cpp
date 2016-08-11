@@ -8,6 +8,9 @@
 
 namespace core
 {
+    const std::string ObjectDataBox::CONSTRAINT_WIDTH_DIFFERENCE = "width_difference";
+    const std::string ObjectDataBox::CONSTRAINT_HEIGHT_DIFFERENCE = "height_difference";
+
     ObjectDataBox::ObjectDataBox(size_t frame_index, cv::Point2d center,
                                  cv::Point2d size)
             : ObjectData2D(frame_index, center),
@@ -36,6 +39,32 @@ namespace core
         double d_spat = util::MyMath::EuclideanDistance(this_center, other_center);
 
         return d_temp * GetTemporalWeight() + d_spat * GetSpatialWeight();
+    }
+
+    bool ObjectDataBox::IsWithinConstraints(ObjectDataPtr obj,
+                                            std::unordered_map<std::string, double> & constraints)
+    const
+    {
+        if (!ObjectData2D::IsWithinConstraints(obj, constraints))
+            return false;
+
+        ObjectDataBoxPtr obj_box = std::static_pointer_cast<ObjectDataBox>(obj);
+
+        if (constraints.count(CONSTRAINT_WIDTH_DIFFERENCE) > 0) {
+            double width_difference = fabs(size_.x - obj_box->size_.x);
+
+            if (width_difference > constraints[CONSTRAINT_WIDTH_DIFFERENCE])
+                return false;
+        }
+
+        if (constraints.count(CONSTRAINT_HEIGHT_DIFFERENCE) > 0) {
+            double height_difference = fabs(size_.y - obj_box->size_.y);
+
+            if (height_difference > constraints[CONSTRAINT_HEIGHT_DIFFERENCE])
+                return false;
+        }
+
+        return true;
     }
 
     ObjectDataPtr ObjectDataBox::Interpolate(ObjectDataPtr obj,
