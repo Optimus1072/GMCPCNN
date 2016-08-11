@@ -395,6 +395,8 @@ void Run(int argc, char const * const * argv)
     begin_time = time(0);
     if (algorithm == "n-stage")
     {
+        //TODO constraints for every stage not just the first
+
         // Parse the constraints
         std::vector<std::string> pairs = util::FileIO::Split(n_stage_constraints, ',');
         for (size_t i = 0; i < pairs.size(); ++i) {

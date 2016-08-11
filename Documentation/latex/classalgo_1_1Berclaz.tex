@@ -9,7 +9,7 @@
 \item 
 \hyperlink{classalgo_1_1Berclaz_a62a8d6165ca156a4099d6d181f1557af}{Berclaz} (int h\+\_\+res, int v\+\_\+res, int vicinity\+\_\+size)
 \item 
-void \hyperlink{classalgo_1_1Berclaz_a918f30c2f67eac9d5f9bc07ceeb0880e}{Run} (\hyperlink{classcore_1_1DetectionSequence}{core\+::\+Detection\+Sequence} \&sequence, size\+\_\+t batch\+\_\+size, size\+\_\+t max\+\_\+track\+\_\+count, std\+::vector$<$ core\+::\+Tracklet\+Ptr $>$ \&tracks)
+void \hyperlink{classalgo_1_1Berclaz_a00a0d5e52112a8f9dc188757f2a8af11}{Run} (\hyperlink{classcore_1_1DetectionSequence}{core\+::\+Detection\+Sequence} \&sequence, size\+\_\+t batch\+\_\+size, size\+\_\+t max\+\_\+track\+\_\+count, std\+::vector$<$ core\+::\+Tracklet\+Ptr $>$ \&tracks, \hyperlink{classutil_1_1Filter2D}{util\+::\+Filter2D} \&filter)
 \end{DoxyCompactItemize}
 
 
@@ -42,14 +42,15 @@ Instantiate with the given parameters.
 \subsection{Member Function Documentation}
 \index{algo\+::\+Berclaz@{algo\+::\+Berclaz}!Run@{Run}}
 \index{Run@{Run}!algo\+::\+Berclaz@{algo\+::\+Berclaz}}
-\subsubsection[{\texorpdfstring{Run(core\+::\+Detection\+Sequence \&sequence, size\+\_\+t batch\+\_\+size, size\+\_\+t max\+\_\+track\+\_\+count, std\+::vector$<$ core\+::\+Tracklet\+Ptr $>$ \&tracks)}{Run(core::DetectionSequence \&sequence, size\_t batch\_size, size\_t max\_track\_count, std::vector< core::TrackletPtr > \&tracks)}}]{\setlength{\rightskip}{0pt plus 5cm}void algo\+::\+Berclaz\+::\+Run (
+\subsubsection[{\texorpdfstring{Run(core\+::\+Detection\+Sequence \&sequence, size\+\_\+t batch\+\_\+size, size\+\_\+t max\+\_\+track\+\_\+count, std\+::vector$<$ core\+::\+Tracklet\+Ptr $>$ \&tracks, util\+::\+Filter2\+D \&filter)}{Run(core::DetectionSequence \&sequence, size\_t batch\_size, size\_t max\_track\_count, std::vector< core::TrackletPtr > \&tracks, util::Filter2D \&filter)}}]{\setlength{\rightskip}{0pt plus 5cm}void algo\+::\+Berclaz\+::\+Run (
 \begin{DoxyParamCaption}
 \item[{{\bf core\+::\+Detection\+Sequence} \&}]{sequence, }
 \item[{size\+\_\+t}]{batch\+\_\+size, }
 \item[{size\+\_\+t}]{max\+\_\+track\+\_\+count, }
-\item[{std\+::vector$<$ core\+::\+Tracklet\+Ptr $>$ \&}]{tracks}
+\item[{std\+::vector$<$ core\+::\+Tracklet\+Ptr $>$ \&}]{tracks, }
+\item[{{\bf util\+::\+Filter2D} \&}]{filter}
 \end{DoxyParamCaption}
-)}\hypertarget{classalgo_1_1Berclaz_a918f30c2f67eac9d5f9bc07ceeb0880e}{}\label{classalgo_1_1Berclaz_a918f30c2f67eac9d5f9bc07ceeb0880e}
+)}\hypertarget{classalgo_1_1Berclaz_a00a0d5e52112a8f9dc188757f2a8af11}{}\label{classalgo_1_1Berclaz_a00a0d5e52112a8f9dc188757f2a8af11}
 Runs the algorithm on the given sequence. Splits the sequence into batches to allow faster processing.
 
 
@@ -61,6 +62,8 @@ Runs the algorithm on the given sequence. Splits the sequence into batches to al
 {\em max\+\_\+track\+\_\+count} & The maximum number of tracks to extract \\
 \hline
 {\em tracks} & The vector to store the found tracks into \\
+\hline
+{\em filter} & The filter used to convolve the detections in the grid \\
 \hline
 \end{DoxyParams}
 

@@ -23,9 +23,9 @@ static void \hyperlink{classutil_1_1FileIO_a59b96733490d7b60e4f107da84efb245}{Re
 \item 
 static void \hyperlink{classutil_1_1FileIO_a57059c9b52e86c753db5da6281cf23c6}{Write\+Tracks} (std\+::vector$<$ core\+::\+Tracklet\+Ptr $>$ \&tracks, const std\+::string \&file\+\_\+name, char delimiter)
 \item 
-static void \hyperlink{classutil_1_1FileIO_aa6294f669bdb86510c8b6cefed9ac44b}{Read\+Tracks} (std\+::vector$<$ core\+::\+Tracklet\+Ptr $>$ \&tracks, const std\+::string \&file\+\_\+name, char delimiter)
+static void \hyperlink{classutil_1_1FileIO_a82be787051876b0e3d3c4f887c3c27ce}{Read\+Tracks} (std\+::vector$<$ core\+::\+Tracklet\+Ptr $>$ \&tracks, const std\+::string \&file\+\_\+name, char delimiter)
 \item 
-static std\+::vector$<$ std\+::string $>$ \hyperlink{classutil_1_1FileIO_aa79e018874aa1da4d0b2cd1e5b7d2e01}{split} (const std\+::string \&input, char delimiter)
+static std\+::vector$<$ std\+::string $>$ \hyperlink{classutil_1_1FileIO_a925a74ff26782b8f64106579c9d54b47}{Split} (const std\+::string \&input, char delimiter)
 \end{DoxyCompactItemize}
 
 
@@ -138,13 +138,13 @@ Reads a C\+SV file. The header specifies the keys. The values are stored with th
 \end{DoxyParams}
 \index{util\+::\+File\+IO@{util\+::\+File\+IO}!Read\+Tracks@{Read\+Tracks}}
 \index{Read\+Tracks@{Read\+Tracks}!util\+::\+File\+IO@{util\+::\+File\+IO}}
-\subsubsection[{\texorpdfstring{Read\+Tracks(std\+::vector$<$ core\+::\+Tracklet\+Ptr $>$ \&tracks, const std\+::string \&file\+\_\+name, char delimiter)}{ReadTracks(std::vector< core::TrackletPtr > \&tracks, const std::string \&file\_name, char delimiter)}}]{\setlength{\rightskip}{0pt plus 5cm}void util\+::\+File\+I\+O\+::\+Read\+Tracks (
+\subsubsection[{\texorpdfstring{Read\+Tracks(std\+::vector$<$ core\+::\+Tracklet\+Ptr $>$ \&tracks, const std\+::string \&file\+\_\+name, char delimiter)}{ReadTracks(std::vector< core::TrackletPtr > \&tracks, const std::string \&file\_name, char delimiter)}}]{\setlength{\rightskip}{0pt plus 5cm}static void util\+::\+File\+I\+O\+::\+Read\+Tracks (
 \begin{DoxyParamCaption}
 \item[{std\+::vector$<$ core\+::\+Tracklet\+Ptr $>$ \&}]{tracks, }
 \item[{const std\+::string \&}]{file\+\_\+name, }
 \item[{char}]{delimiter}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{classutil_1_1FileIO_aa6294f669bdb86510c8b6cefed9ac44b}{}\label{classutil_1_1FileIO_aa6294f669bdb86510c8b6cefed9ac44b}
+)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{classutil_1_1FileIO_a82be787051876b0e3d3c4f887c3c27ce}{}\label{classutil_1_1FileIO_a82be787051876b0e3d3c4f887c3c27ce}
 Reads the tracks from the specified file.
 
 
@@ -156,14 +156,14 @@ Reads the tracks from the specified file.
 {\em delimiter} & The delimiter used to separate values \\
 \hline
 \end{DoxyParams}
-\index{util\+::\+File\+IO@{util\+::\+File\+IO}!split@{split}}
-\index{split@{split}!util\+::\+File\+IO@{util\+::\+File\+IO}}
-\subsubsection[{\texorpdfstring{split(const std\+::string \&input, char delimiter)}{split(const std::string \&input, char delimiter)}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$ std\+::string $>$ util\+::\+File\+I\+O\+::split (
+\index{util\+::\+File\+IO@{util\+::\+File\+IO}!Split@{Split}}
+\index{Split@{Split}!util\+::\+File\+IO@{util\+::\+File\+IO}}
+\subsubsection[{\texorpdfstring{Split(const std\+::string \&input, char delimiter)}{Split(const std::string \&input, char delimiter)}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$ std\+::string $>$ util\+::\+File\+I\+O\+::\+Split (
 \begin{DoxyParamCaption}
 \item[{const std\+::string \&}]{input, }
 \item[{char}]{delimiter}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{classutil_1_1FileIO_aa79e018874aa1da4d0b2cd1e5b7d2e01}{}\label{classutil_1_1FileIO_aa79e018874aa1da4d0b2cd1e5b7d2e01}
+)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{classutil_1_1FileIO_a925a74ff26782b8f64106579c9d54b47}{}\label{classutil_1_1FileIO_a925a74ff26782b8f64106579c9d54b47}
 Splits the input string at the delimiter and store each part into the return vector. If there is nothing between two delimiters the part will be an empty string.
 
 

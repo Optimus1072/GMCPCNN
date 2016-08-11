@@ -82,6 +82,7 @@ namespace algo
          * @param batch_size The number of frames one batch will have at maximum
          * @param max_track_count The maximum number of tracks to extract
          * @param tracks The vector to store the found tracks into
+         * @param filter The filter used to convolve the detections in the grid
          */
         void Run(core::DetectionSequence & sequence, size_t batch_size,
                  size_t max_track_count, std::vector<core::TrackletPtr> & tracks,

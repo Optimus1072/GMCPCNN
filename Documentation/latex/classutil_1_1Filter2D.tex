@@ -1,0 +1,163 @@
+\hypertarget{classutil_1_1Filter2D}{}\section{util\+:\+:Filter2D Class Reference}
+\label{classutil_1_1Filter2D}\index{util\+::\+Filter2D@{util\+::\+Filter2D}}
+
+
+{\ttfamily \#include $<$Filter2\+D.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classutil_1_1Filter2D_a56cbb0d40a118f98c5a21d1b0a9e1953}{Filter2D} ()
+\item 
+\hyperlink{classutil_1_1Filter2D_a83896f35678afd4a024b2ae0255b3e38}{Filter2D} (double multiplier, std\+::vector$<$ double $>$ mask)
+\item 
+\hyperlink{classutil_1_1Filter2D_a1d14212292766b1372b190842d8330e8}{Filter2D} (std\+::string const \&mask\+\_\+string, char delimiter)
+\item 
+double \hyperlink{classutil_1_1Filter2D_ab59311cc1727f5285a56c050ede7b14a}{Get} (int x, int y) const
+\item 
+double \hyperlink{classutil_1_1Filter2D_ad6866d21e5b1d3d6863d859f1b7fa288}{Get} (int i) const
+\item 
+double \hyperlink{classutil_1_1Filter2D_a2b61ed6deaebb2e97fda04cadd43459c}{Get\+Multiplier} () const
+\item 
+int \hyperlink{classutil_1_1Filter2D_af273117c197dc90208167cd873fe0097}{Get\+Vicinity} () const
+\item 
+int \hyperlink{classutil_1_1Filter2D_a4151856406f7a794cd724ce4a7e347eb}{Get\+Dimension} () const
+\item 
+void \hyperlink{classutil_1_1Filter2D_a242138102e2e30f4fe9cccf76f817e09}{Normalize} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Utility class for a two-\/dimensional filter. 
+
+\subsection{Constructor \& Destructor Documentation}
+\index{util\+::\+Filter2D@{util\+::\+Filter2D}!Filter2D@{Filter2D}}
+\index{Filter2D@{Filter2D}!util\+::\+Filter2D@{util\+::\+Filter2D}}
+\subsubsection[{\texorpdfstring{Filter2\+D()}{Filter2D()}}]{\setlength{\rightskip}{0pt plus 5cm}util\+::\+Filter2\+D\+::\+Filter2D (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classutil_1_1Filter2D_a56cbb0d40a118f98c5a21d1b0a9e1953}{}\label{classutil_1_1Filter2D_a56cbb0d40a118f98c5a21d1b0a9e1953}
+Creates a new instance with an identity filter. \index{util\+::\+Filter2D@{util\+::\+Filter2D}!Filter2D@{Filter2D}}
+\index{Filter2D@{Filter2D}!util\+::\+Filter2D@{util\+::\+Filter2D}}
+\subsubsection[{\texorpdfstring{Filter2\+D(double multiplier, std\+::vector$<$ double $>$ mask)}{Filter2D(double multiplier, std::vector< double > mask)}}]{\setlength{\rightskip}{0pt plus 5cm}util\+::\+Filter2\+D\+::\+Filter2D (
+\begin{DoxyParamCaption}
+\item[{double}]{multiplier, }
+\item[{std\+::vector$<$ double $>$}]{mask}
+\end{DoxyParamCaption}
+)}\hypertarget{classutil_1_1Filter2D_a83896f35678afd4a024b2ae0255b3e38}{}\label{classutil_1_1Filter2D_a83896f35678afd4a024b2ae0255b3e38}
+Creates a new instance with the given multiplier and mask values. To calculate the value all values are added with their weights from the mask and then the value is multiplied by the multiplier. The multiplier may be used to ensure the overall filter sum is equals one.
+
+
+\begin{DoxyParams}{Parameters}
+{\em multiplier} & The multiplier \\
+\hline
+{\em mask} & The mask values \\
+\hline
+\end{DoxyParams}
+\index{util\+::\+Filter2D@{util\+::\+Filter2D}!Filter2D@{Filter2D}}
+\index{Filter2D@{Filter2D}!util\+::\+Filter2D@{util\+::\+Filter2D}}
+\subsubsection[{\texorpdfstring{Filter2\+D(std\+::string const \&mask\+\_\+string, char delimiter)}{Filter2D(std::string const \&mask\_string, char delimiter)}}]{\setlength{\rightskip}{0pt plus 5cm}util\+::\+Filter2\+D\+::\+Filter2D (
+\begin{DoxyParamCaption}
+\item[{std\+::string const \&}]{mask\+\_\+string, }
+\item[{char}]{delimiter}
+\end{DoxyParamCaption}
+)}\hypertarget{classutil_1_1Filter2D_a1d14212292766b1372b190842d8330e8}{}\label{classutil_1_1Filter2D_a1d14212292766b1372b190842d8330e8}
+Creates a new instance by parsing the specified mask string. Values are separated by the specified delimiter. Example\+: \textquotesingle{}multiplier, m00, m01, m02, ..., m10, m11, m12, ..., mnn\textquotesingle{} as the mask string and \textquotesingle{},\textquotesingle{} as the delimiter.
+
+
+\begin{DoxyParams}{Parameters}
+{\em mask\+\_\+string} & The string with the multiplier and the mask values to parse \\
+\hline
+{\em delimiter} & The delimiter used for the parsing \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\index{util\+::\+Filter2D@{util\+::\+Filter2D}!Get@{Get}}
+\index{Get@{Get}!util\+::\+Filter2D@{util\+::\+Filter2D}}
+\subsubsection[{\texorpdfstring{Get(int x, int y) const}{Get(int x, int y) const}}]{\setlength{\rightskip}{0pt plus 5cm}double util\+::\+Filter2\+D\+::\+Get (
+\begin{DoxyParamCaption}
+\item[{int}]{x, }
+\item[{int}]{y}
+\end{DoxyParamCaption}
+) const}\hypertarget{classutil_1_1Filter2D_ab59311cc1727f5285a56c050ede7b14a}{}\label{classutil_1_1Filter2D_ab59311cc1727f5285a56c050ede7b14a}
+Gets the value in the mask at the specified position.
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & The horizontal position \\
+\hline
+{\em y} & The vertical position \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The value 
+\end{DoxyReturn}
+\index{util\+::\+Filter2D@{util\+::\+Filter2D}!Get@{Get}}
+\index{Get@{Get}!util\+::\+Filter2D@{util\+::\+Filter2D}}
+\subsubsection[{\texorpdfstring{Get(int i) const}{Get(int i) const}}]{\setlength{\rightskip}{0pt plus 5cm}double util\+::\+Filter2\+D\+::\+Get (
+\begin{DoxyParamCaption}
+\item[{int}]{i}
+\end{DoxyParamCaption}
+) const}\hypertarget{classutil_1_1Filter2D_ad6866d21e5b1d3d6863d859f1b7fa288}{}\label{classutil_1_1Filter2D_ad6866d21e5b1d3d6863d859f1b7fa288}
+Gets the value in the mask at the specified position.
+
+
+\begin{DoxyParams}{Parameters}
+{\em i} & The index (row-\/major) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The value 
+\end{DoxyReturn}
+\index{util\+::\+Filter2D@{util\+::\+Filter2D}!Get\+Dimension@{Get\+Dimension}}
+\index{Get\+Dimension@{Get\+Dimension}!util\+::\+Filter2D@{util\+::\+Filter2D}}
+\subsubsection[{\texorpdfstring{Get\+Dimension() const}{GetDimension() const}}]{\setlength{\rightskip}{0pt plus 5cm}int util\+::\+Filter2\+D\+::\+Get\+Dimension (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{classutil_1_1Filter2D_a4151856406f7a794cd724ce4a7e347eb}{}\label{classutil_1_1Filter2D_a4151856406f7a794cd724ce4a7e347eb}
+Gets the dimension of the mask.
+
+\begin{DoxyReturn}{Returns}
+The dimension 
+\end{DoxyReturn}
+\index{util\+::\+Filter2D@{util\+::\+Filter2D}!Get\+Multiplier@{Get\+Multiplier}}
+\index{Get\+Multiplier@{Get\+Multiplier}!util\+::\+Filter2D@{util\+::\+Filter2D}}
+\subsubsection[{\texorpdfstring{Get\+Multiplier() const}{GetMultiplier() const}}]{\setlength{\rightskip}{0pt plus 5cm}double util\+::\+Filter2\+D\+::\+Get\+Multiplier (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{classutil_1_1Filter2D_a2b61ed6deaebb2e97fda04cadd43459c}{}\label{classutil_1_1Filter2D_a2b61ed6deaebb2e97fda04cadd43459c}
+Gets the multiplier.
+
+\begin{DoxyReturn}{Returns}
+The multiplier 
+\end{DoxyReturn}
+\index{util\+::\+Filter2D@{util\+::\+Filter2D}!Get\+Vicinity@{Get\+Vicinity}}
+\index{Get\+Vicinity@{Get\+Vicinity}!util\+::\+Filter2D@{util\+::\+Filter2D}}
+\subsubsection[{\texorpdfstring{Get\+Vicinity() const}{GetVicinity() const}}]{\setlength{\rightskip}{0pt plus 5cm}int util\+::\+Filter2\+D\+::\+Get\+Vicinity (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{classutil_1_1Filter2D_af273117c197dc90208167cd873fe0097}{}\label{classutil_1_1Filter2D_af273117c197dc90208167cd873fe0097}
+Gets the vicinity of the mask. The vicinity is the based on the center and describes the maximum range of values around it in manhattan distance.
+
+\begin{DoxyReturn}{Returns}
+The vicinity 
+\end{DoxyReturn}
+\index{util\+::\+Filter2D@{util\+::\+Filter2D}!Normalize@{Normalize}}
+\index{Normalize@{Normalize}!util\+::\+Filter2D@{util\+::\+Filter2D}}
+\subsubsection[{\texorpdfstring{Normalize()}{Normalize()}}]{\setlength{\rightskip}{0pt plus 5cm}void util\+::\+Filter2\+D\+::\+Normalize (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classutil_1_1Filter2D_a242138102e2e30f4fe9cccf76f817e09}{}\label{classutil_1_1Filter2D_a242138102e2e30f4fe9cccf76f817e09}
+Normalizes the mask values. The multiplier is equals one afterwards. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+util/Filter2\+D.\+h\item 
+util/Filter2\+D.\+cpp\end{DoxyCompactItemize}

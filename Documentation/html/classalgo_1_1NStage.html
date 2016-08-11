@@ -99,15 +99,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a9706139a9ccfab10ab6458e06e42d7a5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classalgo_1_1NStage.html#a9706139a9ccfab10ab6458e06e42d7a5">NStage</a> (std::vector&lt; size_t &gt; max_frame_skip, std::vector&lt; double &gt; penalty_value, std::vector&lt; size_t &gt; max_tracklet_count)</td></tr>
-<tr class="separator:a9706139a9ccfab10ab6458e06e42d7a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4e4e881b9c6f65d9e86449c71ab6d778"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classalgo_1_1NStage.html#a4e4e881b9c6f65d9e86449c71ab6d778">Run</a> (const <a class="el" href="classcore_1_1DetectionSequence.html">core::DetectionSequence</a> &amp;sequence, std::vector&lt; core::TrackletPtr &gt; &amp;tracks)</td></tr>
-<tr class="separator:a4e4e881b9c6f65d9e86449c71ab6d778"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a65baad453fa371f18be02fd19e695ea1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classalgo_1_1NStage.html#a65baad453fa371f18be02fd19e695ea1">NStage</a> (std::vector&lt; size_t &gt; max_frame_skip, std::vector&lt; double &gt; penalty_value, std::vector&lt; size_t &gt; max_tracklet_count, double edge_weight_threshold, std::unordered_map&lt; std::string, double &gt; constraints)</td></tr>
+<tr class="separator:a65baad453fa371f18be02fd19e695ea1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8c25c9c9796db048bb4b55d7a603b00b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classalgo_1_1NStage.html#a8c25c9c9796db048bb4b55d7a603b00b">Run</a> (<a class="el" href="classcore_1_1DetectionSequence.html">core::DetectionSequence</a> &amp;sequence, std::vector&lt; core::TrackletPtr &gt; &amp;tracks)</td></tr>
+<tr class="separator:a8c25c9c9796db048bb4b55d7a603b00b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Implementation of the two-staged graph-based multi-object tracker. Extended to allow N stages. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a9706139a9ccfab10ab6458e06e42d7a5"></a>
+<a class="anchor" id="a65baad453fa371f18be02fd19e695ea1"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -127,7 +127,19 @@ Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">std::vector&lt; size_t &gt;&#160;</td>
-          <td class="paramname"><em>max_tracklet_count</em>&#160;</td>
+          <td class="paramname"><em>max_tracklet_count</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>edge_weight_threshold</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::unordered_map&lt; std::string, double &gt;&#160;</td>
+          <td class="paramname"><em>constraints</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -136,11 +148,14 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Initializes the algorithm wih the given values. The number of stages is determined by the size of the given vectors. </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Initializes the algorithm wih the given values. The number of stages is determined by the size of the given vectors.</p>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">max_frame_skip</td><td>The maximum edge length to link objects </td></tr>
     <tr><td class="paramname">penalty_value</td><td>The edge value to link to source and sink </td></tr>
     <tr><td class="paramname">max_tracklet_count</td><td>The maximum number of tracklets to create </td></tr>
+    <tr><td class="paramname">edge_weight_threshold</td><td>The maximum weight an edge can have in the initial graph, edges with higher weights are discarded </td></tr>
+    <tr><td class="paramname">constraints</td><td>The constraints to ensure when creating edges </td></tr>
   </table>
   </dd>
 </dl>
@@ -148,14 +163,14 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a4e4e881b9c6f65d9e86449c71ab6d778"></a>
+<a class="anchor" id="a8c25c9c9796db048bb4b55d7a603b00b"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void algo::NStage::Run </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classcore_1_1DetectionSequence.html">core::DetectionSequence</a> &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="classcore_1_1DetectionSequence.html">core::DetectionSequence</a> &amp;&#160;</td>
           <td class="paramname"><em>sequence</em>, </td>
         </tr>
         <tr>

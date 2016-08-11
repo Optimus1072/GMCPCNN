@@ -127,6 +127,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a775e2a7574c81dd7acd1d185b2e72ed5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6597c4f785a764c0b291b8135863fe67"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1Grid.html#a6597c4f785a764c0b291b8135863fe67">Convolve2D</a> (int vicinity, double *mask, double multiplier)</td></tr>
 <tr class="separator:a6597c4f785a764c0b291b8135863fe67"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab8e9f6c804b0eab1f5666a039130b8ed"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1Grid.html#ab8e9f6c804b0eab1f5666a039130b8ed">Convolve2D</a> (<a class="el" href="classutil_1_1Filter2D.html">util::Filter2D</a> &amp;filter)</td></tr>
+<tr class="separator:ab8e9f6c804b0eab1f5666a039130b8ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac161adb14df09651a6b33f855d887bfa"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1Grid.html#ac161adb14df09651a6b33f855d887bfa">Convolve3D</a> (int vicinity, double *mask, double multiplier)</td></tr>
 <tr class="separator:ac161adb14df09651a6b33f855d887bfa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -277,6 +279,29 @@ Public Member Functions</h2></td></tr>
     <tr><td class="paramname">vicinity</td><td>The size of the mask around the center (a 3x3 mask has a vicinity of 1) </td></tr>
     <tr><td class="paramname">mask</td><td>The mask/kernel to use for the convolution </td></tr>
     <tr><td class="paramname">multiplier</td><td>The value is multiplied with the result at the end of the convolution </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="ab8e9f6c804b0eab1f5666a039130b8ed"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void util::Grid::Convolve2D </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classutil_1_1Filter2D.html">util::Filter2D</a> &amp;&#160;</td>
+          <td class="paramname"><em>filter</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Performs a 2D convolution.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">filter</td><td>The 2D filter to use </td></tr>
   </table>
   </dd>
 </dl>

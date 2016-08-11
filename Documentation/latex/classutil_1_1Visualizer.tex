@@ -7,7 +7,7 @@
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-void \hyperlink{classutil_1_1Visualizer_a545d2f4aae7c3c54ecaee51461980036}{Display} (std\+::vector$<$ core\+::\+Tracklet\+Ptr $>$ \&tracks, std\+::string image\+\_\+folder, bool output, std\+::string output\+\_\+path, std\+::string title=\char`\"{}Visualizer\char`\"{}, size\+\_\+t first\+\_\+frame=0, int play\+\_\+fps=24, int grid\+\_\+width=0, int grid\+\_\+height=0)
+void \hyperlink{classutil_1_1Visualizer_a5168d3347dd28217a0e9bb6541fa38f3}{Display} (std\+::vector$<$ core\+::\+Tracklet\+Ptr $>$ \&tracks, size\+\_\+t frame\+\_\+offset, std\+::string image\+\_\+folder, bool output, std\+::string output\+\_\+path, std\+::string title=\char`\"{}Visualizer\char`\"{}, size\+\_\+t first\+\_\+frame=0, int play\+\_\+fps=24, bool show\+\_\+grid=false, int grid\+\_\+width=0, int grid\+\_\+height=0)
 \end{DoxyCompactItemize}
 
 
@@ -17,24 +17,28 @@ Utility class for visualizing detection sequences or tracks.
 \subsection{Member Function Documentation}
 \index{util\+::\+Visualizer@{util\+::\+Visualizer}!Display@{Display}}
 \index{Display@{Display}!util\+::\+Visualizer@{util\+::\+Visualizer}}
-\subsubsection[{\texorpdfstring{Display(std\+::vector$<$ core\+::\+Tracklet\+Ptr $>$ \&tracks, std\+::string image\+\_\+folder, bool output, std\+::string output\+\_\+path, std\+::string title=""Visualizer"", size\+\_\+t first\+\_\+frame=0, int play\+\_\+fps=24, int grid\+\_\+width=0, int grid\+\_\+height=0)}{Display(std::vector< core::TrackletPtr > \&tracks, std::string image\_folder, bool output, std::string output\_path, std::string title="Visualizer", size\_t first\_frame=0, int play\_fps=24, int grid\_width=0, int grid\_height=0)}}]{\setlength{\rightskip}{0pt plus 5cm}void util\+::\+Visualizer\+::\+Display (
+\subsubsection[{\texorpdfstring{Display(std\+::vector$<$ core\+::\+Tracklet\+Ptr $>$ \&tracks, size\+\_\+t frame\+\_\+offset, std\+::string image\+\_\+folder, bool output, std\+::string output\+\_\+path, std\+::string title=""Visualizer"", size\+\_\+t first\+\_\+frame=0, int play\+\_\+fps=24, bool show\+\_\+grid=false, int grid\+\_\+width=0, int grid\+\_\+height=0)}{Display(std::vector< core::TrackletPtr > \&tracks, size\_t frame\_offset, std::string image\_folder, bool output, std::string output\_path, std::string title="Visualizer", size\_t first\_frame=0, int play\_fps=24, bool show\_grid=false, int grid\_width=0, int grid\_height=0)}}]{\setlength{\rightskip}{0pt plus 5cm}void util\+::\+Visualizer\+::\+Display (
 \begin{DoxyParamCaption}
 \item[{std\+::vector$<$ core\+::\+Tracklet\+Ptr $>$ \&}]{tracks, }
+\item[{size\+\_\+t}]{frame\+\_\+offset, }
 \item[{std\+::string}]{image\+\_\+folder, }
 \item[{bool}]{output, }
 \item[{std\+::string}]{output\+\_\+path, }
 \item[{std\+::string}]{title = {\ttfamily \char`\"{}Visualizer\char`\"{}}, }
 \item[{size\+\_\+t}]{first\+\_\+frame = {\ttfamily 0}, }
 \item[{int}]{play\+\_\+fps = {\ttfamily 24}, }
+\item[{bool}]{show\+\_\+grid = {\ttfamily false}, }
 \item[{int}]{grid\+\_\+width = {\ttfamily 0}, }
 \item[{int}]{grid\+\_\+height = {\ttfamily 0}}
 \end{DoxyParamCaption}
-)}\hypertarget{classutil_1_1Visualizer_a545d2f4aae7c3c54ecaee51461980036}{}\label{classutil_1_1Visualizer_a545d2f4aae7c3c54ecaee51461980036}
-Displays the given tracks in an window. Use D for next frame, A for previous frame, F to toggle auto play and E\+SC to exit. If a grid size greater zero is specified a grid will be overlayed.
+)}\hypertarget{classutil_1_1Visualizer_a5168d3347dd28217a0e9bb6541fa38f3}{}\label{classutil_1_1Visualizer_a5168d3347dd28217a0e9bb6541fa38f3}
+Displays the given tracks in an window. Use D for next frame, A for previous frame, F to toggle auto play and E\+SC to exit. If a grid size greater zero is specified a grid will be drawn.
 
 
 \begin{DoxyParams}{Parameters}
 {\em tracks} & The tracks to display \\
+\hline
+{\em frame\+\_\+offset} & The offset of the first frame \\
 \hline
 {\em image\+\_\+folder} & The images to use \\
 \hline
@@ -47,6 +51,8 @@ Displays the given tracks in an window. Use D for next frame, A for previous fra
 {\em first\+\_\+frame} & The frame to start at \\
 \hline
 {\em play\+\_\+fps} & The F\+PS to use when auto play is activated \\
+\hline
+{\em show\+\_\+grid} & If a grid should be shown \\
 \hline
 {\em grid\+\_\+width} & The number of cells in a row \\
 \hline

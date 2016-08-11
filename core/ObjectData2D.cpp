@@ -8,6 +8,8 @@
 namespace core
 {
     const std::string ObjectData2D::CONSTRAINT_DISTANCE_EUCLID = "distance_euclid";
+    const std::string ObjectData2D::CONSTRAINT_X_DIFFERENCE = "x_difference";
+    const std::string ObjectData2D::CONSTRAINT_Y_DIFFERENCE = "y_difference";
 
     ObjectData2D::ObjectData2D(size_t frame_index, cv::Point2d position)
             : ObjectData(frame_index),
@@ -60,6 +62,20 @@ namespace core
             return false;
 
         ObjectData2DPtr obj_2d = std::static_pointer_cast<ObjectData2D>(obj);
+
+        if (constraints.count(CONSTRAINT_X_DIFFERENCE) > 0) {
+            double x_difference = fabs(position_.x - obj_2d->position_.x);
+
+            if (x_difference > constraints[CONSTRAINT_X_DIFFERENCE])
+                return false;
+        }
+
+        if (constraints.count(CONSTRAINT_Y_DIFFERENCE) > 0) {
+            double y_difference = fabs(position_.y - obj_2d->position_.y);
+
+            if (y_difference > constraints[CONSTRAINT_Y_DIFFERENCE])
+                return false;
+        }
 
         if (constraints.count(CONSTRAINT_DISTANCE_EUCLID) > 0) {
             double distance_euclid = util::MyMath::EuclideanDistance(position_, obj_2d->position_);

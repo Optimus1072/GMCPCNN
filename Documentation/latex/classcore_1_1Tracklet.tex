@@ -27,12 +27,6 @@ size\+\_\+t \hyperlink{classcore_1_1Tracklet_aee4298a7b734b2b7533d4536006a8aa8}{
 \item 
 void \hyperlink{classcore_1_1Tracklet_a10b56b608b24ef547550540e5a755bce}{Interpolate\+Missing\+Frames} ()
 \item 
-virtual double \hyperlink{classcore_1_1Tracklet_a0357f2fa173941800571432dcbc96dc2}{Compare\+To} (Object\+Data\+Ptr obj) const override
-\item 
-virtual Object\+Data\+Ptr \hyperlink{classcore_1_1Tracklet_a5fb5e6ab9df668c3477e8b52f115b188}{Interpolate} (Object\+Data\+Ptr obj, double fraction) const override
-\item 
-virtual void \hyperlink{classcore_1_1Tracklet_a85f92a4059bf89f24a83f28935675181}{Visualize} (cv\+::\+Mat \&image, cv\+::\+Scalar \&color) const override
-\item 
 void \hyperlink{classcore_1_1Tracklet_a3a2b241939559e47aef701d2e2c4d4bd}{Visualize} (cv\+::\+Mat \&image, cv\+::\+Scalar \&color, size\+\_\+t frame, size\+\_\+t predecessor\+\_\+count, size\+\_\+t successor\+\_\+count) const
 \item 
 void \hyperlink{classcore_1_1Tracklet_a2bdb2f2c8249145808e7029dde6e7df0}{Flatten} ()
@@ -40,6 +34,12 @@ void \hyperlink{classcore_1_1Tracklet_a2bdb2f2c8249145808e7029dde6e7df0}{Flatten
 void \hyperlink{classcore_1_1Tracklet_a5bbbf1e2858edaad93c04cc663afeeff}{Combine} (Tracklet\+Ptr other)
 \item 
 Object\+Data\+Ptr \hyperlink{classcore_1_1Tracklet_a5a0e56045f8c1868b46db87700658260}{Get\+Frame\+Object} (size\+\_\+t frame\+\_\+index)
+\item 
+virtual double \hyperlink{classcore_1_1Tracklet_a0357f2fa173941800571432dcbc96dc2}{Compare\+To} (Object\+Data\+Ptr obj) const override
+\item 
+virtual Object\+Data\+Ptr \hyperlink{classcore_1_1Tracklet_a5fb5e6ab9df668c3477e8b52f115b188}{Interpolate} (Object\+Data\+Ptr obj, double fraction) const override
+\item 
+virtual void \hyperlink{classcore_1_1Tracklet_a85f92a4059bf89f24a83f28935675181}{Visualize} (cv\+::\+Mat \&image, cv\+::\+Scalar \&color) const override
 \end{DoxyCompactItemize}
 
 
@@ -200,25 +200,6 @@ Reimplemented from \hyperlink{classcore_1_1ObjectData_ad681915317decab76c384a635
 )}\hypertarget{classcore_1_1Tracklet_a10b56b608b24ef547550540e5a755bce}{}\label{classcore_1_1Tracklet_a10b56b608b24ef547550540e5a755bce}
 Interpolates between the current path objects until every missing frame has an object. Only frames between the first frame index and the last frame index are interpolated. \index{core\+::\+Tracklet@{core\+::\+Tracklet}!Visualize@{Visualize}}
 \index{Visualize@{Visualize}!core\+::\+Tracklet@{core\+::\+Tracklet}}
-\subsubsection[{\texorpdfstring{Visualize(cv\+::\+Mat \&image, cv\+::\+Scalar \&color) const override}{Visualize(cv::Mat \&image, cv::Scalar \&color) const override}}]{\setlength{\rightskip}{0pt plus 5cm}void core\+::\+Tracklet\+::\+Visualize (
-\begin{DoxyParamCaption}
-\item[{cv\+::\+Mat \&}]{image, }
-\item[{cv\+::\+Scalar \&}]{color}
-\end{DoxyParamCaption}
-) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}\hypertarget{classcore_1_1Tracklet_a85f92a4059bf89f24a83f28935675181}{}\label{classcore_1_1Tracklet_a85f92a4059bf89f24a83f28935675181}
-Visualizes the object in the given image with the given color. This method does nothing, it needs to be overwritten to visualize something. 
-\begin{DoxyParams}{Parameters}
-{\em image} & The image to write into \\
-\hline
-{\em color} & The color to use \\
-\hline
-\end{DoxyParams}
-
-
-Reimplemented from \hyperlink{classcore_1_1ObjectData_aae2c4fceddc529570dbe8909309f9961}{core\+::\+Object\+Data}.
-
-\index{core\+::\+Tracklet@{core\+::\+Tracklet}!Visualize@{Visualize}}
-\index{Visualize@{Visualize}!core\+::\+Tracklet@{core\+::\+Tracklet}}
 \subsubsection[{\texorpdfstring{Visualize(cv\+::\+Mat \&image, cv\+::\+Scalar \&color, size\+\_\+t frame, size\+\_\+t predecessor\+\_\+count, size\+\_\+t successor\+\_\+count) const}{Visualize(cv::Mat \&image, cv::Scalar \&color, size\_t frame, size\_t predecessor\_count, size\_t successor\_count) const}}]{\setlength{\rightskip}{0pt plus 5cm}void core\+::\+Tracklet\+::\+Visualize (
 \begin{DoxyParamCaption}
 \item[{cv\+::\+Mat \&}]{image, }
@@ -241,6 +222,25 @@ Visualizes the tracklet by visualizing the path object in the given frame and th
 {\em successor\+\_\+count} & The number of path objects to visualize after the given frame \\
 \hline
 \end{DoxyParams}
+\index{core\+::\+Tracklet@{core\+::\+Tracklet}!Visualize@{Visualize}}
+\index{Visualize@{Visualize}!core\+::\+Tracklet@{core\+::\+Tracklet}}
+\subsubsection[{\texorpdfstring{Visualize(cv\+::\+Mat \&image, cv\+::\+Scalar \&color) const override}{Visualize(cv::Mat \&image, cv::Scalar \&color) const override}}]{\setlength{\rightskip}{0pt plus 5cm}void core\+::\+Tracklet\+::\+Visualize (
+\begin{DoxyParamCaption}
+\item[{cv\+::\+Mat \&}]{image, }
+\item[{cv\+::\+Scalar \&}]{color}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}\hypertarget{classcore_1_1Tracklet_a85f92a4059bf89f24a83f28935675181}{}\label{classcore_1_1Tracklet_a85f92a4059bf89f24a83f28935675181}
+Visualizes the object in the given image with the given color. This method does nothing, it needs to be overwritten to visualize something. 
+\begin{DoxyParams}{Parameters}
+{\em image} & The image to write into \\
+\hline
+{\em color} & The color to use \\
+\hline
+\end{DoxyParams}
+
+
+Reimplemented from \hyperlink{classcore_1_1ObjectData_aae2c4fceddc529570dbe8909309f9961}{core\+::\+Object\+Data}.
+
 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}

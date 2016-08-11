@@ -19,6 +19,8 @@ namespace core
     {
     private:
         static const std::string CONSTRAINT_DISTANCE_EUCLID;
+        static const std::string CONSTRAINT_X_DIFFERENCE;
+        static const std::string CONSTRAINT_Y_DIFFERENCE;
 
         /**
          * The position in the two dimensional space

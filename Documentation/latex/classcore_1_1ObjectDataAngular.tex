@@ -25,9 +25,13 @@ double \hyperlink{classcore_1_1ObjectDataAngular_ae1c5db7b9fc06e648450d9388c93a1
 \item 
 virtual double \hyperlink{classcore_1_1ObjectDataAngular_a2932240c6c082b76f2c04723cdf3e4f9}{Compare\+To} (Object\+Data\+Ptr obj) const override
 \item 
+virtual bool \hyperlink{classcore_1_1ObjectDataAngular_a1ef9168c2384d2038a1dd6e85d0b932f}{Is\+Within\+Constraints} (Object\+Data\+Ptr obj, std\+::unordered\+\_\+map$<$ std\+::string, double $>$ \&constraints) const override
+\item 
 virtual Object\+Data\+Ptr \hyperlink{classcore_1_1ObjectDataAngular_a42962dd1f994b2577133450e755d586e}{Interpolate} (Object\+Data\+Ptr obj, double fraction) const override
 \item 
 virtual void \hyperlink{classcore_1_1ObjectDataAngular_acb4265f6de511238460df118148bc85c}{Visualize} (cv\+::\+Mat \&image, cv\+::\+Scalar \&color) const override
+\item 
+virtual std\+::string \hyperlink{classcore_1_1ObjectDataAngular_a3b419c1d4be886f094b9af94cd839bd4}{To\+String} (char delimiter) const override
 \end{DoxyCompactItemize}
 
 
@@ -144,6 +148,27 @@ The interpolated object
 
 Reimplemented from \hyperlink{classcore_1_1ObjectData2D_a59b974e09f74f0a2640e3152893fe79f}{core\+::\+Object\+Data2D}.
 
+\index{core\+::\+Object\+Data\+Angular@{core\+::\+Object\+Data\+Angular}!Is\+Within\+Constraints@{Is\+Within\+Constraints}}
+\index{Is\+Within\+Constraints@{Is\+Within\+Constraints}!core\+::\+Object\+Data\+Angular@{core\+::\+Object\+Data\+Angular}}
+\subsubsection[{\texorpdfstring{Is\+Within\+Constraints(\+Object\+Data\+Ptr obj, std\+::unordered\+\_\+map$<$ std\+::string, double $>$ \&constraints) const override}{IsWithinConstraints(ObjectDataPtr obj, std::unordered\_map< std::string, double > \&constraints) const override}}]{\setlength{\rightskip}{0pt plus 5cm}bool core\+::\+Object\+Data\+Angular\+::\+Is\+Within\+Constraints (
+\begin{DoxyParamCaption}
+\item[{Object\+Data\+Ptr}]{obj, }
+\item[{std\+::unordered\+\_\+map$<$ std\+::string, double $>$ \&}]{constraints}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}\hypertarget{classcore_1_1ObjectDataAngular_a1ef9168c2384d2038a1dd6e85d0b932f}{}\label{classcore_1_1ObjectDataAngular_a1ef9168c2384d2038a1dd6e85d0b932f}
+Checks if the difference between this object and the specified object is within the constraints specified. The difference is calculated for each constraint separately.
+
+
+\begin{DoxyParams}{Parameters}
+{\em obj} & The object to get the difference to \\
+\hline
+{\em constraints} & The constraints to assure \\
+\hline
+\end{DoxyParams}
+
+
+Reimplemented from \hyperlink{classcore_1_1ObjectData2D_a63e855919a72462225a8e69140f1389b}{core\+::\+Object\+Data2D}.
+
 \index{core\+::\+Object\+Data\+Angular@{core\+::\+Object\+Data\+Angular}!Set\+Angular\+Weight@{Set\+Angular\+Weight}}
 \index{Set\+Angular\+Weight@{Set\+Angular\+Weight}!core\+::\+Object\+Data\+Angular@{core\+::\+Object\+Data\+Angular}}
 \subsubsection[{\texorpdfstring{Set\+Angular\+Weight(double weight)}{SetAngularWeight(double weight)}}]{\setlength{\rightskip}{0pt plus 5cm}void core\+::\+Object\+Data\+Angular\+::\+Set\+Angular\+Weight (
@@ -156,6 +181,27 @@ Sets the angular weight.
 {\em weight} & The angular weight \\
 \hline
 \end{DoxyParams}
+\index{core\+::\+Object\+Data\+Angular@{core\+::\+Object\+Data\+Angular}!To\+String@{To\+String}}
+\index{To\+String@{To\+String}!core\+::\+Object\+Data\+Angular@{core\+::\+Object\+Data\+Angular}}
+\subsubsection[{\texorpdfstring{To\+String(char delimiter) const override}{ToString(char delimiter) const override}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string core\+::\+Object\+Data\+Angular\+::\+To\+String (
+\begin{DoxyParamCaption}
+\item[{char}]{delimiter}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}\hypertarget{classcore_1_1ObjectDataAngular_a3b419c1d4be886f094b9af94cd839bd4}{}\label{classcore_1_1ObjectDataAngular_a3b419c1d4be886f094b9af94cd839bd4}
+Returns a string representing the values of this object data.
+
+
+\begin{DoxyParams}{Parameters}
+{\em delimiter} & The delimiter used to separate values \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The string containing the values 
+\end{DoxyReturn}
+
+
+Reimplemented from \hyperlink{classcore_1_1ObjectData2D_a72b2f50ca82ebd9269e1c29cdac6d92a}{core\+::\+Object\+Data2D}.
+
 \index{core\+::\+Object\+Data\+Angular@{core\+::\+Object\+Data\+Angular}!Visualize@{Visualize}}
 \index{Visualize@{Visualize}!core\+::\+Object\+Data\+Angular@{core\+::\+Object\+Data\+Angular}}
 \subsubsection[{\texorpdfstring{Visualize(cv\+::\+Mat \&image, cv\+::\+Scalar \&color) const override}{Visualize(cv::Mat \&image, cv::Scalar \&color) const override}}]{\setlength{\rightskip}{0pt plus 5cm}void core\+::\+Object\+Data\+Angular\+::\+Visualize (

@@ -117,12 +117,12 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a6ee9298451936b98815e20ba7f5d7275"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a194b338af92760d0f7d15b607cad5429"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1Logger.html#a194b338af92760d0f7d15b607cad5429">IsInfoEnabled</a> ()</td></tr>
 <tr class="separator:a194b338af92760d0f7d15b607cad5429"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a37504d39ec90bebffc3d02d61d47afea"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1Logger.html#a37504d39ec90bebffc3d02d61d47afea">LogInfo</a> (const std::string &amp;message)</td></tr>
-<tr class="separator:a37504d39ec90bebffc3d02d61d47afea"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a01ad6e5349f51964724f96a598c6d2a8"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1Logger.html#a01ad6e5349f51964724f96a598c6d2a8">LogError</a> (const std::string &amp;message)</td></tr>
-<tr class="separator:a01ad6e5349f51964724f96a598c6d2a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9c6a0ebe97ecf3ca24aff8a908a491ee"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1Logger.html#a9c6a0ebe97ecf3ca24aff8a908a491ee">LogDebug</a> (const std::string &amp;message)</td></tr>
-<tr class="separator:a9c6a0ebe97ecf3ca24aff8a908a491ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a65ac30aaefded61036771197f1364bb8"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1Logger.html#a65ac30aaefded61036771197f1364bb8">LogInfo</a> (std::string const &amp;message)</td></tr>
+<tr class="separator:a65ac30aaefded61036771197f1364bb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a49cf31bcd5a0ccbfe11667b37f338a"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1Logger.html#a5a49cf31bcd5a0ccbfe11667b37f338a">LogError</a> (std::string const &amp;message)</td></tr>
+<tr class="separator:a5a49cf31bcd5a0ccbfe11667b37f338a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a89b67d19ea6650ed313dffc0a599385a"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1Logger.html#a89b67d19ea6650ed313dffc0a599385a">LogDebug</a> (std::string const &amp;message)</td></tr>
+<tr class="separator:a89b67d19ea6650ed313dffc0a599385a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Utility class for logging. Is a singleton. Provides three different types of messages. </p>
@@ -225,7 +225,7 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a9c6a0ebe97ecf3ca24aff8a908a491ee"></a>
+<a class="anchor" id="a89b67d19ea6650ed313dffc0a599385a"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -235,7 +235,7 @@ Static Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">void util::Logger::LogDebug </td>
           <td>(</td>
-          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramtype">std::string const &amp;&#160;</td>
           <td class="paramname"><em>message</em></td><td>)</td>
           <td></td>
         </tr>
@@ -255,7 +255,7 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a01ad6e5349f51964724f96a598c6d2a8"></a>
+<a class="anchor" id="a5a49cf31bcd5a0ccbfe11667b37f338a"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -265,7 +265,7 @@ Static Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">void util::Logger::LogError </td>
           <td>(</td>
-          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramtype">std::string const &amp;&#160;</td>
           <td class="paramname"><em>message</em></td><td>)</td>
           <td></td>
         </tr>
@@ -285,7 +285,7 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a37504d39ec90bebffc3d02d61d47afea"></a>
+<a class="anchor" id="a65ac30aaefded61036771197f1364bb8"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -295,7 +295,7 @@ Static Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">void util::Logger::LogInfo </td>
           <td>(</td>
-          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramtype">std::string const &amp;&#160;</td>
           <td class="paramname"><em>message</em></td><td>)</td>
           <td></td>
         </tr>

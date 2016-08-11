@@ -41,15 +41,21 @@ namespace util
          * @param title The window title
          * @param first_frame The frame to start at
          * @param play_fps The FPS to use when auto play is activated
-         * @param If a grid should be shown
+         * @param show_grid If a grid should be shown
          * @param grid_width The number of cells in a row
          * @param grid_height The number of cells in a column
          */
-        void Display(std::vector<core::TrackletPtr> & tracks, size_t frame_offset,
-                     std::string image_folder, bool output,
-                     std::string output_path, std::string title = "Visualizer",
-                     size_t first_frame = 0, int play_fps = 24,
-                     bool show_grid = false, int grid_width = 0, int grid_height = 0);
+        void Display(std::vector<core::TrackletPtr> & tracks,
+                     size_t frame_offset,
+                     std::string image_folder,
+                     bool output,
+                     std::string output_path,
+                     std::string title = "Visualizer",
+                     size_t first_frame = 0,
+                     int play_fps = 24,
+                     bool show_grid = false,
+                     int grid_width = 0,
+                     int grid_height = 0);
     };
 }
 

@@ -101,8 +101,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a62a8d6165ca156a4099d6d181f1557af"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classalgo_1_1Berclaz.html#a62a8d6165ca156a4099d6d181f1557af">Berclaz</a> (int h_res, int v_res, int vicinity_size)</td></tr>
 <tr class="separator:a62a8d6165ca156a4099d6d181f1557af"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a918f30c2f67eac9d5f9bc07ceeb0880e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classalgo_1_1Berclaz.html#a918f30c2f67eac9d5f9bc07ceeb0880e">Run</a> (<a class="el" href="classcore_1_1DetectionSequence.html">core::DetectionSequence</a> &amp;sequence, size_t batch_size, size_t max_track_count, std::vector&lt; core::TrackletPtr &gt; &amp;tracks)</td></tr>
-<tr class="separator:a918f30c2f67eac9d5f9bc07ceeb0880e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a00a0d5e52112a8f9dc188757f2a8af11"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classalgo_1_1Berclaz.html#a00a0d5e52112a8f9dc188757f2a8af11">Run</a> (<a class="el" href="classcore_1_1DetectionSequence.html">core::DetectionSequence</a> &amp;sequence, size_t batch_size, size_t max_track_count, std::vector&lt; core::TrackletPtr &gt; &amp;tracks, <a class="el" href="classutil_1_1Filter2D.html">util::Filter2D</a> &amp;filter)</td></tr>
+<tr class="separator:a00a0d5e52112a8f9dc188757f2a8af11"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Algorithm for tracking multiple object in a frame sequence. The algorithm needs the location of detections. </p>
@@ -149,7 +149,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a918f30c2f67eac9d5f9bc07ceeb0880e"></a>
+<a class="anchor" id="a00a0d5e52112a8f9dc188757f2a8af11"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -175,7 +175,13 @@ Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">std::vector&lt; core::TrackletPtr &gt; &amp;&#160;</td>
-          <td class="paramname"><em>tracks</em>&#160;</td>
+          <td class="paramname"><em>tracks</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classutil_1_1Filter2D.html">util::Filter2D</a> &amp;&#160;</td>
+          <td class="paramname"><em>filter</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -191,6 +197,7 @@ Public Member Functions</h2></td></tr>
     <tr><td class="paramname">batch_size</td><td>The number of frames one batch will have at maximum </td></tr>
     <tr><td class="paramname">max_track_count</td><td>The maximum number of tracks to extract </td></tr>
     <tr><td class="paramname">tracks</td><td>The vector to store the found tracks into </td></tr>
+    <tr><td class="paramname">filter</td><td>The filter used to convolve the detections in the grid </td></tr>
   </table>
   </dd>
 </dl>

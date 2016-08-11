@@ -35,6 +35,8 @@ void \hyperlink{classutil_1_1Grid_a775e2a7574c81dd7acd1d185b2e72ed5}{Position\+T
 \item 
 void \hyperlink{classutil_1_1Grid_a6597c4f785a764c0b291b8135863fe67}{Convolve2D} (int vicinity, double $\ast$mask, double multiplier)
 \item 
+void \hyperlink{classutil_1_1Grid_ab8e9f6c804b0eab1f5666a039130b8ed}{Convolve2D} (\hyperlink{classutil_1_1Filter2D}{util\+::\+Filter2D} \&filter)
+\item 
 void \hyperlink{classutil_1_1Grid_ac161adb14df09651a6b33f855d887bfa}{Convolve3D} (int vicinity, double $\ast$mask, double multiplier)
 \end{DoxyCompactItemize}
 
@@ -112,6 +114,20 @@ Performs a 2D convolution.
 {\em mask} & The mask/kernel to use for the convolution \\
 \hline
 {\em multiplier} & The value is multiplied with the result at the end of the convolution \\
+\hline
+\end{DoxyParams}
+\index{util\+::\+Grid@{util\+::\+Grid}!Convolve2D@{Convolve2D}}
+\index{Convolve2D@{Convolve2D}!util\+::\+Grid@{util\+::\+Grid}}
+\subsubsection[{\texorpdfstring{Convolve2\+D(util\+::\+Filter2\+D \&filter)}{Convolve2D(util::Filter2D \&filter)}}]{\setlength{\rightskip}{0pt plus 5cm}void util\+::\+Grid\+::\+Convolve2D (
+\begin{DoxyParamCaption}
+\item[{{\bf util\+::\+Filter2D} \&}]{filter}
+\end{DoxyParamCaption}
+)}\hypertarget{classutil_1_1Grid_ab8e9f6c804b0eab1f5666a039130b8ed}{}\label{classutil_1_1Grid_ab8e9f6c804b0eab1f5666a039130b8ed}
+Performs a 2D convolution.
+
+
+\begin{DoxyParams}{Parameters}
+{\em filter} & The 2D filter to use \\
 \hline
 \end{DoxyParams}
 \index{util\+::\+Grid@{util\+::\+Grid}!Convolve3D@{Convolve3D}}

@@ -99,13 +99,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a545d2f4aae7c3c54ecaee51461980036"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1Visualizer.html#a545d2f4aae7c3c54ecaee51461980036">Display</a> (std::vector&lt; core::TrackletPtr &gt; &amp;tracks, std::string image_folder, bool output, std::string output_path, std::string title=&quot;Visualizer&quot;, size_t first_frame=0, int play_fps=24, int grid_width=0, int grid_height=0)</td></tr>
-<tr class="separator:a545d2f4aae7c3c54ecaee51461980036"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5168d3347dd28217a0e9bb6541fa38f3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1Visualizer.html#a5168d3347dd28217a0e9bb6541fa38f3">Display</a> (std::vector&lt; core::TrackletPtr &gt; &amp;tracks, size_t frame_offset, std::string image_folder, bool output, std::string output_path, std::string title=&quot;Visualizer&quot;, size_t first_frame=0, int play_fps=24, bool show_grid=false, int grid_width=0, int grid_height=0)</td></tr>
+<tr class="separator:a5168d3347dd28217a0e9bb6541fa38f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Utility class for visualizing detection sequences or tracks. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a545d2f4aae7c3c54ecaee51461980036"></a>
+<a class="anchor" id="a5168d3347dd28217a0e9bb6541fa38f3"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -114,6 +114,12 @@ Public Member Functions</h2></td></tr>
           <td>(</td>
           <td class="paramtype">std::vector&lt; core::TrackletPtr &gt; &amp;&#160;</td>
           <td class="paramname"><em>tracks</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>frame_offset</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -154,6 +160,12 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>show_grid</em> = <code>false</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>grid_width</em> = <code>0</code>, </td>
         </tr>
@@ -170,16 +182,18 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Displays the given tracks in an window. Use D for next frame, A for previous frame, F to toggle auto play and ESC to exit. If a grid size greater zero is specified a grid will be overlayed.</p>
+<p>Displays the given tracks in an window. Use D for next frame, A for previous frame, F to toggle auto play and ESC to exit. If a grid size greater zero is specified a grid will be drawn.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">tracks</td><td>The tracks to display </td></tr>
+    <tr><td class="paramname">frame_offset</td><td>The offset of the first frame </td></tr>
     <tr><td class="paramname">image_folder</td><td>The images to use </td></tr>
     <tr><td class="paramname">output</td><td>If the frames with the visualized tracks should be stored </td></tr>
     <tr><td class="paramname">output_path</td><td>The path to store the images into (will need an images folder) </td></tr>
     <tr><td class="paramname">title</td><td>The window title </td></tr>
     <tr><td class="paramname">first_frame</td><td>The frame to start at </td></tr>
     <tr><td class="paramname">play_fps</td><td>The FPS to use when auto play is activated </td></tr>
+    <tr><td class="paramname">show_grid</td><td>If a grid should be shown </td></tr>
     <tr><td class="paramname">grid_width</td><td>The number of cells in a row </td></tr>
     <tr><td class="paramname">grid_height</td><td>The number of cells in a column </td></tr>
   </table>

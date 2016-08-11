@@ -121,10 +121,14 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ae1c5db7b9fc06e648450d9388c93a1aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2932240c6c082b76f2c04723cdf3e4f9"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore_1_1ObjectDataAngular.html#a2932240c6c082b76f2c04723cdf3e4f9">CompareTo</a> (ObjectDataPtr obj) const override</td></tr>
 <tr class="separator:a2932240c6c082b76f2c04723cdf3e4f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ef9168c2384d2038a1dd6e85d0b932f"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore_1_1ObjectDataAngular.html#a1ef9168c2384d2038a1dd6e85d0b932f">IsWithinConstraints</a> (ObjectDataPtr obj, std::unordered_map&lt; std::string, double &gt; &amp;constraints) const override</td></tr>
+<tr class="separator:a1ef9168c2384d2038a1dd6e85d0b932f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a42962dd1f994b2577133450e755d586e"><td class="memItemLeft" align="right" valign="top">virtual ObjectDataPtr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore_1_1ObjectDataAngular.html#a42962dd1f994b2577133450e755d586e">Interpolate</a> (ObjectDataPtr obj, double fraction) const override</td></tr>
 <tr class="separator:a42962dd1f994b2577133450e755d586e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acb4265f6de511238460df118148bc85c"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore_1_1ObjectDataAngular.html#acb4265f6de511238460df118148bc85c">Visualize</a> (cv::Mat &amp;image, cv::Scalar &amp;color) const override</td></tr>
 <tr class="separator:acb4265f6de511238460df118148bc85c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3b419c1d4be886f094b9af94cd839bd4"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore_1_1ObjectDataAngular.html#a3b419c1d4be886f094b9af94cd839bd4">ToString</a> (char delimiter) const override</td></tr>
+<tr class="separator:a3b419c1d4be886f094b9af94cd839bd4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classcore_1_1ObjectData2D"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classcore_1_1ObjectData2D')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classcore_1_1ObjectData2D.html">core::ObjectData2D</a></td></tr>
 <tr class="memitem:adc35e5b8597ea47ad3568259c2e800c6 inherit pub_methods_classcore_1_1ObjectData2D"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore_1_1ObjectData2D.html#adc35e5b8597ea47ad3568259c2e800c6">ObjectData2D</a> (size_t frame_index, cv::Point2d position)</td></tr>
 <tr class="separator:adc35e5b8597ea47ad3568259c2e800c6 inherit pub_methods_classcore_1_1ObjectData2D"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -368,6 +372,50 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a1ef9168c2384d2038a1dd6e85d0b932f"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool core::ObjectDataAngular::IsWithinConstraints </td>
+          <td>(</td>
+          <td class="paramtype">ObjectDataPtr&#160;</td>
+          <td class="paramname"><em>obj</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::unordered_map&lt; std::string, double &gt; &amp;&#160;</td>
+          <td class="paramname"><em>constraints</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Checks if the difference between this object and the specified object is within the constraints specified. The difference is calculated for each constraint separately.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">obj</td><td>The object to get the difference to </td></tr>
+    <tr><td class="paramname">constraints</td><td>The constraints to assure </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Reimplemented from <a class="el" href="classcore_1_1ObjectData2D.html#a63e855919a72462225a8e69140f1389b">core::ObjectData2D</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="af6772caef2337f3c12a3f52049c4d853"></a>
 <div class="memitem">
 <div class="memproto">
@@ -387,6 +435,40 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a class="anchor" id="a3b419c1d4be886f094b9af94cd839bd4"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string core::ObjectDataAngular::ToString </td>
+          <td>(</td>
+          <td class="paramtype">char&#160;</td>
+          <td class="paramname"><em>delimiter</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Returns a string representing the values of this object data.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">delimiter</td><td>The delimiter used to separate values </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The string containing the values </dd></dl>
+
+<p>Reimplemented from <a class="el" href="classcore_1_1ObjectData2D.html#a72b2f50ca82ebd9269e1c29cdac6d92a">core::ObjectData2D</a>.</p>
 
 </div>
 </div>
