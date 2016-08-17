@@ -12,7 +12,7 @@ namespace algo
                    std::vector<double> penalty_value,
                    std::vector<size_t> max_tracklet_count,
                    double edge_weight_threshold,
-                   std::unordered_map<std::string, double> constraints)
+                   std::vector<std::unordered_map<std::string, double>> constraints)
     {
         max_frame_skips_ = max_frame_skip;
         penalty_values_ = penalty_value;
@@ -72,7 +72,7 @@ namespace algo
                         Vertex v = layers[i + k][l];
 
                         // Only create the edge if the constraints are assured
-                        if (values[u]->IsWithinConstraints(values[v], constraints_))
+                        if (values[u]->IsWithinConstraints(values[v], constraints_[0]))
                         {
                             double weight = values[u]->CompareTo(values[v]);
 
@@ -211,9 +211,13 @@ namespace algo
                     if (u_last_frame < v_first_frame &&
                             (v_first_frame - u_last_frame < max_frame_skips_[iteration]))
                     {
-                        boost::add_edge(u, v,
-                                        tlt_values[u]->CompareTo(tlt_values[v]),
-                                        tlt_graph);
+                        // Only create the edge if the constraints are assured
+                        if (u_ptr->IsWithinConstraints(v_ptr, constraints_[iteration]))
+                        {
+                            boost::add_edge(u, v,
+                                            tlt_values[u]->CompareTo(tlt_values[v]),
+                                            tlt_graph);
+                        }
                     }
                 }
             }

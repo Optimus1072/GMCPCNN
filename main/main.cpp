@@ -21,7 +21,7 @@ struct
     std::string max_tracklet_count;
     std::string penalty_value;
     double edge_weight_threshold;
-    std::unordered_map<std::string, double> constraints;
+    std::vector<std::unordered_map<std::string, double>> constraints;
 } n_stage_params;
 
 void RunNStage(core::DetectionSequence& sequence, std::vector<core::TrackletPtr>& tracks)
@@ -244,8 +244,8 @@ void Run(int argc, char const * const * argv)
              boost::program_options::value<std::string>(&n_stage_constraints)
                      ->default_value(""),
              "(n-stage) the constraints to ensure when creating the object graph,"
-                     " values and keys are separated by commas,"
-                     " for example: key0,value0,key1,value1")
+                     " values and keys are separated by commas, stages are separated by semicolons,"
+                     " for example: key00,value00,key01,value01;key11,value11,key12,value21")
             ("berclaz.h-res",
              boost::program_options::value<int>(&berclaz_params.h_res)
                      ->default_value(10),
@@ -395,15 +395,22 @@ void Run(int argc, char const * const * argv)
     begin_time = time(0);
     if (algorithm == "n-stage")
     {
-        //TODO constraints for every stage not just the first
-
         // Parse the constraints
-        std::vector<std::string> pairs = util::FileIO::Split(n_stage_constraints, ',');
-        for (size_t i = 0; i < pairs.size(); ++i) {
-            n_stage_params.constraints[pairs[i]] = stod(pairs[i + 1]);
+        std::vector<std::string> stages = util::FileIO::Split(n_stage_constraints, ';');
+        for (size_t i = 0; i < stages.size(); ++i)
+        {
+            std::unordered_map<std::string, double> map;
+
+            std::vector<std::string> pairs = util::FileIO::Split(stages[i], ',');
+            for (size_t j = 0; j < pairs.size(); ++j)
+            {
+                map[pairs[j]] = stod(pairs[j + 1]);
+            }
+
+            n_stage_params.constraints.push_back(map);
         }
 
-        //TODO set the output file name
+        //TODO set the output file name to better distinguish between different parameter values
 
         RunNStage(sequence, tracks);
     }

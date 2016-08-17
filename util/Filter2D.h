@@ -33,9 +33,6 @@ namespace util
          */
         Filter2D(double multiplier, std::vector<double> mask);
 
-        // Example:
-        // mask_string = multiplier, m00, m01, m02, ..., m10, m11, m12, ..., mnn
-        // delimiter = ,
         /**
          * Creates a new instance by parsing the specified mask string.
          * Values are separated by the specified delimiter.

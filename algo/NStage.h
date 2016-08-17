@@ -46,7 +46,7 @@ namespace algo
         /**
          * The constraints to ensure when creating edges
          */
-        std::unordered_map<std::string, double> constraints_;
+        std::vector<std::unordered_map<std::string, double>> constraints_;
 
         /**
          * Creates a graph with vertices for every detected object
@@ -94,7 +94,7 @@ namespace algo
                std::vector<double> penalty_value,
                std::vector<size_t> max_tracklet_count,
                double edge_weight_threshold,
-               std::unordered_map<std::string, double> constraints);
+               std::vector<std::unordered_map<std::string, double>> constraints);
 
         /**
          * Runs the algorithm on the specified sequence and stores the found tracks into the
