@@ -175,7 +175,8 @@ void Run(int argc, char const * const * argv)
             ("output.images",
              boost::program_options::value<bool>(&output_images)
                      ->default_value(false),
-             "if the images containing the visualized detections should be written to the output")
+             "if the images containing the visualized detections should be written to the output,"
+                     "a folder named 'images' in the output folder is required to store the images")
             ("output.path",
              boost::program_options::value<std::string>(&output_path),
              "set the output file path")
