@@ -318,12 +318,13 @@ namespace util
         // Get the frame range
         size_t first_frame = tracks[0]->GetFirstFrameIndex();
         size_t last_frame = tracks[0]->GetLastFrameIndex();
-        for (auto track : tracks)
+        for (size_t i = 1; i < tracks.size(); ++i)
         {
-            if (track->GetFirstFrameIndex() < first_frame)
-                first_frame = track->GetFirstFrameIndex();
-            if (track->GetLastFrameIndex() > last_frame)
-                last_frame = track->GetLastFrameIndex();
+            if (tracks[i]->GetFirstFrameIndex() < first_frame)
+                first_frame = tracks[i]->GetFirstFrameIndex();
+
+            if (tracks[i]->GetLastFrameIndex() > last_frame)
+                last_frame = tracks[i]->GetLastFrameIndex();
         }
 
         std::ofstream out(file_name, std::ios::out);

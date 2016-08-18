@@ -122,6 +122,8 @@ namespace core
         ObjectDataPtr GetFrameObject(size_t frame_index);
 
         virtual double CompareTo(ObjectDataPtr obj) const override;
+        virtual bool IsWithinConstraints(ObjectDataPtr obj,
+                                         std::unordered_map<std::string, double> & constraints) const override;
         virtual ObjectDataPtr Interpolate(ObjectDataPtr obj, double fraction) const override;
         virtual void Visualize(cv::Mat& image, cv::Scalar& color) const override;
     };

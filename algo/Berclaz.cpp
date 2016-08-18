@@ -38,6 +38,11 @@ namespace algo
 
         util::Logger::LogDebug("add edges");
 
+        double min_weight = std::numeric_limits<double>::max();
+        double max_weight = std::numeric_limits<double>::lowest();
+        double min_score = std::numeric_limits<double>::max();
+        double max_score = std::numeric_limits<double>::lowest();
+
         // Iterate all vertices but source and sink
         VertexIndexMap vertices = boost::get(boost::vertex_index, graph);
         VertexValueMap values = boost::get(boost::vertex_name, graph);
@@ -54,6 +59,13 @@ namespace algo
                     // Get the score, clamp it, prevent division by zero and
                     // logarithm of zero
                     double score = values[vi]->GetDetectionScore();
+
+                    if (score < min_score)
+                        min_score = score;
+
+                    if (score > max_score)
+                        max_score = score;
+
                     if (score > MAX_SCORE_VALUE)
                     {
                         score = MAX_SCORE_VALUE;
@@ -65,6 +77,12 @@ namespace algo
 
                     // Calculate the edge weight
                     double weight = -std::log(score / (1 - score));
+
+                    if (weight < min_weight)
+                        min_weight = weight;
+
+                    if (weight > max_weight)
+                        max_weight = weight;
 
                     // Connect with the next frame only if there is a next frame
                     if (z < grid.GetDepthCount() - 1)
@@ -99,6 +117,8 @@ namespace algo
             }
         }
 
+        util::Logger::LogDebug("weight " + std::to_string(min_weight) + " to " + std::to_string(max_weight));
+        util::Logger::LogDebug("score " + std::to_string(min_score) + " to " + std::to_string(max_score));
         util::Logger::LogDebug("vertex count " + std::to_string(boost::num_vertices(graph)));
         util::Logger::LogDebug("edge count " + std::to_string(boost::num_edges(graph)));
     }

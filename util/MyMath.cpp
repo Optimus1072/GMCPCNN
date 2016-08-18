@@ -26,11 +26,13 @@ namespace util
 
     double MyMath::Lerp(double a, double b, double value)
     {
+        if (a == b) return a;
         return (b - a) * value + a;
     }
 
     double MyMath::InverseLerp(double a, double b, double value)
     {
+        if (a == b) return a;
         return (value - a) / (b - a);
     }
 

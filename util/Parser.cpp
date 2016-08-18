@@ -32,7 +32,7 @@ namespace util
         util::Logger::LogInfo("Parsing ObjectData2D detections");
 
         // Calculate max and min score to normalize the score
-        double max_score = std::numeric_limits<double>::min();
+        double max_score = std::numeric_limits<double>::lowest();
         double min_score = std::numeric_limits<double>::max();
         for (size_t line_index = 0; line_index < values.size(); ++line_index)
         {
@@ -90,7 +90,7 @@ namespace util
         util::Logger::LogInfo("Parsing ObjectDataAngular detections");
 
         // Calculate max and min score to normalize the score
-        double max_score = std::numeric_limits<double>::min();
+        double max_score = std::numeric_limits<double>::lowest();
         double min_score = std::numeric_limits<double>::max();
         for (size_t line_index = 0; line_index < values.size(); ++line_index)
         {
@@ -156,7 +156,7 @@ namespace util
         util::Logger::LogInfo("Parsing ObjectDataBox detections");
 
         // Calculate max and min score to normalize the score
-        double max_score = std::numeric_limits<double>::min();
+        double max_score = std::numeric_limits<double>::lowest();
         double min_score = std::numeric_limits<double>::max();
         for (size_t line_index = 0; line_index < values.size(); ++line_index)
         {
@@ -232,6 +232,12 @@ namespace util
             }
         }
 
+        double min_score = std::numeric_limits<double>::max();
+        double max_score = std::numeric_limits<double>::lowest();
+
+        util::Logger::LogDebug("parse grid from " + std::to_string(start) +
+                                       " to " + std::to_string(stop));
+
         // Add the detections
         for (size_t f = start; f < stop; ++f)
         {
@@ -245,6 +251,15 @@ namespace util
                 double y = value->GetPosition().y;
                 double stored_score = grid.GetValue(x, y, f - start)->GetDetectionScore();
 
+                {
+                    double score = value->GetDetectionScore();
+
+                    if (score < min_score)
+                        min_score = score;
+                    if (score > max_score)
+                        max_score = score;
+                }
+
                 // Only overwrite if the new detection score is at least as good
                 // as the detection score of the already stored value
                 if (stored_score <= original_value->GetDetectionScore())
@@ -253,6 +268,9 @@ namespace util
                 }
             }
         }
+
+        util::Logger::LogDebug("scores in grid from " + std::to_string(min_score) +
+                                       " to " + std::to_string(max_score));
 
         return grid;
     }

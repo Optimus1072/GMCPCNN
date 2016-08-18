@@ -92,6 +92,14 @@ namespace core
         return path_objects_[path_objects_.size() - 1]->CompareTo(tlt->path_objects_[0]);
     }
 
+    bool Tracklet::IsWithinConstraints(ObjectDataPtr obj,
+                                       std::unordered_map<std::string, double> & constraints) const
+    {
+        TrackletPtr tlt = std::static_pointer_cast<Tracklet>(obj);
+        return path_objects_[path_objects_.size() - 1]->
+                IsWithinConstraints(tlt->path_objects_[0], constraints);
+    }
+
     ObjectDataPtr Tracklet::Interpolate(ObjectDataPtr obj, double fraction) const
     {
         TrackletPtr tlt = std::static_pointer_cast<Tracklet>(obj);
