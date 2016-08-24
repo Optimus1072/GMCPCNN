@@ -89,6 +89,9 @@ namespace core
     double Tracklet::CompareTo(ObjectDataPtr obj) const
     {
         TrackletPtr tlt = std::static_pointer_cast<Tracklet>(obj);
+        ObjectDataPtr this_obj = path_objects_[path_objects_.size() - 1];
+        ObjectDataPtr that_obj = tlt->path_objects_[0];
+
         return path_objects_[path_objects_.size() - 1]->CompareTo(tlt->path_objects_[0]);
     }
 
@@ -161,8 +164,7 @@ namespace core
 
         for (auto obj : path_objects_)
         {
-            core::TrackletPtr tlt =
-                    std::static_pointer_cast<core::Tracklet>(obj);
+            core::TrackletPtr tlt = std::static_pointer_cast<core::Tracklet>(obj);
 
             for (auto intern_obj : tlt->path_objects_)
             {

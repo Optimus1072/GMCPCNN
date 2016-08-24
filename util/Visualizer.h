@@ -15,6 +15,7 @@
 
 namespace util
 {
+    //TODO split display into one method for window display and one for file visualization
     /**
      * Utility class for visualizing detection sequences or tracks.
      */
@@ -37,6 +38,7 @@ namespace util
          * @param frame_offset The offset of the first frame
          * @param image_folder The images to use
          * @param output If the frames with the visualized tracks should be stored
+         * @param display If a window should be used to display the tracking results
          * @param output_path The path to store the images into (will need an images folder)
          * @param title The window title
          * @param first_frame The frame to start at
@@ -49,6 +51,7 @@ namespace util
                      size_t frame_offset,
                      std::string image_folder,
                      bool output,
+                     bool display,
                      std::string output_path,
                      std::string title = "Visualizer",
                      size_t first_frame = 0,

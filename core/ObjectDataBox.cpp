@@ -32,13 +32,17 @@ namespace core
     {
         ObjectDataBoxPtr other = std::static_pointer_cast<ObjectDataBox>(obj);
 
-        cv::Point2d this_center = GetPosition() + size_ * 0.5;
-        cv::Point2d other_center = other->GetPosition() + other->size_ * 0.5;
+//        cv::Point2d this_center = GetPosition() + size_ * 0.5;
+//        cv::Point2d other_center = other->GetPosition() + other->size_ * 0.5;
 
-        double d_temp = other->GetFrameIndex() - GetFrameIndex();
-        double d_spat = util::MyMath::EuclideanDistance(this_center, other_center);
+        double d_temp = other->GetFrameIndex() - GetFrameIndex() - 1;
+        double d_spat = util::MyMath::EuclideanDistance(GetPosition(), other->GetPosition());
 
-        return d_temp * GetTemporalWeight() + d_spat * GetSpatialWeight();
+        double weight = d_temp * GetTemporalWeight() + d_spat * GetSpatialWeight();
+
+//        std::cout << "box weight " << weight << ", t:" << d_temp << ", s:" << d_spat << std::endl;
+
+        return weight;
     }
 
     bool ObjectDataBox::IsWithinConstraints(ObjectDataPtr obj,

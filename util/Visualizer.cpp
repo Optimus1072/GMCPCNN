@@ -16,7 +16,7 @@ namespace util
     }
 
     void Visualizer::Display(std::vector<core::TrackletPtr> & tracks, size_t frame_offset,
-                             std::string image_folder, bool output,
+                             std::string image_folder, bool output, bool display,
                              std::string output_path, std::string title, size_t first_frame,
                              int play_fps, bool show_grid, int grid_width, int grid_height)
     {
@@ -56,100 +56,103 @@ namespace util
                 cv::Mat image = cv::imread(image_folder + "/" + image_files[i], 1);
                 for (size_t j = 0; j < tracks.size(); ++j)
                 {
-                    tracks[j]->Visualize(image, colors[j], i, 0, 0);
+                    tracks[j]->Visualize(image, colors[j], frame_offset + i, 0, 0);
                 }
                 cv::imwrite(output_path + "/images/" + image_files[i], image);
             }
             util::Logger::LogInfo("Finished writing output images");
         }
 
-        // Create window
-        cv::namedWindow(title, CV_WINDOW_AUTOSIZE);
-
-        // Display frames and data
-        int target_delay = 1000 / play_fps;
-        int last_frame_time = GetTime();
-        int current_delay, current_frame_time;
-        bool play = false;
-        while (true)
+        if (display)
         {
-            // Display image
-            cv::Mat image = cv::imread(image_folder + "/" + image_files[current_frame], 1);
+            // Create window
+            cv::namedWindow(title, CV_WINDOW_AUTOSIZE);
 
-            // Draw grid if resolution is specified
-            if (show_grid && grid_width > 0 && grid_height > 0)
+            // Display frames and data
+            int target_delay = 1000 / play_fps;
+            int last_frame_time = GetTime();
+            int current_delay, current_frame_time;
+            bool play = false;
+            while (true)
             {
-                cv::Scalar gridColor(255, 255, 255);
-                double cellWidth = image.cols / grid_width;
-                double cellHeight = image.rows / grid_height;
-                for (int x = 0; x < grid_width; ++x)
+                // Display image
+                cv::Mat image = cv::imread(image_folder + "/" + image_files[current_frame], 1);
+
+                // Draw grid if resolution is specified
+                if (show_grid && grid_width > 0 && grid_height > 0)
                 {
-                    for (int y = 0; y < grid_height; ++y)
+                    cv::Scalar gridColor(255, 255, 255);
+                    double cellWidth = image.cols / grid_width;
+                    double cellHeight = image.rows / grid_height;
+                    for (int x = 0; x < grid_width; ++x)
                     {
-                        cv::rectangle(image,
-                                      cv::Point2d(x * cellWidth, y * cellHeight),
-                                      cv::Point2d((x + 1) * cellWidth, (y + 1) * cellHeight),
-                                      gridColor);
+                        for (int y = 0; y < grid_height; ++y)
+                        {
+                            cv::rectangle(image,
+                                          cv::Point2d(x * cellWidth, y * cellHeight),
+                                          cv::Point2d((x + 1) * cellWidth, (y + 1) * cellHeight),
+                                          gridColor);
+                        }
                     }
                 }
-            }
 
-            // Visualize the tracklets
-            for (size_t i = 0; i < tracks.size(); ++i)
-            {
-                tracks[i]->Visualize(image, colors[i], current_frame + frame_offset, 0, 0);
-            }
-
-            cv::imshow(title, image);
-
-            // Get key input
-            int key;
-            if (play)
-            {
-                current_frame_time = GetTime();
-                current_delay = last_frame_time - current_frame_time;
-                if (current_delay < target_delay)
+                // Visualize the tracklets
+                for (size_t i = 0; i < tracks.size(); ++i)
                 {
-                    key = cv::waitKey(target_delay - current_delay);
+                    tracks[i]->Visualize(image, colors[i], current_frame + frame_offset, 0, 0);
+                }
+
+                cv::imshow(title, image);
+
+                // Get key input
+                int key;
+                if (play)
+                {
+                    current_frame_time = GetTime();
+                    current_delay = last_frame_time - current_frame_time;
+                    if (current_delay < target_delay)
+                    {
+                        key = cv::waitKey(target_delay - current_delay);
+                    }
+                    else
+                    {
+                        key = 0;
+                    }
+                    last_frame_time = GetTime();
                 }
                 else
                 {
-                    key = 0;
+                    key = cv::waitKey(0);
                 }
-                last_frame_time = GetTime();
-            }
-            else
-            {
-                key = cv::waitKey(0);
-            }
 
-            // Process key input
-            if (key == 1048678) // F
-            {
-                play = !play;
-            }
-            else if (key == 1048603) // ESC
-            {
-                break;
-            }
+                // Process key input
+                if (key == 1048678) // F
+                {
+                    play = !play;
+                }
+                else if (key == 1048603) // ESC
+                {
+                    break;
+                }
 
-            if (play || key == 1048676) // D
-            {
-                if (current_frame < image_files.size() - 1)
+                if (play || key == 1048676) // D
                 {
-                    current_frame++;
+                    if (current_frame < image_files.size() - 1)
+                    {
+                        current_frame++;
+                    }
+                    else
+                    {
+                        current_frame = image_files.size() - 1;
+                        play = false;
+                    }
                 }
-                else
+                else if (key == 1048673) // A
                 {
-                    current_frame = image_files.size() - 1;
-                    play = false;
-                }
-            }
-            else if (key == 1048673) // A
-            {
-                if (current_frame > 0)
-                {
-                    current_frame--;
+                    if (current_frame > 0)
+                    {
+                        current_frame--;
+                    }
                 }
             }
         }

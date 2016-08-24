@@ -48,7 +48,7 @@ namespace core
     {
         ObjectData2DPtr obj_2d = std::static_pointer_cast<ObjectData2D>(obj);
 
-        double d_temp = obj_2d->GetFrameIndex() - GetFrameIndex();
+        double d_temp = obj_2d->GetFrameIndex() - GetFrameIndex() - 1;
         double d_spat = util::MyMath::EuclideanDistance(position_, obj_2d->position_);
 
         return d_temp * temporal_weight_ + d_spat * spatial_weight_;

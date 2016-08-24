@@ -76,10 +76,7 @@ namespace algo
                         {
                             double weight = values[u]->CompareTo(values[v]);
 
-                            if (weight < edge_weight_threshold_)
-                            {
-                                boost::add_edge(u, v, weight, graph);
-                            }
+                            boost::add_edge(u, v, weight, graph);
                         }
                     }
                 }
@@ -214,9 +211,14 @@ namespace algo
                         // Only create the edge if the constraints are assured
                         if (u_ptr->IsWithinConstraints(v_ptr, constraints_[iteration]))
                         {
-                            boost::add_edge(u, v,
-                                            tlt_values[u]->CompareTo(tlt_values[v]),
-                                            tlt_graph);
+                            double weight = u_ptr->CompareTo(v_ptr);
+
+                            if (weight < edge_weight_threshold_)
+                            {
+                                boost::add_edge(u, v,
+                                                weight,
+                                                tlt_graph);
+                            }
                         }
                     }
                 }

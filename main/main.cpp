@@ -391,33 +391,39 @@ void Run(int argc, char const * const * argv)
     // Running the specified algorithm
     std::vector<core::TrackletPtr> tracks;
     time_t begin_time, end_time;
-    std::string output_file_name = algorithm + "_";
+    std::string output_file_name = algorithm;
     util::Logger::LogInfo("Start time measurement");
     begin_time = time(0);
     if (algorithm == "n-stage")
     {
         // Parse the constraints
         std::vector<std::string> stages = util::FileIO::Split(n_stage_constraints, ';');
+
         for (size_t i = 0; i < stages.size(); ++i)
         {
             std::unordered_map<std::string, double> map;
 
             std::vector<std::string> pairs = util::FileIO::Split(stages[i], ',');
-            for (size_t j = 0; j < pairs.size(); ++j)
+            for (size_t j = 1; j < pairs.size(); ++j)
             {
-                map[pairs[j]] = stod(pairs[j + 1]);
+                map[pairs[j - 1]] = stod(pairs[j]);
             }
 
             n_stage_params.constraints.push_back(map);
         }
 
         //TODO set the output file name to better distinguish between different parameter values
+//        std::vector<std::string> t_counts = util::FileIO::Split(n_stage_params.max_tracklet_count, ',');
+//        for (auto str : t_counts)
+//        {
+//            output_file_name += "_" + str;
+//        }
 
         RunNStage(sequence, tracks);
     }
     else if (algorithm == "berclaz")
     {
-        output_file_name += std::to_string(berclaz_params.h_res) + "x"
+        output_file_name += "_" + std::to_string(berclaz_params.h_res) + "x"
                             + std::to_string(berclaz_params.v_res) + "_"
                             + std::to_string(berclaz_params.vicinity_size) + "_"
                             + std::to_string(berclaz_params.max_track_count) + "_"
@@ -447,18 +453,17 @@ void Run(int argc, char const * const * argv)
     }
 
     // Display the tracking data
-    if (display)
-    {
-        util::Visualizer vis;
+    util::Visualizer vis;
 
-        if (algorithm == "berclaz")
-            vis.Display(tracks, sequence.GetFrameOffset(),
-                        images_folder, output_images, output_path, "Visualizer",
-                        0, 24, show_grid, berclaz_params.h_res, berclaz_params.v_res);
-        else
-            vis.Display(tracks, sequence.GetFrameOffset(),
-                        images_folder, output_images, output_path);
-    }
+    if (algorithm == "berclaz")
+        vis.Display(tracks, sequence.GetFrameOffset(),
+                    images_folder, output_images, display, output_path, "Visualizer",
+                    0, 24, show_grid, berclaz_params.h_res, berclaz_params.v_res);
+    else
+        vis.Display(tracks, sequence.GetFrameOffset(),
+                    images_folder, output_images, display, output_path);
+
+    //TODO add CLEAR-MOT evaluation to pipeline
 }
 
 void CreateTestGraph(DirectedGraph& graph, Vertex& source, Vertex& sink)
