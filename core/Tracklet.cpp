@@ -4,6 +4,8 @@
 
 #include "Tracklet.h"
 #include "../util/Logger.h"
+#include "ObjectData2D.h"
+#include "../util/MyMath.h"
 
 namespace core
 {
@@ -110,17 +112,23 @@ namespace core
         return path_objects_[path_objects_.size() - 1]->Interpolate(tlt->path_objects_[0], fraction);
     }
 
-    void Tracklet::Visualize(cv::Mat& image, cv::Scalar& color) const
+    void Tracklet::Visualize(cv::Mat& image, cv::Scalar& color, double alpha) const
     {
         for (auto obj : path_objects_)
         {
-            obj->Visualize(image, color);
+            obj->Visualize(image, color, alpha);
         }
     }
 
     void Tracklet::Visualize(cv::Mat& image, cv::Scalar& color, size_t frame,
-                             size_t predecessor_count, size_t successor_count) const
+                             size_t predecessor_count, size_t successor_count, bool points) const
     {
+        // Only visualize if the track is currently active
+        if (GetFirstFrameIndex() > frame || GetLastFrameIndex() < frame)
+        {
+            return;
+        }
+
         // Prevent negative values because frame is unsigned
         predecessor_count = std::min(predecessor_count, frame);
 
@@ -131,9 +139,25 @@ namespace core
 
         for (auto obj : path_objects_)
         {
-            if (obj->GetFrameIndex() >= start && obj->GetFrameIndex() <= end)
+            size_t frame_index = obj->GetFrameIndex();
+            if (frame_index >= start && frame_index <= end)
             {
-                obj->Visualize(image, color);
+                cv::Mat overlay;
+                image.copyTo(overlay);
+
+                double alpha = util::MyMath::InverseLerp(start, end, frame_index);
+
+                if (points && frame_index != end)
+                {
+                    ObjectData2DPtr obj_2d = std::static_pointer_cast<ObjectData2D>(obj);
+                    obj_2d->ObjectData2D::Visualize(overlay, color, alpha);
+                }
+                else
+                {
+                    obj->Visualize(overlay, color, alpha);
+                }
+
+                cv::addWeighted(overlay, alpha, image, 1 - alpha, 0, image);
             }
         }
     }

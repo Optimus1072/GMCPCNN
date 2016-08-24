@@ -101,7 +101,7 @@ namespace core
         frame_index_ = index;
     }
 
-    void ObjectData::Visualize(cv::Mat& image, cv::Scalar& color) const
+    void ObjectData::Visualize(cv::Mat& image, cv::Scalar& color, double alpha) const
     {
         /* EMPTY */
     }

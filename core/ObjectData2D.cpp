@@ -111,11 +111,11 @@ namespace core
            << "y: " << position_.y << "}";
     }
 
-    void ObjectData2D::Visualize(cv::Mat& image, cv::Scalar& color) const
+    void ObjectData2D::Visualize(cv::Mat& image, cv::Scalar& color, double alpha) const
     {
-        double x = position_.x;
-        double y = position_.y;
-        int r = (int) (0.005 * (image.rows + image.cols) * 0.5);
+        double x = position_.x * image.cols;
+        double y = position_.y * image.rows;
+        int r = (int) (0.01 * (image.rows + image.cols) * 0.5);
 
         cv::circle(image, cv::Point2d(x, y), r, color);
     }

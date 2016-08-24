@@ -125,8 +125,9 @@ namespace core
          * something.
          * @param image The image to write into
          * @param color The color to use
+         * @param alpha The alpha channel value in the range [0.0, 1.0]
          */
-        virtual void Visualize(cv::Mat& image, cv::Scalar& color) const;
+        virtual void Visualize(cv::Mat& image, cv::Scalar& color, double alpha) const;
 
         /**
          * Overrides the << operator for custom output.

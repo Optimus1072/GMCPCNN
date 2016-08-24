@@ -33,11 +33,15 @@ namespace util
         std::random_device rd;
         std::mt19937 gen(rd());
         //TODO find better colors (more colors)
+        // BGR
         colors.push_back(cv::Scalar(0, 255, 0));
         colors.push_back(cv::Scalar(0, 0, 255));
         colors.push_back(cv::Scalar(0, 255, 255));
         colors.push_back(cv::Scalar(255, 0, 0));
-        for (size_t i = 4; i < tracks.size(); ++i)
+        colors.push_back(cv::Scalar(255, 0, 255));
+        colors.push_back(cv::Scalar(0, 150, 255));
+        colors.push_back(cv::Scalar(150, 0, 255));
+        for (size_t i = 8; i < tracks.size(); ++i)
         {
             // BGR
             cv::Scalar color(std::generate_canonical<double, 10>(gen) * 255,
@@ -56,7 +60,7 @@ namespace util
                 cv::Mat image = cv::imread(image_folder + "/" + image_files[i], 1);
                 for (size_t j = 0; j < tracks.size(); ++j)
                 {
-                    tracks[j]->Visualize(image, colors[j], frame_offset + i, 0, 0);
+                    tracks[j]->Visualize(image, colors[j], frame_offset + i, 50, 0, true);
                 }
                 cv::imwrite(output_path + "/images/" + image_files[i], image);
             }
@@ -99,7 +103,7 @@ namespace util
                 // Visualize the tracklets
                 for (size_t i = 0; i < tracks.size(); ++i)
                 {
-                    tracks[i]->Visualize(image, colors[i], current_frame + frame_offset, 0, 0);
+                    tracks[i]->Visualize(image, colors[i], current_frame + frame_offset, 50, 0, true);
                 }
 
                 cv::imshow(title, image);

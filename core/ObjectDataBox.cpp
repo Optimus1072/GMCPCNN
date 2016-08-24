@@ -91,7 +91,7 @@ namespace core
         return result;
     }
 
-    void ObjectDataBox::Visualize(cv::Mat& image, cv::Scalar& color) const
+    void ObjectDataBox::Visualize(cv::Mat& image, cv::Scalar& color, double alpha) const
     {
         cv::Point2d center(GetPosition().x * image.cols, GetPosition().y * image.rows);
         cv::Point2d size(size_.x * image.cols, size_.y * image.rows);

@@ -83,7 +83,7 @@ namespace core
                                          std::unordered_map<std::string, double> & constraints)
                 const override;
         virtual ObjectDataPtr Interpolate(ObjectDataPtr obj, double fraction) const override;
-        virtual void Visualize(cv::Mat& image, cv::Scalar& color) const override;
+        virtual void Visualize(cv::Mat& image, cv::Scalar& color, double alpha) const override;
         virtual std::string ToString(char delimiter) const override;
     };
 }

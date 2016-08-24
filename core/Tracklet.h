@@ -93,9 +93,10 @@ namespace core
          *                          before the given frame
          * @param successor_count The number of path objects to visualize after
          *                        the given frame
+         * @param True, if only points should be drawn
          */
         void Visualize(cv::Mat& image, cv::Scalar& color, size_t frame,
-                       size_t predecessor_count, size_t successor_count) const;
+                       size_t predecessor_count, size_t successor_count, bool points) const;
 
         /**
          * Flattens the current tracklet one level.
@@ -125,7 +126,7 @@ namespace core
         virtual bool IsWithinConstraints(ObjectDataPtr obj,
                                          std::unordered_map<std::string, double> & constraints) const override;
         virtual ObjectDataPtr Interpolate(ObjectDataPtr obj, double fraction) const override;
-        virtual void Visualize(cv::Mat& image, cv::Scalar& color) const override;
+        virtual void Visualize(cv::Mat& image, cv::Scalar& color, double alpha) const override;
     };
 }
 

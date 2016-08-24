@@ -96,7 +96,7 @@ namespace core
         return obj_out;
     }
 
-    void ObjectDataAngular::Visualize(cv::Mat& image, cv::Scalar& color) const
+    void ObjectDataAngular::Visualize(cv::Mat& image, cv::Scalar& color, double alpha) const
     {
         double x = GetPosition().x * image.cols;
         double y = GetPosition().y * image.rows;
