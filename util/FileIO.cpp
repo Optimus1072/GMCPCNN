@@ -280,14 +280,21 @@ namespace util
 
                 // Try to parse the value
                 double value;
-                try
+
+                if (part.empty())
                 {
-                    value = std::stof(part.c_str());
-                }
-                catch (std::exception& e)
-                {
-                    util::Logger::LogError(e.what());
                     value = 0.0;
+                }
+                else
+                {
+                    try
+                    {
+                        value = std::stof(part.c_str());
+                    }
+                    catch (std::exception & e)
+                    {
+                        util::Logger::LogError(e.what());
+                    }
                 }
 
                 // Store the value
